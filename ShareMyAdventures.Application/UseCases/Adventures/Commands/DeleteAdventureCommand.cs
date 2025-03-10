@@ -1,6 +1,6 @@
 ﻿using ShareMyAdventures.Application.Common.Guards;
 using ShareMyAdventures.Domain.Entities.AdventureAggregate;
-using ShareMyAdventures.Domain.SeedWork.Interfaces;
+using ShareMyAdventures.Domain.SeedWork;
 
 namespace ShareMyAdventures.Application.UseCases.Adventures.Commands;
 
@@ -10,7 +10,7 @@ public sealed record DeleteAdventureCommand : IRequest<Unit>
 }
 
 public sealed class DeleteAdventureCommandHandler(
-    IReadableRepository<Adventure> adventureReadableRepository,
+    IReadRepository<Adventure> adventureReadableRepository,
     IWriteRepository<Adventure> adventureRepository,
     ICurrentUser currentUserService
     ) : IRequestHandler<DeleteAdventureCommand, Unit>

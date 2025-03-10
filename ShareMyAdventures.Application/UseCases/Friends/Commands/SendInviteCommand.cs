@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using ShareMyAdventures.Application.Common.Guards;
 using ShareMyAdventures.Domain.Entities.ParticipantAggregate;
-using ShareMyAdventures.Domain.SeedWork.Interfaces;
+using ShareMyAdventures.Domain.SeedWork;
 
 namespace ShareMyAdventures.Application.UseCases.Friends.Commands;
 
@@ -23,7 +23,7 @@ internal class SendInviteCommandValidator : AbstractValidator<SendInviteCommand>
 
 public sealed class SendInviteCommandHandler(
     ICurrentUser currentUserService,
-    IReadableRepository<FriendRequest> requestReadableRepository,
+    IReadRepository<FriendRequest> requestReadableRepository,
     IWriteRepository<FriendRequest> requestRepository,
     UserManager<Participant> userManager
     ) : IRequestHandler<SendInviteCommand, Result<long?>>

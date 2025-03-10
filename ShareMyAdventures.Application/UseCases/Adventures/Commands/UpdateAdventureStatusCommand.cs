@@ -1,7 +1,7 @@
 ﻿using ShareMyAdventures.Application.Common.Exceptions;
 using ShareMyAdventures.Application.Common.Guards;
 using ShareMyAdventures.Domain.Entities.AdventureAggregate;
-using ShareMyAdventures.Domain.SeedWork.Interfaces;
+using ShareMyAdventures.Domain.SeedWork;
 
 namespace ShareMyAdventures.Application.UseCases.Adventures.Commands;
 
@@ -13,10 +13,10 @@ public sealed record UpdateAdventureStatusCommand : IRequest<Unit>
 
 internal sealed class UpdateAdventureStatusCommandValidator : AbstractValidator<UpdateAdventureStatusCommand>
 {
-    private readonly IReadableRepository<Adventure> _adventureRepository;
+    private readonly IReadRepository<Adventure> _adventureRepository;
     private readonly ICurrentUser _currentUserService;
 
-    internal UpdateAdventureStatusCommandValidator(IReadableRepository<Adventure> adventureRepository, ICurrentUser currentUserService)
+    internal UpdateAdventureStatusCommandValidator(IReadRepository<Adventure> adventureRepository, ICurrentUser currentUserService)
     {
 
         _adventureRepository = adventureRepository;
@@ -49,7 +49,7 @@ internal sealed class UpdateAdventureStatusCommandValidator : AbstractValidator<
 
 
 public sealed class UpdateAdventureStatusCommandHandler(
-    IReadableRepository<Adventure> adventureReadableRepository,
+    IReadRepository<Adventure> adventureReadableRepository,
     IWriteRepository<Adventure> adventureRepository,
     ICurrentUser currentUserService)
     : IRequestHandler<UpdateAdventureStatusCommand, Unit>

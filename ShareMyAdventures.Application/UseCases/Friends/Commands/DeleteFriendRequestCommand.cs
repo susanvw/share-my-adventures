@@ -1,7 +1,7 @@
 ﻿using FluentValidation.Results;
 using ShareMyAdventures.Application.Common.Guards;
 using ShareMyAdventures.Domain.Entities.ParticipantAggregate;
-using ShareMyAdventures.Domain.SeedWork.Interfaces;
+using ShareMyAdventures.Domain.SeedWork;
 
 namespace ShareMyAdventures.Application.UseCases.Friends.Commands;
 
@@ -11,7 +11,7 @@ public sealed record DeleteFriendRequestCommand : IRequest<Unit>
 }
 
 public sealed class DeleteFriendRequestCommandHandler(
-    IReadableRepository<FriendRequest> friendRequestRepository,
+    IReadRepository<FriendRequest> friendRequestRepository,
     IWriteRepository<FriendRequest> friendRepository
     ) : IRequestHandler<DeleteFriendRequestCommand, Unit>
 {

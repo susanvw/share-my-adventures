@@ -4,7 +4,6 @@ using ShareMyAdventures.Domain.Entities.AdventureAggregate;
 using ShareMyAdventures.Domain.Entities.ParticipantAggregate;
 using ShareMyAdventures.Domain.Enums;
 using ShareMyAdventures.Domain.SeedWork;
-using ShareMyAdventures.Domain.SeedWork.Interfaces;
 
 namespace ShareMyAdventures.Application.UseCases.Participants.Commands;
 
@@ -46,7 +45,7 @@ public class InviteParticipantCommandValidator : AbstractValidator<InvitePartici
 }
 
 public sealed class InviteParticipantCommandHandler(
-    IReadableRepository<Adventure> adventureReadableRepository,
+    IReadRepository<Adventure> adventureReadableRepository,
     IWriteRepository<Adventure> adventureRepository,
     UserManager<Participant> identityService
     ) : IRequestHandler<InviteParticipantCommand, Result<InviteParticipantResponse>>

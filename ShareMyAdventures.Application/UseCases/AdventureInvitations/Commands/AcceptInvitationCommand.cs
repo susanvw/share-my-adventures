@@ -2,7 +2,7 @@
 using ShareMyAdventures.Application.Common.Guards;
 using ShareMyAdventures.Domain.Entities.AdventureAggregate;
 using ShareMyAdventures.Domain.Entities.ParticipantAggregate;
-using ShareMyAdventures.Domain.SeedWork.Interfaces;
+using ShareMyAdventures.Domain.SeedWork;
 
 namespace ShareMyAdventures.Application.UseCases.AdventureInvitations.Commands;
 
@@ -29,7 +29,7 @@ internal sealed class AcceptInvitationCommandValidator : AbstractValidator<Accep
 
 public sealed class AcceptInvitationCommandHandler(
     UserManager<Participant> userManager,
-    IReadableRepository<Adventure> adventureReadableRepository,
+    IReadRepository<Adventure> adventureReadableRepository,
     IWriteRepository<Adventure> adventureRepository
         )
     : IRequestHandler<AcceptInvitationCommand, Unit>

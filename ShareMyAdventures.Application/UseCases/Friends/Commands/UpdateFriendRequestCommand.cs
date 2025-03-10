@@ -2,7 +2,6 @@
 using ShareMyAdventures.Domain.Entities.ParticipantAggregate;
 using ShareMyAdventures.Domain.Enums;
 using ShareMyAdventures.Domain.SeedWork;
-using ShareMyAdventures.Domain.SeedWork.Interfaces;
 
 namespace ShareMyAdventures.Application.UseCases.Friends.Commands;
 
@@ -34,7 +33,7 @@ internal class UpdateFriendRequestCommandValidator : AbstractValidator<UpdateFri
 }
 
 public class UpdateFriendRequestCommandHandler(
-    IReadableRepository<FriendRequest> readableRepository,
+    IReadRepository<FriendRequest> readableRepository,
     IWriteRepository<FriendRequest> repository) : IRequestHandler<UpdateFriendRequestCommand, Unit>
 {
     public async Task<Unit> Handle(UpdateFriendRequestCommand request, CancellationToken cancellationToken)

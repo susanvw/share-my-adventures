@@ -1,5 +1,5 @@
 ﻿using ShareMyAdventures.Domain.Entities.AdventureAggregate;
-using ShareMyAdventures.Domain.SeedWork.Interfaces;
+using ShareMyAdventures.Domain.SeedWork;
 
 namespace ShareMyAdventures.Application.UseCases.Participants.Queries;
 
@@ -20,7 +20,7 @@ public sealed class ListParticipantsQueryValidator : AbstractValidator<ListWithP
 }
 
 public class ListParticipantsQueryHandler(
-    IReadableRepository<Adventure> adventureReadableRepository,
+    IReadRepository<Adventure> adventureReadableRepository,
     IWriteRepository<Adventure> adventureRepository
     ) : IRequestHandler<ListWithPagingParticipantsQuery, Result<PagedData<ParticipantView>?>>
 {

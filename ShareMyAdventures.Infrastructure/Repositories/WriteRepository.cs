@@ -1,6 +1,6 @@
 ﻿// Infrastructure Project: Repositories/WriteRepository.cs
 using Microsoft.EntityFrameworkCore.Storage;
-using ShareMyAdventures.Domain.SeedWork.Interfaces;
+using ShareMyAdventures.Domain.SeedWork;
 using ShareMyAdventures.Infrastructure.Persistence;
 
 namespace ShareMyAdventures.Infrastructure.Repositories;

@@ -4,7 +4,6 @@ using Microsoft.Extensions.DependencyInjection;
 using ShareMyAdventures.Domain.Entities.AdventureAggregate;
 using ShareMyAdventures.Domain.Entities.ParticipantAggregate;
 using ShareMyAdventures.Domain.SeedWork;
-using ShareMyAdventures.Domain.SeedWork.Interfaces;
 using ShareMyAdventures.Infrastructure.Persistence;
 using ShareMyAdventures.Infrastructure.Persistence.Interceptors;
 using ShareMyAdventures.Infrastructure.Repositories;
@@ -63,9 +62,9 @@ public static class ConfigureServices
         services.AddTransient<IIdentityService, IdentityService>();
         services.AddTransient<ITokenService, TokenService>();
 
-        services.AddScoped<IReadableRepository<Adventure>, ReadableRepository<Adventure>>();
-        services.AddScoped<IReadableRepository<FriendRequest>, ReadableRepository<FriendRequest>>();
-        services.AddScoped<IReadableRepository<Position>, ReadableRepository<Position>>();
+        services.AddScoped<IReadRepository<Adventure>, ReadableRepository<Adventure>>();
+        services.AddScoped<IReadRepository<FriendRequest>, ReadableRepository<FriendRequest>>();
+        services.AddScoped<IReadRepository<Position>, ReadableRepository<Position>>();
 
 
         services.AddScoped<IWriteRepository<Adventure>, WriteRepository<Adventure>>();

@@ -16,7 +16,7 @@ namespace ShareMyAdventures.Infrastructure.Repositories;
 /// </remarks>
 /// <param name="dbContext">The Entity Framework DbContext instance to use for data operations.</param>
 /// <exception cref="ArgumentNullException">Thrown when <paramref name="dbContext"/> is null.</exception>
-public sealed class ReadableRepository<TModel>(ApplicationDbContext dbContext) : IReadableRepository<TModel>
+public sealed class ReadableRepository<TModel>(ApplicationDbContext dbContext) : IReadRepository<TModel>
     where TModel : BaseEntity
 {
     private readonly ApplicationDbContext _dbContext = dbContext ?? throw new ArgumentNullException(nameof(dbContext));
@@ -76,7 +76,7 @@ public sealed class ReadableRepository<TModel>(ApplicationDbContext dbContext) :
         throw new NotImplementedException();
     }
 
-    public IReadableRepository<TModel> Include(Expression<Func<TModel, object>> includeExpression)
+    public IReadRepository<TModel> Include(Expression<Func<TModel, object>> includeExpression)
     {
         _includes.Add((includeExpression, new List<Expression>()));
         return this;
@@ -87,7 +87,7 @@ public sealed class ReadableRepository<TModel>(ApplicationDbContext dbContext) :
         throw new NotImplementedException();
     }
 
-    public IReadableRepository<TModel> ThenInclude<TPreviousProperty>(
+    public IReadRepository<TModel> ThenInclude<TPreviousProperty>(
             Expression<Func<TPreviousProperty, object>> thenIncludeExpression)
     {
         if (_includes.Count == 0)

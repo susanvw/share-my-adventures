@@ -1,7 +1,7 @@
 ﻿using ShareMyAdventures.Application.Common.Guards;
 using ShareMyAdventures.Application.Common.Interfaces;
 using ShareMyAdventures.Domain.Entities.AdventureAggregate;
-using ShareMyAdventures.Domain.SeedWork.Interfaces;
+using ShareMyAdventures.Domain.SeedWork;
 
 namespace ShareMyAdventures.Application.UseCases.Adventures.Commands;
 
@@ -47,7 +47,7 @@ internal sealed class UpdateAdventureCommandValidator : AbstractValidator<Update
 }
 
 public sealed class UpdateAdventureCommandHandler(
-    IReadableRepository<Adventure> adventureReadableRepository,
+    IReadRepository<Adventure> adventureReadableRepository,
     IWriteRepository<Adventure> adventureRepository,
     ICurrentUser currentUserService) 
     : IRequestHandler<UpdateAdventureCommand, Unit>
