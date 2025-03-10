@@ -1,10 +1,4 @@
 ﻿// API Project: Guards/ItemNotFoundExtensions.cs
-
-// API Project: Guards/ItemNotFoundExtensions.cs
-
-// API Project: Guards/ItemNotFoundExtensions.cs
-
-// API Project: Guards/ItemNotFoundExtensions.cs
 using ShareMyAdventures.Application.Common.Exceptions;
 
 namespace ShareMyAdventures.Application.Common.Guards; // Adjusted to TypeDev.API.Guards for consistency with earlier examples

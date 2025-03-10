@@ -2,7 +2,7 @@
 
 namespace ShareMyAdventures.Domain.Enums;
 
-public sealed class InvitationStatusLookups : Enumeration
+public sealed class InvitationStatusLookups : BaseEnum
 {
     public static readonly InvitationStatusLookups Pending = new(nameof(Pending), 1);
     public static readonly InvitationStatusLookups Accepted = new(nameof(Accepted), 2);

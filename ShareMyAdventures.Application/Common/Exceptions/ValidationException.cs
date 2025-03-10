@@ -32,5 +32,20 @@ public class ValidationException : Exception
     /// <summary>
     /// 
     /// </summary>
+    /// <param name="propertyName"></param>
+    /// <param name="message"></param>
+    public ValidationException(string propertyName, string message)
+      : this()
+    {
+        List<ValidationFailure> failures = [new ValidationFailure(propertyName, message)] ;
+
+        Errors = failures
+            .GroupBy(e => e.PropertyName, e => e.ErrorMessage)
+            .ToDictionary(failureGroup => failureGroup.Key, failureGroup => failureGroup.ToArray());
+    }
+
+    /// <summary>
+    /// 
+    /// </summary>
     public IDictionary<string, string[]> Errors { get; }
 }

@@ -2,7 +2,7 @@
 
 namespace ShareMyAdventures.Domain.Enums;
 
-public sealed class UserRoleLookups : Enumeration
+public sealed class UserRoleLookups : BaseEnum
 {
     public static readonly UserRoleLookups Administrator = new(nameof(Administrator), 1);
     public static readonly UserRoleLookups User = new(nameof(User), 2);

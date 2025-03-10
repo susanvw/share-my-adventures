@@ -1,8 +1,8 @@
 ﻿using ShareMyAdventures.Domain.SeedWork;
 
-namespace ShareMyAdventures.Domain.Entities;
+namespace ShareMyAdventures.Domain.Entities.AdventureAggregate;
 
-public sealed class InvitationStatusLookup : ValueObject
+public sealed class StatusLookup : ValueObject
 {
     public int Id { get; set; }
     public string Name { get; set; } = string.Empty;

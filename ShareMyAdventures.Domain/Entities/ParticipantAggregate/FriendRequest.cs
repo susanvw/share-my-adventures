@@ -1,10 +1,9 @@
 ﻿using ShareMyAdventures.Domain.Events;
 using ShareMyAdventures.Domain.SeedWork;
-using ShareMyAdventures.Domain.SeedWork.Interfaces;
 
 namespace ShareMyAdventures.Domain.Entities.ParticipantAggregate;
 
-public sealed class FriendRequest : BaseAuditableEntity, IAggregateRoot
+public sealed class FriendRequest : BaseAuditableEntity
 {
     public string ParticipantId { get; set; } = string.Empty;
     public string ParticipantFriendId { get; set; } = string.Empty;

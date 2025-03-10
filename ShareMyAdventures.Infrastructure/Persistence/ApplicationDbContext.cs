@@ -15,8 +15,7 @@ public sealed class ApplicationDbContext(
 
 	) : IdentityDbContext<Participant>(options)
 {
-
-    public DbSet<AccessLevelLookup> AccessLevelLookups => Set<AccessLevelLookup>();
+     
     public DbSet<Adventure> Adventures => Set<Adventure>();
     public DbSet<AdventureInvitation> AdventureInvitations => Set<AdventureInvitation>();
     public DbSet<FriendRequest> Friends => Set<FriendRequest>();

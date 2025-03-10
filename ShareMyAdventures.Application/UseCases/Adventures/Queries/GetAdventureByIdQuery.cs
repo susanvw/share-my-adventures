@@ -1,7 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using ShareMyAdventures.Application.Common.Guards;
 using ShareMyAdventures.Domain.Entities.AdventureAggregate;
-using ShareMyAdventures.Domain.SeedWork.Interfaces;
+using ShareMyAdventures.Domain.SeedWork;
 
 namespace ShareMyAdventures.Application.UseCases.Adventures.Queries;
 
@@ -11,7 +11,7 @@ public sealed record GetAdventureByIdQuery : IRequest<Result<AdventureView?>>
 }
 
 public sealed class GetAdventureQueryHandler(
-    IReadableRepository<Adventure> adventureReadableRepository,
+    IReadRepository<Adventure> adventureReadableRepository,
     ICurrentUser currentUserService)
     : IRequestHandler<GetAdventureByIdQuery, Result<AdventureView?>>
 {

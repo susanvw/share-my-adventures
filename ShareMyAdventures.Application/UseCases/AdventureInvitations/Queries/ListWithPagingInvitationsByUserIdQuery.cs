@@ -2,7 +2,7 @@
 using ShareMyAdventures.Application.Common.Guards;
 using ShareMyAdventures.Domain.Entities.AdventureAggregate;
 using ShareMyAdventures.Domain.Entities.ParticipantAggregate;
-using ShareMyAdventures.Domain.SeedWork.Interfaces;
+using ShareMyAdventures.Domain.SeedWork;
 
 namespace ShareMyAdventures.Application.UseCases.AdventureInvitations.Queries;
 
@@ -13,7 +13,7 @@ public sealed record ListWithPagingInvitationsByUserIdQuery : IRequest<Result<Pa
 }
 
 public sealed class GetInvitationsQueryHandler(
-    IReadableRepository<Adventure> adventureReadableRepository,
+    IReadRepository<Adventure> adventureReadableRepository,
     ICurrentUser currentUserService,
     UserManager<Participant> userManager
         ) : IRequestHandler<ListWithPagingInvitationsByUserIdQuery, Result<PagedData<InvitationView>?>>

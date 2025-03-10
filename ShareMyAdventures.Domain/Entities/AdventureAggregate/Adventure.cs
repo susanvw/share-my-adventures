@@ -2,78 +2,154 @@
 using ShareMyAdventures.Domain.Enums;
 using ShareMyAdventures.Domain.Events;
 using ShareMyAdventures.Domain.SeedWork;
-using ShareMyAdventures.Domain.SeedWork.Interfaces;
 
 namespace ShareMyAdventures.Domain.Entities.AdventureAggregate;
 
+/// <summary>
+/// Represents an adventure aggregate root in the ShareMyAdventures domain.
+/// Manages participants and invitations as part of its consistency boundary.
+/// </summary>
 public sealed class Adventure : BaseAuditableEntity, IAggregateRoot
 {
-    public string Name { get; set; } = string.Empty;
+    private readonly List<ParticipantAdventure> _participants = [];
+    private readonly List<AdventureInvitation> _invitations = [];
+
+    /// <summary>
+    /// Gets or sets the name of the adventure.
+    /// </summary>
+    public string Name { get;  set; } = null!;
+
+    /// <summary>
+    /// Gets or sets the start date of the adventure.
+    /// </summary>
     public DateTime StartDate { get; set; }
+
+    /// <summary>
+    /// Gets or sets the end date of the adventure.
+    /// </summary>
     public DateTime EndDate { get; set; }
+
+    /// <summary>
+    /// Gets or sets the ID of the meetup location.
+    /// </summary>
     public long? MeetupLocationId { get; set; }
+
+    /// <summary>
+    /// Gets or sets the ID of the destination location.
+    /// </summary>
     public long? DestinationLocationId { get; set; }
+
+    /// <summary>
+    /// Gets or sets the ID of the adventure type lookup.
+    /// </summary>
     public int TypeLookupId { get; set; }
 
-    private int _statusLookupId;
-    public int StatusLookupId
-    {
-        get => _statusLookupId;
-        set
-        {
-            if (_statusLookupId == Enums.StatusLookups.InProgress.Id)
-            {
-                AddDomainEvent(new AdventureStatusInProgressEvent(this));
-            }
+    /// <summary>
+    /// Gets or sets the ID of the adventure status lookup.
+    /// </summary>
+    public int StatusLookupId { get; set; }
 
-            _statusLookupId = value;
+    /// <summary>
+    /// Gets the meetup location lookup, if available.
+    /// </summary>
+    public Location? MeetupLocationLookup { get; set; }
+
+    /// <summary>
+    /// Gets the destination location lookup, if available.
+    /// </summary>
+    public Location? DestinationLocationLookup { get; set; }
+
+    /// <summary>
+    /// Gets the adventure type lookup.
+    /// </summary>
+    public TypeLookup TypeLookup { get; set; } = null!;
+
+    /// <summary>
+    /// Gets the adventure status lookup.
+    /// </summary>
+    public StatusLookup StatusLookup { get; set; } = null!;
+
+    /// <summary>
+    /// Gets a read-only collection of participants in the adventure.
+    /// </summary>
+    public IReadOnlyCollection<ParticipantAdventure> Participants => _participants.AsReadOnly();
+
+    /// <summary>
+    /// Gets a read-only collection of invitations for the adventure.
+    /// </summary>
+    public IReadOnlyCollection<AdventureInvitation> Invitations => _invitations.AsReadOnly();
+
+    /// <summary>
+    /// Updates the status of the adventure and raises a domain event if transitioning to 'InProgress'.
+    /// </summary>
+    /// <param name="statusLookupId">The new status lookup ID.</param>
+    public void UpdateStatus(int statusLookupId)
+    {
+        if (statusLookupId == StatusLookups.InProgress.Id && StatusLookupId != statusLookupId)
+        {
+            AddDomainEvent(new AdventureStatusInProgressEvent(this));
         }
+        StatusLookupId = statusLookupId;
     }
 
-    public Location? MeetupLocationLookup { get; set; }
-    public Location? DestinationLocationLookup { get; set; }
-    public TypeLookup TypeLookup { get; set; } = null!;
-    public StatusLookup StatusLookup { get; set; } = null!;
-    public List<ParticipantAdventure> Participants { get;} = [];
-    public List<AdventureInvitation> Invitations { get; } = [];
-
+    /// <summary>
+    /// Adds a participant to the adventure if not already present.
+    /// </summary>
+    /// <param name="participant">The participant to add.</param>
+    /// <exception cref="ArgumentNullException">Thrown if <paramref name="participant"/> is null.</exception>
     public void AddParticipant(ParticipantAdventure participant)
     {
-        if(!Participants.Any(x => x.ParticipantId == participant.ParticipantId))
+        ArgumentNullException.ThrowIfNull(participant);
+        if (!_participants.Any(x => x.ParticipantId == participant.ParticipantId))
         {
-            Participants.Add(participant);
+            _participants.Add(participant);
         }
     }
 
+    /// <summary>
+    /// Removes a participant from the adventure if present.
+    /// </summary>
+    /// <param name="participant">The participant to remove.</param>
     public void RemoveParticipant(ParticipantAdventure participant)
     {
-        if (Participants.Any(x => x.ParticipantId == participant.ParticipantId))
+        ArgumentNullException.ThrowIfNull(participant);
+        _participants.Remove(participant);
+    }
+
+    /// <summary>
+    /// Adds an invitation to the adventure if not already present.
+    /// </summary>
+    /// <param name="invitation">The invitation to add.</param>
+    /// <exception cref="ArgumentNullException">Thrown if <paramref name="invitation"/> is null.</exception>
+    public void AddInvitation(AdventureInvitation invitation)
+    {
+        ArgumentNullException.ThrowIfNull(invitation);
+        if (!_invitations.Any(x => x.Id == invitation.Id))
         {
-            Participants.Remove(participant);
+            _invitations.Add(invitation);
         }
     }
 
-    public void AddInvitations(AdventureInvitation invitation)
+    /// <summary>
+    /// Removes an invitation from the adventure if present.
+    /// </summary>
+    /// <param name="invitation">The invitation to remove.</param>
+    public void RemoveInvitation(AdventureInvitation invitation)
     {
-        if (!Invitations.Any(x => x.Id == invitation.Id))
-        {
-            Invitations.Add(invitation);
-        }
+        ArgumentNullException.ThrowIfNull(invitation);
+        _invitations.Remove(invitation);
     }
 
-    public void RemoveInvitations(AdventureInvitation invitation)
+    /// <summary>
+    /// Finds a pending invitation by email address.
+    /// </summary>
+    /// <param name="email">The email address to search for.</param>
+    /// <returns>The matching invitation if found; otherwise, null.</returns>
+    public AdventureInvitation? FindInvitationByEmail(string email)
     {
-        if (Invitations.Any(x => x.Id == invitation.Id))
-        {
-            Invitations.Remove(invitation);
-        }
-    }
-
-    public AdventureInvitation? FindByEmail(string email)
-    {
-        return Invitations
-            .FirstOrDefault(x =>
-                x.Email == email &&
-                x.InvitationStatusLookupId == InvitationStatusLookups.Pending.Id);
+        ArgumentNullException.ThrowIfNull(email);
+        return _invitations.FirstOrDefault(x =>
+            x.Email == email &&
+            x.InvitationStatusLookupId == InvitationStatusLookups.Pending.Id);
     }
 }

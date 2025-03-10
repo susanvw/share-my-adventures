@@ -1,9 +1,7 @@
 ﻿// Infrastructure Project: Repositories/ReadableRepository.cs
 using ShareMyAdventures.Domain.SeedWork;
-using ShareMyAdventures.Domain.SeedWork.Interfaces;
 using ShareMyAdventures.Infrastructure.Persistence;
 using System.Linq.Expressions;
-using System.Threading;
 
 namespace ShareMyAdventures.Infrastructure.Repositories;
 

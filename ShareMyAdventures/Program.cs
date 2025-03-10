@@ -5,6 +5,7 @@ using Serilog.Formatting.Compact;
 using Serilog.Sinks.MSSqlServer;
 using ShareMyAdventures;
 using ShareMyAdventures.Application;
+using ShareMyAdventures.Application.Common.Middleware;
 using ShareMyAdventures.Infrastructure;
 using ShareMyAdventures.Infrastructure.Adapters;
 using ShareMyAdventures.Infrastructure.Persistence;
@@ -72,6 +73,10 @@ builder.Services.AddSignalR();
 
 
 var app = builder.Build();
+app.UseMiddleware<RequestLoggingMiddleware>(); 
+app.UseMiddleware<PerformanceMiddleware>();
+app.UseMiddleware<RequestLoggingMiddleware>();
+app.UseMiddleware<ValidationMiddleware>();
 
 
 

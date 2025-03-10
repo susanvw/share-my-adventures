@@ -2,7 +2,7 @@
 
 namespace ShareMyAdventures.Domain.Enums;
 
-public sealed class StatusLookups : Enumeration
+public sealed class StatusLookups : BaseEnum
 {
     public static readonly StatusLookups Created = new(nameof(Created), 1);
     public static readonly StatusLookups InProgress = new("In Progress", 2);

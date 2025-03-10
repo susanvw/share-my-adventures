@@ -1,4 +1,6 @@
-﻿namespace ShareMyAdventures.Infrastructure.Persistence.Configurations;
+﻿using ShareMyAdventures.Domain.Entities.AdventureAggregate;
+
+namespace ShareMyAdventures.Infrastructure.Persistence.Configurations;
 
 internal class AccessLevelLookupConfiguration : IEntityTypeConfiguration<AccessLevelLookup>
 {

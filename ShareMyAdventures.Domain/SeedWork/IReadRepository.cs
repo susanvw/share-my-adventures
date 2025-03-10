@@ -8,7 +8,8 @@ namespace ShareMyAdventures.Domain.SeedWork;
 /// by separating read concerns from write operations.
 /// </summary>
 /// <typeparam name="TModel">The type of the domain model, which must inherit from <see cref="IAggregateRoot"/>.</typeparam>
-public interface IReadRepository<TModel> where TModel : IAggregateRoot
+public interface IReadRepository<TModel> 
+    where TModel : BaseEntity, IAggregateRoot
 {
     /// <summary>
     /// Specifies a navigation property to include in the query results.

@@ -7,28 +7,40 @@ namespace ShareMyAdventures.Application.UseCases.Friends.Commands;
 
 public sealed record DeleteFriendRequestCommand : IRequest<Unit>
 {
-    public long Id { get; init; } = 0;
+    public long Id { get; init; } 
 }
 
 public sealed class DeleteFriendRequestCommandHandler(
-    IReadRepository<FriendRequest> friendRequestRepository,
-    IWriteRepository<FriendRequest> friendRepository
+    IReadRepository<Participant> readRepository,
+    IWriteRepository<Participant> repository,
+    ICurrentUser currentUser
     ) : IRequestHandler<DeleteFriendRequestCommand, Unit>
 {
     public async Task<Unit> Handle(DeleteFriendRequestCommand request, CancellationToken cancellationToken)
     {
-        var entity = await friendRequestRepository.FindOneByIdAsync(request.Id, cancellationToken);
-        entity = entity.ThrowIfNotFound(request.Id);
+        var userId = currentUser.UserId;
+        userId = userId.ThrowIfNullOrWhiteSpace("Current User");
 
-        if (entity.InvitationStatusLookupId != Domain.Enums.InvitationStatusLookups.Pending.Id)
+        var entity = await readRepository
+                .Include(x => x.Friends)
+                .FindOneByCustomFilterAsync(x => x.Id == userId, cancellationToken);
+        entity = entity.ThrowIfNotFound(userId);
+
+        var friendRequest = entity.FindFriendRequest(request.Id);
+
+        if (friendRequest != null)
         {
-            var validationFailure = new ValidationFailure("Invitation Status", "Cannot delete an invitation that is not in pending state.");
-            throw new Common.Exceptions.ValidationException([validationFailure]);
+            if (friendRequest.InvitationStatusLookupId != Domain.Enums.InvitationStatusLookups.Pending.Id)
+            {
+                var validationFailure = new ValidationFailure("Invitation Status", "Cannot delete an invitation that is not in pending state.");
+                throw new Common.Exceptions.ValidationException([validationFailure]);
+            }
+
+            entity.RemoveFriendRequest(friendRequest);
+
+            await repository.UpdateAsync(entity, cancellationToken);
+            await repository.SaveChangesAsync(cancellationToken);
         }
-
-        await friendRepository.DeleteAsync(entity, cancellationToken);
-        await friendRepository.SaveChangesAsync(cancellationToken);
-
         return Unit.Value;
     }
 }

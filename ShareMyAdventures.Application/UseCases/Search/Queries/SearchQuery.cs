@@ -1,6 +1,6 @@
 ﻿using ShareMyAdventures.Application.Common.Guards;
 using ShareMyAdventures.Domain.Entities.ParticipantAggregate;
-using ShareMyAdventures.Domain.SeedWork.Interfaces;
+using ShareMyAdventures.Domain.SeedWork;
 
 namespace ShareMyAdventures.Application.UseCases.Search.Queries;
 
@@ -20,7 +20,7 @@ internal sealed class SearchQueryValidator : AbstractValidator<SearchQuery>
     }
 }
 public class SearchQueryHandler(
-    IReadableRepository<FriendRequest> friendRepository,
+    IReadRepository<Participant> readRepository,
     ICurrentUser currentUserService) : IRequestHandler<SearchQuery, Result<PagedData<SearchView>?>>
 {
 
@@ -31,9 +31,9 @@ public class SearchQueryHandler(
 
         var userId = currentUserService.UserId.ThrowIfNotFound("current user");
 
-        var mapped = await friendRepository
-            .Include(x => x.ParticipantFriend)
-            .Include(x => x.Participant)
+        var mapped = await readRepository
+            .Include(x => x.Friends)
+                .ThenInclude<FriendRequest>(x => x.Participant)
             .FindOneByCustomFilter(x =>
             (x.ParticipantFriend.DisplayName.Contains(request.Filter) ||
             x.ParticipantFriend.Email!.Contains(request.Filter) ||

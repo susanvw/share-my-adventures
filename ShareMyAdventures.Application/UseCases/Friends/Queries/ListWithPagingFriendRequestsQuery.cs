@@ -2,7 +2,6 @@
 using Microsoft.EntityFrameworkCore;
 using ShareMyAdventures.Application.Common.Guards;
 using ShareMyAdventures.Domain.Entities.ParticipantAggregate;
-using ShareMyAdventures.Domain.SeedWork.Interfaces;
 
 namespace ShareMyAdventures.Application.UseCases.Friends.Queries;
 

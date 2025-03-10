@@ -1,30 +1,60 @@
-﻿using ShareMyAdventures.Domain.Events;
+﻿using ShareMyAdventures.Domain.Enums;
+using ShareMyAdventures.Domain.Events;
 using ShareMyAdventures.Domain.SeedWork;
 
 namespace ShareMyAdventures.Domain.Entities.AdventureAggregate;
 
+/// <summary>
+/// Represents an invitation to participate in an adventure.
+/// Managed exclusively through the <see cref="Adventure"/> aggregate root.
+/// </summary>
 public sealed class AdventureInvitation : BaseAuditableEntity
 {
-    public string Email { get; set; } = string.Empty;
+    /// <summary>
+    /// Gets the email address of the invited user.
+    /// </summary>
+    public string Email { get;  set; } = null!;
+
+    /// <summary>
+    /// Gets the ID of the associated adventure.
+    /// </summary>
     public long AdventureId { get; set; }
+
+    /// <summary>
+    /// Gets the ID of the access level lookup for the invitation.
+    /// </summary>
     public int AccessLevelLookupId { get; set; }
 
-    private int _invitationStatusLookupId;
-    public int InvitationStatusLookupId
+    /// <summary>
+    /// Gets the ID of the invitation status lookup.
+    /// </summary>
+    public int InvitationStatusLookupId { get;  set; }
+
+    /// <summary>
+    /// Gets the access level lookup for the invitation.
+    /// </summary>
+    public AccessLevelLookup AccessLevelLookup { get;  set; } = null!;
+
+    /// <summary>
+    /// Gets the associated adventure.
+    /// </summary>
+    public Adventure Adventure { get; private set; } = null!;
+
+    /// <summary>
+    /// Gets the invitation status lookup.
+    /// </summary>
+    public InvitationStatusLookup InvitationStatusLookup { get;  set; } = null!;
+
+    /// <summary>
+    /// Updates the invitation status and raises a domain event if transitioning to 'Pending'.
+    /// </summary>
+    /// <param name="statusLookupId">The new status lookup ID.</param>
+    public void UpdateStatus(int statusLookupId)
     {
-        get => _invitationStatusLookupId;
-        set
+        if (statusLookupId == InvitationStatusLookups.Pending.Id && InvitationStatusLookupId != statusLookupId)
         {
-            if (_invitationStatusLookupId == Enums.InvitationStatusLookups.Pending.Id)
-            {
-                AddDomainEvent(new AdventureInvitationPendingEvent(this));
-            }
-
-            _invitationStatusLookupId = value;
+            AddDomainEvent(new AdventureInvitationPendingEvent(this));
         }
+        InvitationStatusLookupId = statusLookupId;
     }
-
-    public AccessLevelLookup AccessLevelLookup { get; set; } = null!;
-    public Adventure Adventure { get; set; } = null!;
-    public InvitationStatusLookup InvitationStatusLookup { get; set; } = null!;
 }

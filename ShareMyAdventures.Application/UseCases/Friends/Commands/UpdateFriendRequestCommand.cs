@@ -24,7 +24,7 @@ internal class UpdateFriendRequestCommandValidator : AbstractValidator<UpdateFri
 
     private static bool CheckInvitationStatusIdExist(int id)
     {
-        var statuses = Enumeration.GetAll<AccessLevelLookups>();
+        var statuses = BaseEnum.GetAll<AccessLevelLookups>();
 
         if (statuses.Any(x => x.Id == id)) return true;
 

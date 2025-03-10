@@ -2,7 +2,7 @@
 
 namespace ShareMyAdventures.Domain.Enums;
 
-public sealed class TypeLookups : Enumeration
+public sealed class TypeLookups : BaseEnum
 {
     public static readonly TypeLookups Run = new(nameof(Run), 1);
     public static readonly TypeLookups Walk = new(nameof(Walk), 2);

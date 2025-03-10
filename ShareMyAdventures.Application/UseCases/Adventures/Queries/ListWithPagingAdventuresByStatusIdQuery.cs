@@ -1,6 +1,6 @@
 ﻿using ShareMyAdventures.Application.Common.Guards;
 using ShareMyAdventures.Domain.Entities.AdventureAggregate;
-using ShareMyAdventures.Domain.SeedWork.Interfaces;
+using ShareMyAdventures.Domain.SeedWork;
 
 namespace ShareMyAdventures.Application.UseCases.Adventures.Queries;
 
@@ -13,7 +13,7 @@ public sealed record ListWithPagingAdventuresByStatusIdQuery : IRequest<Result<P
  
 
 public sealed class ListWithPagingAdventuresByStatusIdQueryHandler(
-    IReadableRepository<Adventure> adventureReadableRepository,
+    IReadRepository<Adventure> adventureReadableRepository,
     ICurrentUser currentUserService
         ) : IRequestHandler<ListWithPagingAdventuresByStatusIdQuery, Result<PagedData<AdventureView>?>>
 {
