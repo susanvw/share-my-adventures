@@ -1,0 +1,2984 @@
+{
+	"info": {
+		"_postman_id": "3db492eb-7b98-4ebc-8bfd-22d2acc83af7",
+		"name": "Share my Adventures",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "api",
+			"item": [
+				{
+					"name": "Account",
+					"item": [
+						{
+							"name": "/api/Account/Register",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									},
+									{
+										"key": "Accept",
+										"value": "text/plain"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"username\": \"commodo\",\n  \"password\": \"ex voluptate\",\n  \"displayName\": \"Duis adipisicing qui amet culpa\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/api/Account/Register",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"api",
+										"Account",
+										"Register"
+									]
+								}
+							},
+							"response": [
+								{
+									"name": "Success",
+									"originalRequest": {
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n  \"username\": \"commodo\",\n  \"password\": \"ex voluptate\",\n  \"displayName\": \"Duis adipisicing qui amet culpa\"\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{baseUrl}}/api/Account/Register",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"api",
+												"Account",
+												"Register"
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "application/json"
+										}
+									],
+									"cookie": [],
+									"body": "{\n  \"result\": {\n    \"succeeded\": true,\n    \"errors\": [\n      \"adipisicing quis anim pariatur\",\n      \"tempor dolore veniam\"\n    ]\n  }\n}"
+								}
+							]
+						},
+						{
+							"name": "/api/Account/Confirm",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									},
+									{
+										"key": "Accept",
+										"value": "text/plain"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"email\": \"ex aute sed minim nostrud\",\n  \"token\": \"consequat enim occaecat adipisicing in\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/api/Account/Confirm",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"api",
+										"Account",
+										"Confirm"
+									]
+								}
+							},
+							"response": [
+								{
+									"name": "Success",
+									"originalRequest": {
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n  \"email\": \"ex aute sed minim nostrud\",\n  \"token\": \"consequat enim occaecat adipisicing in\"\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{baseUrl}}/api/Account/Confirm",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"api",
+												"Account",
+												"Confirm"
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "application/json"
+										}
+									],
+									"cookie": [],
+									"body": "{\n  \"result\": {\n    \"succeeded\": false,\n    \"errors\": [\n      \"proident amet a\",\n      \"dolor mollit dolore\"\n    ]\n  }\n}"
+								}
+							]
+						}
+					]
+				},
+				{
+					"name": "Adventure",
+					"item": [
+						{
+							"name": "{id}",
+							"item": [
+								{
+									"name": "/api/Adventure/:id",
+									"request": {
+										"method": "GET",
+										"header": [
+											{
+												"key": "Accept",
+												"value": "text/plain"
+											}
+										],
+										"url": {
+											"raw": "{{baseUrl}}/api/Adventure/:id?userId=reprehenderit id minim deserunt",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"api",
+												"Adventure",
+												":id"
+											],
+											"query": [
+												{
+													"key": "userId",
+													"value": "reprehenderit id minim deserunt"
+												}
+											],
+											"variable": [
+												{
+													"key": "id",
+													"value": "-25189234",
+													"description": "(Required) "
+												}
+											]
+										}
+									},
+									"response": [
+										{
+											"name": "Success",
+											"originalRequest": {
+												"method": "GET",
+												"header": [],
+												"url": {
+													"raw": "{{baseUrl}}/api/Adventure/:id?userId=reprehenderit id minim deserunt",
+													"host": [
+														"{{baseUrl}}"
+													],
+													"path": [
+														"api",
+														"Adventure",
+														":id"
+													],
+													"query": [
+														{
+															"key": "userId",
+															"value": "reprehenderit id minim deserunt"
+														}
+													],
+													"variable": [
+														{
+															"key": "id",
+															"value": "-25189234",
+															"description": "(Required) "
+														}
+													]
+												}
+											},
+											"status": "OK",
+											"code": 200,
+											"_postman_previewlanguage": "json",
+											"header": [
+												{
+													"key": "Content-Type",
+													"value": "application/json"
+												}
+											],
+											"cookie": [],
+											"body": "{\n  \"result\": {\n    \"succeeded\": false,\n    \"errors\": [\n      \"amet cillum et ullamco\",\n      \"dolore dolor\"\n    ]\n  },\n  \"adventure\": {\n    \"id\": 8815571,\n    \"name\": \"enim ut quis consequat\",\n    \"startDate\": \"2003-02-24T01:00:53.301Z\",\n    \"endDate\": \"2007-07-17T17:59:10.430Z\",\n    \"meetUp\": \"ut\",\n    \"meetUpLatitude\": 22182851.64287086,\n    \"meetUpLongitude\": -85058669.71890037,\n    \"finalDestination\": \"sunt magna\",\n    \"finalDestinationLatitude\": -24167944.508320317,\n    \"finalDestinationLongitude\": 36925499.80235121,\n    \"statusId\": -18647114,\n    \"statusName\": \"eu ex et magna\",\n    \"typeId\": 23065193,\n    \"typeName\": \"occaecat\",\n    \"accessLevelId\": 72994836,\n    \"accessLevelName\": \"dolore pariatur enim ad\"\n  }\n}"
+										}
+									]
+								},
+								{
+									"name": "/api/Adventure/:id",
+									"request": {
+										"method": "PUT",
+										"header": [
+											{
+												"key": "Content-Type",
+												"value": "application/json"
+											},
+											{
+												"key": "Accept",
+												"value": "text/plain"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n  \"id\": -68305196,\n  \"name\": \"dolor ut proident\",\n  \"adventureTypeId\": 39346623,\n  \"startDate\": \"non in\",\n  \"endDate\": \"officia aliqua consectetur\",\n  \"meetUp\": \"do\",\n  \"meetUpLatitude\": -99553164.86464433,\n  \"meetUpLongitude\": -1962864.519492194,\n  \"finalDestination\": \"consectetur id cupidatat in quis\",\n  \"finalDestinationLatitude\": -45918271.136807,\n  \"finalDestinationLongitude\": -69213658.86888666,\n  \"userId\": \"ut esse velit\"\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{baseUrl}}/api/Adventure/:id",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"api",
+												"Adventure",
+												":id"
+											],
+											"variable": [
+												{
+													"key": "id",
+													"value": "-25189234",
+													"description": "(Required) "
+												}
+											]
+										}
+									},
+									"response": [
+										{
+											"name": "Success",
+											"originalRequest": {
+												"method": "PUT",
+												"header": [],
+												"body": {
+													"mode": "raw",
+													"raw": "{\n  \"id\": -68305196,\n  \"name\": \"dolor ut proident\",\n  \"adventureTypeId\": 39346623,\n  \"startDate\": \"non in\",\n  \"endDate\": \"officia aliqua consectetur\",\n  \"meetUp\": \"do\",\n  \"meetUpLatitude\": -99553164.86464433,\n  \"meetUpLongitude\": -1962864.519492194,\n  \"finalDestination\": \"consectetur id cupidatat in quis\",\n  \"finalDestinationLatitude\": -45918271.136807,\n  \"finalDestinationLongitude\": -69213658.86888666,\n  \"userId\": \"ut esse velit\"\n}",
+													"options": {
+														"raw": {
+															"language": "json"
+														}
+													}
+												},
+												"url": {
+													"raw": "{{baseUrl}}/api/Adventure/:id",
+													"host": [
+														"{{baseUrl}}"
+													],
+													"path": [
+														"api",
+														"Adventure",
+														":id"
+													],
+													"variable": [
+														{
+															"key": "id",
+															"value": "-25189234",
+															"description": "(Required) "
+														}
+													]
+												}
+											},
+											"status": "OK",
+											"code": 200,
+											"_postman_previewlanguage": "json",
+											"header": [
+												{
+													"key": "Content-Type",
+													"value": "application/json"
+												}
+											],
+											"cookie": [],
+											"body": "{\n  \"result\": {\n    \"succeeded\": false,\n    \"errors\": [\n      \"proident amet a\",\n      \"dolor mollit dolore\"\n    ]\n  }\n}"
+										}
+									]
+								},
+								{
+									"name": "/api/Adventure/:id",
+									"request": {
+										"method": "PATCH",
+										"header": [
+											{
+												"key": "Content-Type",
+												"value": "application/json"
+											},
+											{
+												"key": "Accept",
+												"value": "text/plain"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n  \"id\": -55136059,\n  \"statusId\": 93380568\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{baseUrl}}/api/Adventure/:id",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"api",
+												"Adventure",
+												":id"
+											],
+											"variable": [
+												{
+													"key": "id",
+													"value": "-25189234",
+													"description": "(Required) "
+												}
+											]
+										}
+									},
+									"response": [
+										{
+											"name": "Success",
+											"originalRequest": {
+												"method": "PATCH",
+												"header": [],
+												"body": {
+													"mode": "raw",
+													"raw": "{\n  \"id\": -55136059,\n  \"statusId\": 93380568\n}",
+													"options": {
+														"raw": {
+															"language": "json"
+														}
+													}
+												},
+												"url": {
+													"raw": "{{baseUrl}}/api/Adventure/:id",
+													"host": [
+														"{{baseUrl}}"
+													],
+													"path": [
+														"api",
+														"Adventure",
+														":id"
+													],
+													"variable": [
+														{
+															"key": "id",
+															"value": "-25189234",
+															"description": "(Required) "
+														}
+													]
+												}
+											},
+											"status": "OK",
+											"code": 200,
+											"_postman_previewlanguage": "json",
+											"header": [
+												{
+													"key": "Content-Type",
+													"value": "application/json"
+												}
+											],
+											"cookie": [],
+											"body": "{\n  \"result\": {\n    \"succeeded\": false,\n    \"errors\": [\n      \"proident amet a\",\n      \"dolor mollit dolore\"\n    ]\n  }\n}"
+										}
+									]
+								},
+								{
+									"name": "/api/Adventure/:id",
+									"request": {
+										"method": "DELETE",
+										"header": [
+											{
+												"key": "Accept",
+												"value": "text/plain"
+											}
+										],
+										"url": {
+											"raw": "{{baseUrl}}/api/Adventure/:id",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"api",
+												"Adventure",
+												":id"
+											],
+											"variable": [
+												{
+													"key": "id",
+													"value": "-25189234",
+													"description": "(Required) "
+												}
+											]
+										}
+									},
+									"response": [
+										{
+											"name": "Success",
+											"originalRequest": {
+												"method": "DELETE",
+												"header": [],
+												"url": {
+													"raw": "{{baseUrl}}/api/Adventure/:id",
+													"host": [
+														"{{baseUrl}}"
+													],
+													"path": [
+														"api",
+														"Adventure",
+														":id"
+													],
+													"variable": [
+														{
+															"key": "id",
+															"value": "-25189234",
+															"description": "(Required) "
+														}
+													]
+												}
+											},
+											"status": "OK",
+											"code": 200,
+											"_postman_previewlanguage": "json",
+											"header": [
+												{
+													"key": "Content-Type",
+													"value": "application/json"
+												}
+											],
+											"cookie": [],
+											"body": "{\n  \"result\": {\n    \"succeeded\": false,\n    \"errors\": [\n      \"proident amet a\",\n      \"dolor mollit dolore\"\n    ]\n  }\n}"
+										}
+									]
+								}
+							]
+						},
+						{
+							"name": "/api/Adventure",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									},
+									{
+										"key": "Accept",
+										"value": "text/plain"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"name\": \"sit commodo et tempor\",\n  \"adventureTypeId\": -8009539,\n  \"startDate\": \"Excepteur\",\n  \"endDate\": \"nisi eiusmod id sunt\",\n  \"meetUp\": \"Excepteur exercitation enim ma\",\n  \"meetUpLatitude\": -71689444.98289247,\n  \"meetUpLongitude\": 8707430.894048378,\n  \"finalDestination\": \"reprehenderit voluptate commodo\",\n  \"finalDestinationLatitude\": -1399035.5569408238,\n  \"finalDestinationLongitude\": -45415023.43108878,\n  \"userId\": \"sed ut nulla aliqua proident\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/api/Adventure",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"api",
+										"Adventure"
+									]
+								}
+							},
+							"response": [
+								{
+									"name": "Success",
+									"originalRequest": {
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n  \"name\": \"sit commodo et tempor\",\n  \"adventureTypeId\": -8009539,\n  \"startDate\": \"Excepteur\",\n  \"endDate\": \"nisi eiusmod id sunt\",\n  \"meetUp\": \"Excepteur exercitation enim ma\",\n  \"meetUpLatitude\": -71689444.98289247,\n  \"meetUpLongitude\": 8707430.894048378,\n  \"finalDestination\": \"reprehenderit voluptate commodo\",\n  \"finalDestinationLatitude\": -1399035.5569408238,\n  \"finalDestinationLongitude\": -45415023.43108878,\n  \"userId\": \"sed ut nulla aliqua proident\"\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{baseUrl}}/api/Adventure",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"api",
+												"Adventure"
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "application/json"
+										}
+									],
+									"cookie": [],
+									"body": "{\n  \"result\": {\n    \"succeeded\": false,\n    \"errors\": [\n      \"proident amet a\",\n      \"dolor mollit dolore\"\n    ]\n  }\n}"
+								}
+							]
+						},
+						{
+							"name": "/api/Adventure/GetFullAdventure/:id",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "text/plain"
+									}
+								],
+								"url": {
+									"raw": "{{baseUrl}}/api/Adventure/GetFullAdventure/:id?userId=reprehenderit id minim deserunt",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"api",
+										"Adventure",
+										"GetFullAdventure",
+										":id"
+									],
+									"query": [
+										{
+											"key": "userId",
+											"value": "reprehenderit id minim deserunt"
+										}
+									],
+									"variable": [
+										{
+											"key": "id",
+											"value": "-25189234",
+											"description": "(Required) "
+										}
+									]
+								}
+							},
+							"response": [
+								{
+									"name": "Success",
+									"originalRequest": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "{{baseUrl}}/api/Adventure/GetFullAdventure/:id?userId=reprehenderit id minim deserunt",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"api",
+												"Adventure",
+												"GetFullAdventure",
+												":id"
+											],
+											"query": [
+												{
+													"key": "userId",
+													"value": "reprehenderit id minim deserunt"
+												}
+											],
+											"variable": [
+												{
+													"key": "id",
+													"value": "-25189234",
+													"description": "(Required) "
+												}
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "application/json"
+										}
+									],
+									"cookie": [],
+									"body": "{\n  \"result\": {\n    \"succeeded\": true,\n    \"errors\": [\n      \"amet velit minim Lorem\",\n      \"Ut occaecat dolor deserunt incididunt\"\n    ]\n  },\n  \"adventure\": {\n    \"id\": 70956057,\n    \"name\": \"sit sed aute\",\n    \"startDate\": \"1944-04-28T08:38:58.834Z\",\n    \"endDate\": \"1944-01-02T09:51:00.044Z\",\n    \"meetUp\": \"eu\",\n    \"meetUpLatitude\": -49304553.231142335,\n    \"meetUpLongitude\": -96549524.01172628,\n    \"finalDestination\": \"et\",\n    \"finalDestinationLatitude\": 63745771.94347638,\n    \"finalDestinationLongitude\": -625750.0506753623,\n    \"statusId\": -98794394,\n    \"statusName\": \"proident Excepteur\",\n    \"typeId\": -17634725,\n    \"typeName\": \"a\",\n    \"accessLevelId\": -53481938,\n    \"accessLevelName\": \"enim laboris\"\n  },\n  \"participants\": [\n    {\n      \"participantId\": -90622522,\n      \"userId\": \"mollit exercitation dolore\",\n      \"displayName\": \"sed\",\n      \"photo\": \"sunt cupidatat nostrud Duis ex\",\n      \"followMe\": true,\n      \"trailColor\": \"nulla labore mollit anim\",\n      \"accessLevelId\": -84380234,\n      \"accessLevelName\": \"Ut nisi irure ea laboris\",\n      \"adventureId\": -98102703,\n      \"name\": \"occaecat dolor in deserunt anim\",\n      \"startDate\": \"2020-09-25T15:11:08.299Z\",\n      \"endDate\": \"1989-09-05T10:52:44.715Z\",\n      \"meetUp\": \"elit moll\",\n      \"meetUpLatitude\": 90298671.30332887,\n      \"meetUpLongitude\": -88597087.41763206,\n      \"finalDestination\": \"sunt sed\",\n      \"finalDestinationLatitude\": -22571464.246982932,\n      \"finalDestinationLongitude\": 79788850.1670807,\n      \"statusId\": 93799780,\n      \"statusName\": \"dolore labore in\",\n      \"typeId\": -88483210,\n      \"typeName\": \"ea do offic\"\n    },\n    {\n      \"participantId\": -92017688,\n      \"userId\": \"Excepteur Duis ut\",\n      \"displayName\": \"in Lorem veniam\",\n      \"photo\": \"ex cillum dolor velit\",\n      \"followMe\": false,\n      \"trailColor\": \"qui incididunt sint ut\",\n      \"accessLevelId\": -54378151,\n      \"accessLevelName\": \"Ut voluptate Excepteur\",\n      \"adventureId\": -29404385,\n      \"name\": \"est nulla\",\n      \"startDate\": \"2002-07-14T18:44:32.336Z\",\n      \"endDate\": \"1951-11-30T03:15:56.855Z\",\n      \"meetUp\": \"pariatur et\",\n      \"meetUpLatitude\": -20536457.235911116,\n      \"meetUpLongitude\": -94898180.08842002,\n      \"finalDestination\": \"in irure mollit\",\n      \"finalDestinationLatitude\": 35270784.73751265,\n      \"finalDestinationLongitude\": -30385550.170318425,\n      \"statusId\": -53480026,\n      \"statusName\": \"qui dolore quis\",\n      \"typeId\": -14312960,\n      \"typeName\": \"culpa \"\n    }\n  ]\n}"
+								}
+							]
+						},
+						{
+							"name": "/api/Adventure/QuickStart",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									},
+									{
+										"key": "Accept",
+										"value": "text/plain"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"name\": \"in nulla\",\n  \"userId\": \"ut sunt consectetur ad\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/api/Adventure/QuickStart",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"api",
+										"Adventure",
+										"QuickStart"
+									]
+								}
+							},
+							"response": [
+								{
+									"name": "Success",
+									"originalRequest": {
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n  \"name\": \"in nulla\",\n  \"userId\": \"ut sunt consectetur ad\"\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{baseUrl}}/api/Adventure/QuickStart",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"api",
+												"Adventure",
+												"QuickStart"
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "application/json"
+										}
+									],
+									"cookie": [],
+									"body": "{\n  \"result\": {\n    \"succeeded\": false,\n    \"errors\": [\n      \"Duis eu et ea\",\n      \"do in non quis\"\n    ]\n  },\n  \"id\": 89706988\n}"
+								}
+							]
+						}
+					]
+				},
+				{
+					"name": "AdventureParticipant",
+					"item": [
+						{
+							"name": "{userId}",
+							"item": [
+								{
+									"name": "/api/AdventureParticipant/:userId/ListCompleted",
+									"request": {
+										"method": "GET",
+										"header": [
+											{
+												"key": "Accept",
+												"value": "text/plain"
+											}
+										],
+										"url": {
+											"raw": "{{baseUrl}}/api/AdventureParticipant/:userId/ListCompleted",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"api",
+												"AdventureParticipant",
+												":userId",
+												"ListCompleted"
+											],
+											"variable": [
+												{
+													"key": "userId",
+													"value": "reprehenderit id minim deserunt",
+													"description": "(Required) "
+												}
+											]
+										}
+									},
+									"response": [
+										{
+											"name": "Success",
+											"originalRequest": {
+												"method": "GET",
+												"header": [],
+												"url": {
+													"raw": "{{baseUrl}}/api/AdventureParticipant/:userId/ListCompleted",
+													"host": [
+														"{{baseUrl}}"
+													],
+													"path": [
+														"api",
+														"AdventureParticipant",
+														":userId",
+														"ListCompleted"
+													],
+													"variable": [
+														{
+															"key": "userId",
+															"value": "reprehenderit id minim deserunt",
+															"description": "(Required) "
+														}
+													]
+												}
+											},
+											"status": "OK",
+											"code": 200,
+											"_postman_previewlanguage": "json",
+											"header": [
+												{
+													"key": "Content-Type",
+													"value": "application/json"
+												}
+											],
+											"cookie": [],
+											"body": "{\n  \"result\": {\n    \"succeeded\": false,\n    \"errors\": [\n      \"ipsum laborum m\",\n      \"cillum aute\"\n    ]\n  },\n  \"adventures\": [\n    {\n      \"participantId\": -11858595,\n      \"userId\": \"quis\",\n      \"displayName\": \"fugiat ut\",\n      \"photo\": \"elit consequat ea in velit\",\n      \"followMe\": true,\n      \"trailColor\": \"in\",\n      \"accessLevelId\": 65683315,\n      \"accessLevelName\": \"eiusmod quis\",\n      \"adventureId\": -61663179,\n      \"name\": \"sit esse\",\n      \"startDate\": \"1967-06-06T20:32:08.289Z\",\n      \"endDate\": \"2020-05-17T13:30:05.870Z\",\n      \"meetUp\": \"in ea\",\n      \"meetUpLatitude\": -13320360.990468487,\n      \"meetUpLongitude\": -80254644.2491428,\n      \"finalDestination\": \"in ullamco\",\n      \"finalDestinationLatitude\": 51728427.97426522,\n      \"finalDestinationLongitude\": 53121944.56987962,\n      \"statusId\": 89579850,\n      \"statusName\": \"sit mollit est consectetur sunt\",\n      \"typeId\": 71067330,\n      \"typeName\": \"dolor pariatur ad officia velit\"\n    },\n    {\n      \"participantId\": -70788137,\n      \"userId\": \"dolore non eu ut\",\n      \"displayName\": \"consequat anim nisi\",\n      \"photo\": \"labore in ex dolore\",\n      \"followMe\": true,\n      \"trailColor\": \"in\",\n      \"accessLevelId\": -42163943,\n      \"accessLevelName\": \"tempor\",\n      \"adventureId\": 63528304,\n      \"name\": \"sit nostrud pariatur non commodo\",\n      \"startDate\": \"1965-03-25T13:40:58.498Z\",\n      \"endDate\": \"1969-12-07T08:53:26.220Z\",\n      \"meetUp\": \"id\",\n      \"meetUpLatitude\": -8317895.219581217,\n      \"meetUpLongitude\": -84757910.65963283,\n      \"finalDestination\": \"Lorem anim\",\n      \"finalDestinationLatitude\": 30140365.886253923,\n      \"finalDestinationLongitude\": 10392401.817926526,\n      \"statusId\": -40674644,\n      \"statusName\": \"esse nulla laboris Lorem\",\n      \"typeId\": -69230199,\n      \"typeName\": \"qui pariatur \"\n    }\n  ]\n}"
+										}
+									]
+								},
+								{
+									"name": "/api/AdventureParticipant/:userId/ListInProgress",
+									"request": {
+										"method": "GET",
+										"header": [
+											{
+												"key": "Accept",
+												"value": "text/plain"
+											}
+										],
+										"url": {
+											"raw": "{{baseUrl}}/api/AdventureParticipant/:userId/ListInProgress",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"api",
+												"AdventureParticipant",
+												":userId",
+												"ListInProgress"
+											],
+											"variable": [
+												{
+													"key": "userId",
+													"value": "reprehenderit id minim deserunt",
+													"description": "(Required) "
+												}
+											]
+										}
+									},
+									"response": [
+										{
+											"name": "Success",
+											"originalRequest": {
+												"method": "GET",
+												"header": [],
+												"url": {
+													"raw": "{{baseUrl}}/api/AdventureParticipant/:userId/ListInProgress",
+													"host": [
+														"{{baseUrl}}"
+													],
+													"path": [
+														"api",
+														"AdventureParticipant",
+														":userId",
+														"ListInProgress"
+													],
+													"variable": [
+														{
+															"key": "userId",
+															"value": "reprehenderit id minim deserunt",
+															"description": "(Required) "
+														}
+													]
+												}
+											},
+											"status": "OK",
+											"code": 200,
+											"_postman_previewlanguage": "json",
+											"header": [
+												{
+													"key": "Content-Type",
+													"value": "application/json"
+												}
+											],
+											"cookie": [],
+											"body": "{\n  \"result\": {\n    \"succeeded\": false,\n    \"errors\": [\n      \"ipsum laborum m\",\n      \"cillum aute\"\n    ]\n  },\n  \"adventures\": [\n    {\n      \"participantId\": -11858595,\n      \"userId\": \"quis\",\n      \"displayName\": \"fugiat ut\",\n      \"photo\": \"elit consequat ea in velit\",\n      \"followMe\": true,\n      \"trailColor\": \"in\",\n      \"accessLevelId\": 65683315,\n      \"accessLevelName\": \"eiusmod quis\",\n      \"adventureId\": -61663179,\n      \"name\": \"sit esse\",\n      \"startDate\": \"1967-06-06T20:32:08.289Z\",\n      \"endDate\": \"2020-05-17T13:30:05.870Z\",\n      \"meetUp\": \"in ea\",\n      \"meetUpLatitude\": -13320360.990468487,\n      \"meetUpLongitude\": -80254644.2491428,\n      \"finalDestination\": \"in ullamco\",\n      \"finalDestinationLatitude\": 51728427.97426522,\n      \"finalDestinationLongitude\": 53121944.56987962,\n      \"statusId\": 89579850,\n      \"statusName\": \"sit mollit est consectetur sunt\",\n      \"typeId\": 71067330,\n      \"typeName\": \"dolor pariatur ad officia velit\"\n    },\n    {\n      \"participantId\": -70788137,\n      \"userId\": \"dolore non eu ut\",\n      \"displayName\": \"consequat anim nisi\",\n      \"photo\": \"labore in ex dolore\",\n      \"followMe\": true,\n      \"trailColor\": \"in\",\n      \"accessLevelId\": -42163943,\n      \"accessLevelName\": \"tempor\",\n      \"adventureId\": 63528304,\n      \"name\": \"sit nostrud pariatur non commodo\",\n      \"startDate\": \"1965-03-25T13:40:58.498Z\",\n      \"endDate\": \"1969-12-07T08:53:26.220Z\",\n      \"meetUp\": \"id\",\n      \"meetUpLatitude\": -8317895.219581217,\n      \"meetUpLongitude\": -84757910.65963283,\n      \"finalDestination\": \"Lorem anim\",\n      \"finalDestinationLatitude\": 30140365.886253923,\n      \"finalDestinationLongitude\": 10392401.817926526,\n      \"statusId\": -40674644,\n      \"statusName\": \"esse nulla laboris Lorem\",\n      \"typeId\": -69230199,\n      \"typeName\": \"qui pariatur \"\n    }\n  ]\n}"
+										}
+									]
+								}
+							]
+						},
+						{
+							"name": "/api/AdventureParticipant/:adventureId/ListParticipants",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "text/plain"
+									}
+								],
+								"url": {
+									"raw": "{{baseUrl}}/api/AdventureParticipant/:adventureId/ListParticipants",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"api",
+										"AdventureParticipant",
+										":adventureId",
+										"ListParticipants"
+									],
+									"variable": [
+										{
+											"key": "adventureId",
+											"value": "-25189234",
+											"description": "(Required) "
+										}
+									]
+								}
+							},
+							"response": [
+								{
+									"name": "Success",
+									"originalRequest": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "{{baseUrl}}/api/AdventureParticipant/:adventureId/ListParticipants",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"api",
+												"AdventureParticipant",
+												":adventureId",
+												"ListParticipants"
+											],
+											"variable": [
+												{
+													"key": "adventureId",
+													"value": "-25189234",
+													"description": "(Required) "
+												}
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "application/json"
+										}
+									],
+									"cookie": [],
+									"body": "{\n  \"result\": {\n    \"succeeded\": false,\n    \"errors\": [\n      \"quis velit voluptate culpa\",\n      \"Lorem voluptate laborum\"\n    ]\n  },\n  \"participants\": [\n    {\n      \"participantId\": -36819363,\n      \"userId\": \"qui in\",\n      \"displayName\": \"in veniam ullamco non\",\n      \"photo\": \"Lorem veniam ut\",\n      \"followMe\": false,\n      \"trailColor\": \"adipisicing dolor est\",\n      \"accessLevelId\": -15713065,\n      \"accessLevelName\": \"consec\",\n      \"adventureId\": 53547951,\n      \"name\": \"ipsum velit sed occaecat aute\",\n      \"startDate\": \"2009-03-27T12:55:46.637Z\",\n      \"endDate\": \"1982-03-05T17:08:47.241Z\",\n      \"meetUp\": \"ad pariatur labore dolore\",\n      \"meetUpLatitude\": 40559603.65041554,\n      \"meetUpLongitude\": -54276548.84217645,\n      \"finalDestination\": \"Excepteur deserunt nulla\",\n      \"finalDestinationLatitude\": 75212337.1744377,\n      \"finalDestinationLongitude\": 99167277.42500022,\n      \"statusId\": 17598850,\n      \"statusName\": \"s\",\n      \"typeId\": -30129721,\n      \"typeName\": \"sunt mollit in sit\"\n    },\n    {\n      \"participantId\": 42415185,\n      \"userId\": \"n\",\n      \"displayName\": \"et\",\n      \"photo\": \"eiusmod quis in ipsum\",\n      \"followMe\": false,\n      \"trailColor\": \"cillum\",\n      \"accessLevelId\": -55115607,\n      \"accessLevelName\": \"do deserunt tempor aliquip\",\n      \"adventureId\": 71019068,\n      \"name\": \"in incididunt cillum\",\n      \"startDate\": \"1966-07-31T04:23:56.392Z\",\n      \"endDate\": \"2003-07-16T00:47:41.498Z\",\n      \"meetUp\": \"proident a\",\n      \"meetUpLatitude\": -58553682.01831888,\n      \"meetUpLongitude\": 37554000.58036572,\n      \"finalDestination\": \"cillum sed adipisicing magna labore\",\n      \"finalDestinationLatitude\": 12044399.817993462,\n      \"finalDestinationLongitude\": -50706530.232371524,\n      \"statusId\": 16430668,\n      \"statusName\": \"voluptate irure in proident\",\n      \"typeId\": 40619138,\n      \"typeName\": \"sint sed et\"\n    }\n  ]\n}"
+								}
+							]
+						}
+					]
+				},
+				{
+					"name": "Friend",
+					"item": [
+						{
+							"name": "{id}",
+							"item": [
+								{
+									"name": "/api/Friend/:id",
+									"request": {
+										"method": "PATCH",
+										"header": [
+											{
+												"key": "Content-Type",
+												"value": "application/json"
+											},
+											{
+												"key": "Accept",
+												"value": "text/plain"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n  \"id\": 27229798,\n  \"invitationStatusId\": 38955701,\n  \"userId\": \"offici\"\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{baseUrl}}/api/Friend/:id",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"api",
+												"Friend",
+												":id"
+											],
+											"variable": [
+												{
+													"key": "id",
+													"value": "-25189234",
+													"description": "(Required) "
+												}
+											]
+										}
+									},
+									"response": [
+										{
+											"name": "Success",
+											"originalRequest": {
+												"method": "PATCH",
+												"header": [],
+												"body": {
+													"mode": "raw",
+													"raw": "{\n  \"id\": 27229798,\n  \"invitationStatusId\": 38955701,\n  \"userId\": \"offici\"\n}",
+													"options": {
+														"raw": {
+															"language": "json"
+														}
+													}
+												},
+												"url": {
+													"raw": "{{baseUrl}}/api/Friend/:id",
+													"host": [
+														"{{baseUrl}}"
+													],
+													"path": [
+														"api",
+														"Friend",
+														":id"
+													],
+													"variable": [
+														{
+															"key": "id",
+															"value": "-25189234",
+															"description": "(Required) "
+														}
+													]
+												}
+											},
+											"status": "OK",
+											"code": 200,
+											"_postman_previewlanguage": "json",
+											"header": [
+												{
+													"key": "Content-Type",
+													"value": "application/json"
+												}
+											],
+											"cookie": [],
+											"body": "{\n  \"result\": {\n    \"succeeded\": false,\n    \"errors\": [\n      \"proident amet a\",\n      \"dolor mollit dolore\"\n    ]\n  }\n}"
+										}
+									]
+								},
+								{
+									"name": "/api/Friend/:id",
+									"request": {
+										"method": "DELETE",
+										"header": [
+											{
+												"key": "Accept",
+												"value": "text/plain"
+											}
+										],
+										"url": {
+											"raw": "{{baseUrl}}/api/Friend/:id",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"api",
+												"Friend",
+												":id"
+											],
+											"variable": [
+												{
+													"key": "id",
+													"value": "-25189234",
+													"description": "(Required) "
+												}
+											]
+										}
+									},
+									"response": [
+										{
+											"name": "Success",
+											"originalRequest": {
+												"method": "DELETE",
+												"header": [],
+												"url": {
+													"raw": "{{baseUrl}}/api/Friend/:id",
+													"host": [
+														"{{baseUrl}}"
+													],
+													"path": [
+														"api",
+														"Friend",
+														":id"
+													],
+													"variable": [
+														{
+															"key": "id",
+															"value": "-25189234",
+															"description": "(Required) "
+														}
+													]
+												}
+											},
+											"status": "OK",
+											"code": 200,
+											"_postman_previewlanguage": "json",
+											"header": [
+												{
+													"key": "Content-Type",
+													"value": "application/json"
+												}
+											],
+											"cookie": [],
+											"body": "{\n  \"result\": {\n    \"succeeded\": false,\n    \"errors\": [\n      \"proident amet a\",\n      \"dolor mollit dolore\"\n    ]\n  }\n}"
+										}
+									]
+								}
+							]
+						},
+						{
+							"name": "/api/Friend",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									},
+									{
+										"key": "Accept",
+										"value": "text/plain"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"userId\": \"49385296-12ca-4fb4-ba59-03b52a15afea\",\n  \"friendId\":3\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/api/Friend",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"api",
+										"Friend"
+									]
+								}
+							},
+							"response": [
+								{
+									"name": "Success",
+									"originalRequest": {
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n  \"userId\": \"consectetur esse\",\n  \"friendId\": -40294360\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{baseUrl}}/api/Friend",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"api",
+												"Friend"
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "application/json"
+										}
+									],
+									"cookie": [],
+									"body": "{\n  \"result\": {\n    \"succeeded\": false,\n    \"errors\": [\n      \"proident amet a\",\n      \"dolor mollit dolore\"\n    ]\n  }\n}"
+								}
+							]
+						},
+						{
+							"name": "/api/Friend/List",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "text/plain"
+									}
+								],
+								"url": {
+									"raw": "{{baseUrl}}/api/Friend/List?userId=reprehenderit id minim deserunt",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"api",
+										"Friend",
+										"List"
+									],
+									"query": [
+										{
+											"key": "userId",
+											"value": "reprehenderit id minim deserunt"
+										}
+									]
+								}
+							},
+							"response": [
+								{
+									"name": "Success",
+									"originalRequest": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "{{baseUrl}}/api/Friend/List?userId=reprehenderit id minim deserunt",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"api",
+												"Friend",
+												"List"
+											],
+											"query": [
+												{
+													"key": "userId",
+													"value": "reprehenderit id minim deserunt"
+												}
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "application/json"
+										}
+									],
+									"cookie": [],
+									"body": "{\n  \"result\": {\n    \"succeeded\": false,\n    \"errors\": [\n      \"consequat officia\",\n      \"id voluptate\"\n    ]\n  },\n  \"friends\": [\n    {\n      \"userId\": \"in\",\n      \"id\": -21176004,\n      \"participantId\": 60489172,\n      \"friendId\": -10881528,\n      \"displayName\": \"sed Excepteur\",\n      \"photo\": \"Lorem tempor\",\n      \"invitationStatusId\": 26917910,\n      \"invitationStatusName\": \"dolore cillum consequat enim\",\n      \"showButton\": 97405109\n    },\n    {\n      \"userId\": \"laborum consectetur\",\n      \"id\": -95040301,\n      \"participantId\": -56211913,\n      \"friendId\": 15066125,\n      \"displayName\": \"velit anim\",\n      \"photo\": \"proident nostrud\",\n      \"invitationStatusId\": -37318922,\n      \"invitationStatusName\": \"in incid\",\n      \"showButton\": -85623619\n    }\n  ]\n}"
+								}
+							]
+						},
+						{
+							"name": "/api/Friend/Search",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "text/plain"
+									}
+								],
+								"url": {
+									"raw": "{{baseUrl}}/api/Friend/Search?userId=reprehenderit id minim deserunt&searchText=reprehenderit id minim deserunt",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"api",
+										"Friend",
+										"Search"
+									],
+									"query": [
+										{
+											"key": "userId",
+											"value": "reprehenderit id minim deserunt"
+										},
+										{
+											"key": "searchText",
+											"value": "reprehenderit id minim deserunt"
+										}
+									]
+								}
+							},
+							"response": [
+								{
+									"name": "Success",
+									"originalRequest": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "{{baseUrl}}/api/Friend/Search?userId=reprehenderit id minim deserunt&searchText=reprehenderit id minim deserunt",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"api",
+												"Friend",
+												"Search"
+											],
+											"query": [
+												{
+													"key": "userId",
+													"value": "reprehenderit id minim deserunt"
+												},
+												{
+													"key": "searchText",
+													"value": "reprehenderit id minim deserunt"
+												}
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "application/json"
+										}
+									],
+									"cookie": [],
+									"body": "{\n  \"result\": {\n    \"succeeded\": false,\n    \"errors\": [\n      \"consequat officia\",\n      \"id voluptate\"\n    ]\n  },\n  \"friends\": [\n    {\n      \"userId\": \"in\",\n      \"id\": -21176004,\n      \"participantId\": 60489172,\n      \"friendId\": -10881528,\n      \"displayName\": \"sed Excepteur\",\n      \"photo\": \"Lorem tempor\",\n      \"invitationStatusId\": 26917910,\n      \"invitationStatusName\": \"dolore cillum consequat enim\",\n      \"showButton\": 97405109\n    },\n    {\n      \"userId\": \"laborum consectetur\",\n      \"id\": -95040301,\n      \"participantId\": -56211913,\n      \"friendId\": 15066125,\n      \"displayName\": \"velit anim\",\n      \"photo\": \"proident nostrud\",\n      \"invitationStatusId\": -37318922,\n      \"invitationStatusName\": \"in incid\",\n      \"showButton\": -85623619\n    }\n  ]\n}"
+								}
+							]
+						},
+						{
+							"name": "/api/Friend/Requests",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "text/plain"
+									}
+								],
+								"url": {
+									"raw": "{{baseUrl}}/api/Friend/Requests?userId=reprehenderit id minim deserunt",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"api",
+										"Friend",
+										"Requests"
+									],
+									"query": [
+										{
+											"key": "userId",
+											"value": "reprehenderit id minim deserunt"
+										}
+									]
+								}
+							},
+							"response": [
+								{
+									"name": "Success",
+									"originalRequest": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "{{baseUrl}}/api/Friend/Requests?userId=reprehenderit id minim deserunt",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"api",
+												"Friend",
+												"Requests"
+											],
+											"query": [
+												{
+													"key": "userId",
+													"value": "reprehenderit id minim deserunt"
+												}
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "application/json"
+										}
+									],
+									"cookie": [],
+									"body": "{\n  \"result\": {\n    \"succeeded\": false,\n    \"errors\": [\n      \"consequat officia\",\n      \"id voluptate\"\n    ]\n  },\n  \"friends\": [\n    {\n      \"userId\": \"in\",\n      \"id\": -21176004,\n      \"participantId\": 60489172,\n      \"friendId\": -10881528,\n      \"displayName\": \"sed Excepteur\",\n      \"photo\": \"Lorem tempor\",\n      \"invitationStatusId\": 26917910,\n      \"invitationStatusName\": \"dolore cillum consequat enim\",\n      \"showButton\": 97405109\n    },\n    {\n      \"userId\": \"laborum consectetur\",\n      \"id\": -95040301,\n      \"participantId\": -56211913,\n      \"friendId\": 15066125,\n      \"displayName\": \"velit anim\",\n      \"photo\": \"proident nostrud\",\n      \"invitationStatusId\": -37318922,\n      \"invitationStatusName\": \"in incid\",\n      \"showButton\": -85623619\n    }\n  ]\n}"
+								}
+							]
+						}
+					]
+				},
+				{
+					"name": "Invitation",
+					"item": [
+						{
+							"name": "/api/Invitation",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									},
+									{
+										"key": "Accept",
+										"value": "text/plain"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"adventureId\": -6317924,\n  \"userId\": \"dolor pariatur laboris \",\n  \"email\": \"ipsum exercitation proident reprehenderit amet\",\n  \"accessLevelId\": 9421066\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/api/Invitation",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"api",
+										"Invitation"
+									]
+								}
+							},
+							"response": [
+								{
+									"name": "Success",
+									"originalRequest": {
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n  \"adventureId\": -6317924,\n  \"userId\": \"dolor pariatur laboris \",\n  \"email\": \"ipsum exercitation proident reprehenderit amet\",\n  \"accessLevelId\": 9421066\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{baseUrl}}/api/Invitation",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"api",
+												"Invitation"
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "application/json"
+										}
+									],
+									"cookie": [],
+									"body": "{\n  \"result\": {\n    \"succeeded\": false,\n    \"errors\": [\n      \"proident amet a\",\n      \"dolor mollit dolore\"\n    ]\n  }\n}"
+								}
+							]
+						},
+						{
+							"name": "/api/Invitation/:userId",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "text/plain"
+									}
+								],
+								"url": {
+									"raw": "{{baseUrl}}/api/Invitation/:userId",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"api",
+										"Invitation",
+										":userId"
+									],
+									"variable": [
+										{
+											"key": "userId",
+											"value": "reprehenderit id minim deserunt",
+											"description": "(Required) "
+										}
+									]
+								}
+							},
+							"response": [
+								{
+									"name": "Success",
+									"originalRequest": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "{{baseUrl}}/api/Invitation/:userId",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"api",
+												"Invitation",
+												":userId"
+											],
+											"variable": [
+												{
+													"key": "userId",
+													"value": "reprehenderit id minim deserunt",
+													"description": "(Required) "
+												}
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "application/json"
+										}
+									],
+									"cookie": [],
+									"body": "{\n  \"result\": {\n    \"succeeded\": true,\n    \"errors\": [\n      \"ex Lorem sed la\",\n      \"nisi \"\n    ]\n  },\n  \"adventures\": [\n    {\n      \"id\": -87064118,\n      \"name\": \"eiusmod dolore in commodo\",\n      \"startDate\": \"1964-03-06T15:27:36.781Z\",\n      \"endDate\": \"1987-12-06T22:22:03.815Z\",\n      \"meetUp\": \"consectetur Lorem velit\",\n      \"meetUpLatitude\": -37926751.51574394,\n      \"meetUpLongitude\": 57221765.194554895,\n      \"finalDestination\": \"nisi fugiat laborum cupidatat\",\n      \"finalDestinationLatitude\": 10661211.509223014,\n      \"finalDestinationLongitude\": 64938743.81742576,\n      \"statusId\": -36259892,\n      \"statusName\": \"consequat\",\n      \"typeId\": 90691650,\n      \"typeName\": \"adipisicin\",\n      \"accessLevelId\": -17666992,\n      \"accessLevelName\": \"sit id irure labore in\"\n    },\n    {\n      \"id\": -13474070,\n      \"name\": \"consectetur\",\n      \"startDate\": \"1993-10-06T11:06:11.621Z\",\n      \"endDate\": \"2019-01-26T09:33:28.556Z\",\n      \"meetUp\": \"dolor dolor\",\n      \"meetUpLatitude\": -32028347.386859894,\n      \"meetUpLongitude\": 91496863.03226963,\n      \"finalDestination\": \"amet\",\n      \"finalDestinationLatitude\": 97232802.62251967,\n      \"finalDestinationLongitude\": 21047367.427478433,\n      \"statusId\": 67259830,\n      \"statusName\": \"voluptate in sint tempor minim\",\n      \"typeId\": -98739332,\n      \"typeName\": \"officia irure dolore Excepteur\",\n      \"accessLevelId\": -82479410,\n      \"accessLevelName\": \"cupidatat enim\"\n    }\n  ]\n}"
+								}
+							]
+						},
+						{
+							"name": "/api/Invitation/Accept",
+							"request": {
+								"method": "PATCH",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									},
+									{
+										"key": "Accept",
+										"value": "text/plain"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"adventureId\": 48474627,\n  \"userId\": \"voluptate Ut ex Lorem\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/api/Invitation/Accept",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"api",
+										"Invitation",
+										"Accept"
+									]
+								}
+							},
+							"response": [
+								{
+									"name": "Success",
+									"originalRequest": {
+										"method": "PATCH",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n  \"adventureId\": 48474627,\n  \"userId\": \"voluptate Ut ex Lorem\"\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{baseUrl}}/api/Invitation/Accept",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"api",
+												"Invitation",
+												"Accept"
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "application/json"
+										}
+									],
+									"cookie": [],
+									"body": "{\n  \"result\": {\n    \"succeeded\": false,\n    \"errors\": [\n      \"proident amet a\",\n      \"dolor mollit dolore\"\n    ]\n  }\n}"
+								}
+							]
+						},
+						{
+							"name": "/api/Invitation/Reject",
+							"request": {
+								"method": "PATCH",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									},
+									{
+										"key": "Accept",
+										"value": "text/plain"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"adventureId\": 48474627,\n  \"userId\": \"voluptate Ut ex Lorem\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/api/Invitation/Reject",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"api",
+										"Invitation",
+										"Reject"
+									]
+								}
+							},
+							"response": [
+								{
+									"name": "Success",
+									"originalRequest": {
+										"method": "PATCH",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n  \"adventureId\": 48474627,\n  \"userId\": \"voluptate Ut ex Lorem\"\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{baseUrl}}/api/Invitation/Reject",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"api",
+												"Invitation",
+												"Reject"
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "application/json"
+										}
+									],
+									"cookie": [],
+									"body": "{\n  \"result\": {\n    \"succeeded\": false,\n    \"errors\": [\n      \"proident amet a\",\n      \"dolor mollit dolore\"\n    ]\n  }\n}"
+								}
+							]
+						}
+					]
+				},
+				{
+					"name": "Participant",
+					"item": [
+						{
+							"name": "{userId}",
+							"item": [
+								{
+									"name": "/api/Participant/:userId",
+									"request": {
+										"method": "GET",
+										"header": [
+											{
+												"key": "Accept",
+												"value": "text/plain"
+											}
+										],
+										"url": {
+											"raw": "{{baseUrl}}/api/Participant/:userId",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"api",
+												"Participant",
+												":userId"
+											],
+											"variable": [
+												{
+													"key": "userId",
+													"value": "reprehenderit id minim deserunt",
+													"description": "(Required) "
+												}
+											]
+										}
+									},
+									"response": [
+										{
+											"name": "Success",
+											"originalRequest": {
+												"method": "GET",
+												"header": [],
+												"url": {
+													"raw": "{{baseUrl}}/api/Participant/:userId",
+													"host": [
+														"{{baseUrl}}"
+													],
+													"path": [
+														"api",
+														"Participant",
+														":userId"
+													],
+													"variable": [
+														{
+															"key": "userId",
+															"value": "reprehenderit id minim deserunt",
+															"description": "(Required) "
+														}
+													]
+												}
+											},
+											"status": "OK",
+											"code": 200,
+											"_postman_previewlanguage": "json",
+											"header": [
+												{
+													"key": "Content-Type",
+													"value": "application/json"
+												}
+											],
+											"cookie": [],
+											"body": "{\n  \"result\": {\n    \"succeeded\": true,\n    \"errors\": [\n      \"Lorem exercitation ea pariatur\",\n      \"et non laborum\"\n    ]\n  },\n  \"participant\": {\n    \"id\": -6459451,\n    \"userId\": \"ut sit in\",\n    \"username\": \"laboris ea aute esse\",\n    \"displayName\": \"deserunt\",\n    \"photo\": \"id sit\",\n    \"followMe\": true,\n    \"trailColor\": \"officia\"\n  }\n}"
+										}
+									]
+								},
+								{
+									"name": "/api/Participant/:userId",
+									"request": {
+										"method": "PUT",
+										"header": [
+											{
+												"key": "Content-Type",
+												"value": "application/json"
+											},
+											{
+												"key": "Accept",
+												"value": "text/plain"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n  \"userId\": \"elit sunt\",\n  \"displayName\": \"ad\",\n  \"trailColor\": \"magna Excepteur sint eiusmod\",\n  \"followMe\": true,\n  \"photo\": \"id\"\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{baseUrl}}/api/Participant/:userId",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"api",
+												"Participant",
+												":userId"
+											],
+											"variable": [
+												{
+													"key": "userId",
+													"value": "reprehenderit id minim deserunt",
+													"description": "(Required) "
+												}
+											]
+										}
+									},
+									"response": [
+										{
+											"name": "Success",
+											"originalRequest": {
+												"method": "PUT",
+												"header": [],
+												"body": {
+													"mode": "raw",
+													"raw": "{\n  \"userId\": \"elit sunt\",\n  \"displayName\": \"ad\",\n  \"trailColor\": \"magna Excepteur sint eiusmod\",\n  \"followMe\": true,\n  \"photo\": \"id\"\n}",
+													"options": {
+														"raw": {
+															"language": "json"
+														}
+													}
+												},
+												"url": {
+													"raw": "{{baseUrl}}/api/Participant/:userId",
+													"host": [
+														"{{baseUrl}}"
+													],
+													"path": [
+														"api",
+														"Participant",
+														":userId"
+													],
+													"variable": [
+														{
+															"key": "userId",
+															"value": "reprehenderit id minim deserunt",
+															"description": "(Required) "
+														}
+													]
+												}
+											},
+											"status": "OK",
+											"code": 200,
+											"_postman_previewlanguage": "json",
+											"header": [
+												{
+													"key": "Content-Type",
+													"value": "application/json"
+												}
+											],
+											"cookie": [],
+											"body": "{\n  \"result\": {\n    \"succeeded\": false,\n    \"errors\": [\n      \"proident amet a\",\n      \"dolor mollit dolore\"\n    ]\n  }\n}"
+										}
+									]
+								},
+								{
+									"name": "/api/Participant/:userId",
+									"request": {
+										"method": "DELETE",
+										"header": [
+											{
+												"key": "Accept",
+												"value": "text/plain"
+											}
+										],
+										"url": {
+											"raw": "{{baseUrl}}/api/Participant/:userId",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"api",
+												"Participant",
+												":userId"
+											],
+											"variable": [
+												{
+													"key": "userId",
+													"value": "reprehenderit id minim deserunt",
+													"description": "(Required) "
+												}
+											]
+										}
+									},
+									"response": [
+										{
+											"name": "Success",
+											"originalRequest": {
+												"method": "DELETE",
+												"header": [],
+												"url": {
+													"raw": "{{baseUrl}}/api/Participant/:userId",
+													"host": [
+														"{{baseUrl}}"
+													],
+													"path": [
+														"api",
+														"Participant",
+														":userId"
+													],
+													"variable": [
+														{
+															"key": "userId",
+															"value": "reprehenderit id minim deserunt",
+															"description": "(Required) "
+														}
+													]
+												}
+											},
+											"status": "OK",
+											"code": 200,
+											"_postman_previewlanguage": "json",
+											"header": [
+												{
+													"key": "Content-Type",
+													"value": "application/json"
+												}
+											],
+											"cookie": [],
+											"body": "{\n  \"result\": {\n    \"succeeded\": false,\n    \"errors\": [\n      \"proident amet a\",\n      \"dolor mollit dolore\"\n    ]\n  }\n}"
+										}
+									]
+								}
+							]
+						},
+						{
+							"name": "/api/Participant/List",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "text/plain"
+									}
+								],
+								"url": {
+									"raw": "{{baseUrl}}/api/Participant/List?userId=49385296-12ca-4fb4-ba59-03b52a15afea",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"api",
+										"Participant",
+										"List"
+									],
+									"query": [
+										{
+											"key": "userId",
+											"value": "49385296-12ca-4fb4-ba59-03b52a15afea"
+										}
+									]
+								}
+							},
+							"response": [
+								{
+									"name": "Success",
+									"originalRequest": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "{{baseUrl}}/api/Participant/List?userId=reprehenderit id minim deserunt",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"api",
+												"Participant",
+												"List"
+											],
+											"query": [
+												{
+													"key": "userId",
+													"value": "reprehenderit id minim deserunt"
+												}
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "application/json"
+										}
+									],
+									"cookie": [],
+									"body": "{\n  \"result\": {\n    \"succeeded\": true,\n    \"errors\": [\n      \"laborum elit\",\n      \"amet sunt in\"\n    ]\n  },\n  \"participants\": [\n    {\n      \"id\": 62934671,\n      \"userId\": \"sint laborum amet\",\n      \"username\": \"do commodo nisi elit laborum\",\n      \"displayName\": \"Lorem nisi ut\",\n      \"photo\": \"Duis Ut laborum amet\",\n      \"followMe\": true,\n      \"trailColor\": \"dolor anim nulla\"\n    },\n    {\n      \"id\": 55777431,\n      \"userId\": \"in\",\n      \"username\": \"nisi cup\",\n      \"displayName\": \"pariatur\",\n      \"photo\": \"id ullamco anim\",\n      \"followMe\": false,\n      \"trailColor\": \"sit laboris eu magna voluptate\"\n    }\n  ]\n}"
+								}
+							]
+						},
+						{
+							"name": "/api/Participant/Search",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "text/plain"
+									}
+								],
+								"url": {
+									"raw": "{{baseUrl}}/api/Participant/Search?searchText=reprehenderit id minim deserunt",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"api",
+										"Participant",
+										"Search"
+									],
+									"query": [
+										{
+											"key": "searchText",
+											"value": "reprehenderit id minim deserunt"
+										}
+									]
+								}
+							},
+							"response": [
+								{
+									"name": "Success",
+									"originalRequest": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "{{baseUrl}}/api/Participant/Search?searchText=reprehenderit id minim deserunt",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"api",
+												"Participant",
+												"Search"
+											],
+											"query": [
+												{
+													"key": "searchText",
+													"value": "reprehenderit id minim deserunt"
+												}
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "application/json"
+										}
+									],
+									"cookie": [],
+									"body": "{\n  \"result\": {\n    \"succeeded\": true,\n    \"errors\": [\n      \"laborum elit\",\n      \"amet sunt in\"\n    ]\n  },\n  \"participants\": [\n    {\n      \"id\": 62934671,\n      \"userId\": \"sint laborum amet\",\n      \"username\": \"do commodo nisi elit laborum\",\n      \"displayName\": \"Lorem nisi ut\",\n      \"photo\": \"Duis Ut laborum amet\",\n      \"followMe\": true,\n      \"trailColor\": \"dolor anim nulla\"\n    },\n    {\n      \"id\": 55777431,\n      \"userId\": \"in\",\n      \"username\": \"nisi cup\",\n      \"displayName\": \"pariatur\",\n      \"photo\": \"id ullamco anim\",\n      \"followMe\": false,\n      \"trailColor\": \"sit laboris eu magna voluptate\"\n    }\n  ]\n}"
+								}
+							]
+						},
+						{
+							"name": "/api/Participant/FollowMe/:userId",
+							"request": {
+								"method": "PATCH",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									},
+									{
+										"key": "Accept",
+										"value": "text/plain"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"userId\": \"qui tempor eu eiusmod Lo\",\n  \"followMe\": true\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/api/Participant/FollowMe/:userId",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"api",
+										"Participant",
+										"FollowMe",
+										":userId"
+									],
+									"variable": [
+										{
+											"key": "userId",
+											"value": "reprehenderit id minim deserunt",
+											"description": "(Required) "
+										}
+									]
+								}
+							},
+							"response": [
+								{
+									"name": "Success",
+									"originalRequest": {
+										"method": "PATCH",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n  \"userId\": \"qui tempor eu eiusmod Lo\",\n  \"followMe\": true\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{baseUrl}}/api/Participant/FollowMe/:userId",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"api",
+												"Participant",
+												"FollowMe",
+												":userId"
+											],
+											"variable": [
+												{
+													"key": "userId",
+													"value": "reprehenderit id minim deserunt",
+													"description": "(Required) "
+												}
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "application/json"
+										}
+									],
+									"cookie": [],
+									"body": "{\n  \"result\": {\n    \"succeeded\": false,\n    \"errors\": [\n      \"proident amet a\",\n      \"dolor mollit dolore\"\n    ]\n  }\n}"
+								}
+							]
+						},
+						{
+							"name": "/api/Participant/Upload/:userId",
+							"request": {
+								"method": "PATCH",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									},
+									{
+										"key": "Accept",
+										"value": "text/plain"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"userId\": \"do esse velit ut\",\n  \"photo\": \"Duis adipisicing in\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/api/Participant/Upload/:userId",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"api",
+										"Participant",
+										"Upload",
+										":userId"
+									],
+									"variable": [
+										{
+											"key": "userId",
+											"value": "reprehenderit id minim deserunt",
+											"description": "(Required) "
+										}
+									]
+								}
+							},
+							"response": [
+								{
+									"name": "Success",
+									"originalRequest": {
+										"method": "PATCH",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n  \"userId\": \"do esse velit ut\",\n  \"photo\": \"Duis adipisicing in\"\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{baseUrl}}/api/Participant/Upload/:userId",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"api",
+												"Participant",
+												"Upload",
+												":userId"
+											],
+											"variable": [
+												{
+													"key": "userId",
+													"value": "reprehenderit id minim deserunt",
+													"description": "(Required) "
+												}
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "application/json"
+										}
+									],
+									"cookie": [],
+									"body": "{\n  \"result\": {\n    \"succeeded\": false,\n    \"errors\": [\n      \"proident amet a\",\n      \"dolor mollit dolore\"\n    ]\n  }\n}"
+								}
+							]
+						}
+					]
+				},
+				{
+					"name": "Password",
+					"item": [
+						{
+							"name": "/api/Password/Reminder",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									},
+									{
+										"key": "Accept",
+										"value": "text/plain"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"username\": \"ci\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/api/Password/Reminder",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"api",
+										"Password",
+										"Reminder"
+									]
+								}
+							},
+							"response": [
+								{
+									"name": "Success",
+									"originalRequest": {
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n  \"username\": \"ci\"\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{baseUrl}}/api/Password/Reminder",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"api",
+												"Password",
+												"Reminder"
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "application/json"
+										}
+									],
+									"cookie": [],
+									"body": "{\n  \"result\": {\n    \"succeeded\": false,\n    \"errors\": [\n      \"proident amet a\",\n      \"dolor mollit dolore\"\n    ]\n  }\n}"
+								}
+							]
+						},
+						{
+							"name": "/api/Password/Reset",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									},
+									{
+										"key": "Accept",
+										"value": "text/plain"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"username\": \"anim\",\n  \"password\": \"sed consectetur\",\n  \"token\": \"proident sed fugiat cupidatat\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/api/Password/Reset",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"api",
+										"Password",
+										"Reset"
+									]
+								}
+							},
+							"response": [
+								{
+									"name": "Success",
+									"originalRequest": {
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n  \"username\": \"anim\",\n  \"password\": \"sed consectetur\",\n  \"token\": \"proident sed fugiat cupidatat\"\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{baseUrl}}/api/Password/Reset",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"api",
+												"Password",
+												"Reset"
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "application/json"
+										}
+									],
+									"cookie": [],
+									"body": "{\n  \"result\": {\n    \"succeeded\": false,\n    \"errors\": [\n      \"proident amet a\",\n      \"dolor mollit dolore\"\n    ]\n  }\n}"
+								}
+							]
+						}
+					]
+				},
+				{
+					"name": "Position",
+					"item": [
+						{
+							"name": "/api/Position",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									},
+									{
+										"key": "Accept",
+										"value": "text/plain"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"latitude\": -38840683.282524854,\n  \"longitude\": 58725178.25799659,\n  \"speed\": 13990416.740812033,\n  \"heading\": 42619576.24521968,\n  \"altitude\": 24628854.496366158,\n  \"timeStamp\": \"labore\",\n  \"uuid\": \"ut eu in\",\n  \"odometer\": 35327044.106153846,\n  \"activityType\": \"tempor dolore reprehenderit dolor eiusmod\",\n  \"batteryLevel\": -69509061.93837273,\n  \"isMoving\": false,\n  \"userId\": \"esse Excepteur\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/api/Position",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"api",
+										"Position"
+									]
+								}
+							},
+							"response": [
+								{
+									"name": "Success",
+									"originalRequest": {
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n  \"latitude\": -38840683.282524854,\n  \"longitude\": 58725178.25799659,\n  \"speed\": 13990416.740812033,\n  \"heading\": 42619576.24521968,\n  \"altitude\": 24628854.496366158,\n  \"timeStamp\": \"labore\",\n  \"uuid\": \"ut eu in\",\n  \"odometer\": 35327044.106153846,\n  \"activityType\": \"tempor dolore reprehenderit dolor eiusmod\",\n  \"batteryLevel\": -69509061.93837273,\n  \"isMoving\": false,\n  \"userId\": \"esse Excepteur\"\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{baseUrl}}/api/Position",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"api",
+												"Position"
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "application/json"
+										}
+									],
+									"cookie": [],
+									"body": "{\n  \"result\": {\n    \"succeeded\": false,\n    \"errors\": [\n      \"proident amet a\",\n      \"dolor mollit dolore\"\n    ]\n  }\n}"
+								}
+							]
+						},
+						{
+							"name": "/api/Position/LatestForAdventure/:adventureId",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "text/plain"
+									}
+								],
+								"url": {
+									"raw": "{{baseUrl}}/api/Position/LatestForAdventure/:adventureId?startDate=1969-01-04T18:03:01.995Z&endDate=1969-01-04T18:03:01.995Z&latestPositionId=-25189234",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"api",
+										"Position",
+										"LatestForAdventure",
+										":adventureId"
+									],
+									"query": [
+										{
+											"key": "startDate",
+											"value": "1969-01-04T18:03:01.995Z"
+										},
+										{
+											"key": "endDate",
+											"value": "1969-01-04T18:03:01.995Z"
+										},
+										{
+											"key": "latestPositionId",
+											"value": "-25189234"
+										}
+									],
+									"variable": [
+										{
+											"key": "adventureId",
+											"value": "-25189234",
+											"description": "(Required) "
+										}
+									]
+								}
+							},
+							"response": [
+								{
+									"name": "Success",
+									"originalRequest": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "{{baseUrl}}/api/Position/LatestForAdventure/:adventureId?startDate=1969-01-04T18:03:01.995Z&endDate=1969-01-04T18:03:01.995Z&latestPositionId=-25189234",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"api",
+												"Position",
+												"LatestForAdventure",
+												":adventureId"
+											],
+											"query": [
+												{
+													"key": "startDate",
+													"value": "1969-01-04T18:03:01.995Z"
+												},
+												{
+													"key": "endDate",
+													"value": "1969-01-04T18:03:01.995Z"
+												},
+												{
+													"key": "latestPositionId",
+													"value": "-25189234"
+												}
+											],
+											"variable": [
+												{
+													"key": "adventureId",
+													"value": "-25189234",
+													"description": "(Required) "
+												}
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "application/json"
+										}
+									],
+									"cookie": [],
+									"body": "{\n  \"result\": {\n    \"succeeded\": true,\n    \"errors\": [\n      \"amet ad tempor cillum\",\n      \"ut dolor quis ad\"\n    ]\n  },\n  \"positions\": [\n    {\n      \"id\": 63709980,\n      \"participantId\": 64679717,\n      \"latitude\": 71689824.19012856,\n      \"longitude\": 8086698.151285574,\n      \"speed\": -51082739.513646126,\n      \"heading\": -2625374.2441145927,\n      \"altitude\": -54656661.078753956,\n      \"timeStamp\": \"et\",\n      \"uuid\": \"et elit Lorem sunt\",\n      \"location\": \"Lorem laboris enim tempor\",\n      \"odometer\": 90636025.23252788,\n      \"activityType\": \"ut m\",\n      \"batteryLevel\": -83343312.07577316,\n      \"isMoving\": true,\n      \"status\": \"tempor in\"\n    },\n    {\n      \"id\": 45697026,\n      \"participantId\": 56198969,\n      \"latitude\": -52485288.38290647,\n      \"longitude\": -61610310.62966278,\n      \"speed\": -99816900.29562573,\n      \"heading\": 50655130.84581888,\n      \"altitude\": 15602394.678978547,\n      \"timeStamp\": \"deserunt\",\n      \"uuid\": \"sit\",\n      \"location\": \"commod\",\n      \"odometer\": 85368907.30096993,\n      \"activityType\": \"amet in\",\n      \"batteryLevel\": -58188069.191202365,\n      \"isMoving\": false,\n      \"status\": \"esse\"\n    }\n  ]\n}"
+								}
+							]
+						},
+						{
+							"name": "/api/Position/ListForAdventure/:adventureId",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "text/plain"
+									}
+								],
+								"url": {
+									"raw": "{{baseUrl}}/api/Position/ListForAdventure/:adventureId?startDate=1969-01-04T18:03:01.995Z&endDate=1969-01-04T18:03:01.995Z",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"api",
+										"Position",
+										"ListForAdventure",
+										":adventureId"
+									],
+									"query": [
+										{
+											"key": "startDate",
+											"value": "1969-01-04T18:03:01.995Z"
+										},
+										{
+											"key": "endDate",
+											"value": "1969-01-04T18:03:01.995Z"
+										}
+									],
+									"variable": [
+										{
+											"key": "adventureId",
+											"value": "-25189234",
+											"description": "(Required) "
+										}
+									]
+								}
+							},
+							"response": [
+								{
+									"name": "Success",
+									"originalRequest": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "{{baseUrl}}/api/Position/ListForAdventure/:adventureId?startDate=1969-01-04T18:03:01.995Z&endDate=1969-01-04T18:03:01.995Z",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"api",
+												"Position",
+												"ListForAdventure",
+												":adventureId"
+											],
+											"query": [
+												{
+													"key": "startDate",
+													"value": "1969-01-04T18:03:01.995Z"
+												},
+												{
+													"key": "endDate",
+													"value": "1969-01-04T18:03:01.995Z"
+												}
+											],
+											"variable": [
+												{
+													"key": "adventureId",
+													"value": "-25189234",
+													"description": "(Required) "
+												}
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "application/json"
+										}
+									],
+									"cookie": [],
+									"body": "{\n  \"result\": {\n    \"succeeded\": true,\n    \"errors\": [\n      \"amet ad tempor cillum\",\n      \"ut dolor quis ad\"\n    ]\n  },\n  \"positions\": [\n    {\n      \"id\": 63709980,\n      \"participantId\": 64679717,\n      \"latitude\": 71689824.19012856,\n      \"longitude\": 8086698.151285574,\n      \"speed\": -51082739.513646126,\n      \"heading\": -2625374.2441145927,\n      \"altitude\": -54656661.078753956,\n      \"timeStamp\": \"et\",\n      \"uuid\": \"et elit Lorem sunt\",\n      \"location\": \"Lorem laboris enim tempor\",\n      \"odometer\": 90636025.23252788,\n      \"activityType\": \"ut m\",\n      \"batteryLevel\": -83343312.07577316,\n      \"isMoving\": true,\n      \"status\": \"tempor in\"\n    },\n    {\n      \"id\": 45697026,\n      \"participantId\": 56198969,\n      \"latitude\": -52485288.38290647,\n      \"longitude\": -61610310.62966278,\n      \"speed\": -99816900.29562573,\n      \"heading\": 50655130.84581888,\n      \"altitude\": 15602394.678978547,\n      \"timeStamp\": \"deserunt\",\n      \"uuid\": \"sit\",\n      \"location\": \"commod\",\n      \"odometer\": 85368907.30096993,\n      \"activityType\": \"amet in\",\n      \"batteryLevel\": -58188069.191202365,\n      \"isMoving\": false,\n      \"status\": \"esse\"\n    }\n  ]\n}"
+								}
+							]
+						},
+						{
+							"name": "/api/Position/GetAll",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "text/plain"
+									}
+								],
+								"url": {
+									"raw": "{{baseUrl}}/api/Position/GetAll",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"api",
+										"Position",
+										"GetAll"
+									]
+								}
+							},
+							"response": [
+								{
+									"name": "Success",
+									"originalRequest": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "{{baseUrl}}/api/Position/GetAll",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"api",
+												"Position",
+												"GetAll"
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "application/json"
+										}
+									],
+									"cookie": [],
+									"body": "[\n  {\n    \"id\": -37536196,\n    \"created\": \"1951-05-03T14:22:46.819Z\",\n    \"createdBy\": \"Duis\",\n    \"lastModified\": \"2015-10-24T10:40:51.832Z\",\n    \"lastModifiedBy\": \"eu culpa\",\n    \"latitude\": -57761922.76748224,\n    \"longitude\": 75372143.58881143,\n    \"speed\": 72990680.7342473,\n    \"heading\": -81515678.43612449,\n    \"altitude\": -24759196.739083573,\n    \"timeStamp\": \"incididunt nisi tempor et aliqua\",\n    \"uuid\": \"eu id minim\",\n    \"location\": \"non velit\",\n    \"odometer\": -41188145.37547473,\n    \"activityType\": \"ut deserunt\",\n    \"batteryLevel\": -33608445.44105284,\n    \"isMoving\": false,\n    \"participant\": {\n      \"id\": -67655110,\n      \"created\": \"1946-08-27T04:36:51.859Z\",\n      \"createdBy\": \"in dolore dolor\",\n      \"lastModified\": \"1943-02-19T00:47:34.674Z\",\n      \"lastModifiedBy\": \"exercitation minim\",\n      \"userId\": \"nulla proident\",\n      \"displayName\": \"anim veniam aliquip eiusmod\",\n      \"photo\": \"velit pariatur\",\n      \"followMe\": false,\n      \"trailColor\": \"proident\"\n    },\n    \"positionStatus\": {\n      \"id\": -10184022,\n      \"name\": \"sunt ad eu irure\"\n    }\n  },\n  {\n    \"id\": -82448253,\n    \"created\": \"2006-07-07T09:19:42.566Z\",\n    \"createdBy\": \"aliquip\",\n    \"lastModified\": \"1958-02-03T07:13:34.356Z\",\n    \"lastModifiedBy\": \"commodo consequat\",\n    \"latitude\": 53253895.83753607,\n    \"longitude\": 13931906.114771664,\n    \"speed\": 9338693.867852926,\n    \"heading\": 50129004.80796075,\n    \"altitude\": -74404545.42913687,\n    \"timeStamp\": \"sit laboris exercitation sint fugiat\",\n    \"uuid\": \"voluptate Ut\",\n    \"location\": \"ipsum\",\n    \"odometer\": -30200235.405230418,\n    \"activityType\": \"adipisicing consequat\",\n    \"batteryLevel\": 33656416.05345595,\n    \"isMoving\": false,\n    \"participant\": {\n      \"id\": 84024615,\n      \"created\": \"1973-12-16T17:36:22.050Z\",\n      \"createdBy\": \"id\",\n      \"lastModified\": \"1987-04-08T05:48:07.324Z\",\n      \"lastModifiedBy\": \"consequat et qui Excepteur dolore\",\n      \"userId\": \"ullamco labore cillum veniam\",\n      \"displayName\": \"cupidatat\",\n      \"photo\": \"id culpa\",\n      \"followMe\": false,\n      \"trailColor\": \"pariatur exercitation\"\n    },\n    \"positionStatus\": {\n      \"id\": -23455064,\n      \"name\": \"aliquip eu laboris\"\n    }\n  }\n]"
+								}
+							]
+						}
+					]
+				},
+				{
+					"name": "Token",
+					"item": [
+						{
+							"name": "/api/Token/Refresh",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									},
+									{
+										"key": "Accept",
+										"value": "text/plain"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"accessToken\": \"irure tempor reprehenderit labore incididunt\",\n  \"refreshToken\": \"nostrud velit ullamco\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/api/Token/Refresh",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"api",
+										"Token",
+										"Refresh"
+									]
+								}
+							},
+							"response": [
+								{
+									"name": "Success",
+									"originalRequest": {
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n  \"accessToken\": \"irure tempor reprehenderit labore incididunt\",\n  \"refreshToken\": \"nostrud velit ullamco\"\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{baseUrl}}/api/Token/Refresh",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"api",
+												"Token",
+												"Refresh"
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "application/json"
+										}
+									],
+									"cookie": [],
+									"body": "{\n  \"result\": {\n    \"succeeded\": true,\n    \"errors\": [\n      \"nulla\",\n      \"minim Ut sit consectetur\"\n    ]\n  },\n  \"accessToken\": \"mollit nis\",\n  \"refreshToken\": \"aute ex\"\n}"
+								}
+							]
+						},
+						{
+							"name": "/api/Token/Revoke",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "text/plain"
+									}
+								],
+								"url": {
+									"raw": "{{baseUrl}}/api/Token/Revoke",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"api",
+										"Token",
+										"Revoke"
+									]
+								}
+							},
+							"response": [
+								{
+									"name": "Success",
+									"originalRequest": {
+										"method": "POST",
+										"header": [],
+										"url": {
+											"raw": "{{baseUrl}}/api/Token/Revoke",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"api",
+												"Token",
+												"Revoke"
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "application/json"
+										}
+									],
+									"cookie": [],
+									"body": "{\n  \"result\": {\n    \"succeeded\": false,\n    \"errors\": [\n      \"proident amet a\",\n      \"dolor mollit dolore\"\n    ]\n  }\n}"
+								}
+							]
+						}
+					]
+				},
+				{
+					"name": "/api/Authentication",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "Accept",
+								"value": "text/plain"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"username\": \"susan@svwdesign.com\",\n  \"password\": \"Password@1\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/api/Authentication",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"Authentication"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Success",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"username\": \"in magna anim\",\n  \"password\": \"tempor\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/api/Authentication",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"api",
+										"Authentication"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								}
+							],
+							"cookie": [],
+							"body": "{\n  \"result\": {\n    \"succeeded\": false,\n    \"errors\": [\n      \"voluptate adipisicing\",\n      \"sunt ullamco\"\n    ]\n  },\n  \"auth\": {\n    \"userId\": \"voluptate pariatur officia\",\n    \"jwtToken\": \"dolor dolor\",\n    \"refreshToken\": \"elit veniam dolore nostrud\",\n    \"roleName\": \"\"\n  }\n}"
+						}
+					]
+				}
+			]
+		}
+	],
+	"auth": {
+		"type": "bearer",
+		"bearer": [
+			{
+				"key": "token",
+				"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjQ5Mzg1Mjk2LTEyY2EtNGZiNC1iYTU5LTAzYjUyYTE1YWZlYSIsIk5hbWUiOnsiSXNzdWVyIjoiTE9DQUwgQVVUSE9SSVRZIiwiT3JpZ2luYWxJc3N1ZXIiOiJMT0NBTCBBVVRIT1JJVFkiLCJQcm9wZXJ0aWVzIjp7fSwiU3ViamVjdCI6bnVsbCwiVHlwZSI6Imh0dHA6Ly9zY2hlbWFzLnhtbHNvYXAub3JnL3dzLzIwMDUvMDUvaWRlbnRpdHkvY2xhaW1zL25hbWUiLCJWYWx1ZSI6InN1c2FuQHN2d2Rlc2lnbi5jb20iLCJWYWx1ZVR5cGUiOiJodHRwOi8vd3d3LnczLm9yZy8yMDAxL1hNTFNjaGVtYSNzdHJpbmcifSwiR3VpZCI6eyJJc3N1ZXIiOiJMT0NBTCBBVVRIT1JJVFkiLCJPcmlnaW5hbElzc3VlciI6IkxPQ0FMIEFVVEhPUklUWSIsIlByb3BlcnRpZXMiOnt9LCJTdWJqZWN0IjpudWxsLCJUeXBlIjoianRpIiwiVmFsdWUiOiIzODQ2NTIzOC1iNmNmLTQwNmMtYmU5Yi0yMTk5ZmI5OWYzODIiLCJWYWx1ZVR5cGUiOiJodHRwOi8vd3d3LnczLm9yZy8yMDAxL1hNTFNjaGVtYSNzdHJpbmcifSwibmJmIjoxNjc1MDYwMTg3LCJleHAiOjE2NzU0OTIxODcsImlhdCI6MTY3NTA2MDE4N30.iTHu_ww3wu8U8P6198JfjtpSHpi0MfoBKOZ_glX9M9M",
+				"type": "string"
+			}
+		]
+	},
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "baseUrl",
+			"value": "https://api.sharemyadventures.co.za",
+			"type": "string"
+		}
+	]
+}
