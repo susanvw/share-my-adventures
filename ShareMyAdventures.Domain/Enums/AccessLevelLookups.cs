@@ -2,7 +2,7 @@
 
 namespace ShareMyAdventures.Domain.Enums;
 
-public sealed class AccessLevelLookups : Enumeration
+public sealed class AccessLevelLookups : BaseEnum
 {
     public static readonly AccessLevelLookups Viewer = new(nameof(Viewer), 1);
     public static readonly AccessLevelLookups Participant = new(nameof(Participant), 2);
