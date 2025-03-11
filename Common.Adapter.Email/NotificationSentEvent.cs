@@ -1,10 +1,10 @@
 ﻿using System.Net;
 
-namespace ShareMyAdventures.Application.Common.Models;
+namespace Common.Adapter.Email;
 
 public sealed record NotificationSentEvent
 {
 	public bool IsSuccessStatusCode { get; set; }
-	public string Message { get; set; } = string.Empty;
+	public string Message { get; set; } = null!;
 	public HttpStatusCode StatusCode { get; set; }
 }

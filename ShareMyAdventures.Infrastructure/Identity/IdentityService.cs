@@ -2,7 +2,7 @@
 using Microsoft.AspNetCore.Identity;
 using ShareMyAdventures.Domain.Entities.ParticipantAggregate;
 
-namespace ShareMyAdventures.Infrastructure.Services;
+namespace ShareMyAdventures.Infrastructure.Identity;
 
 public class IdentityService(
 	UserManager<Participant> userManager,

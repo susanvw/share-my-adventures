@@ -1,4 +1,5 @@
 ﻿
+using Common.Adapter.Email;
 using Microsoft.AspNetCore.Identity;
 using ShareMyAdventures.Domain.Entities.ParticipantAggregate;
 using ShareMyAdventures.Domain.Enums;

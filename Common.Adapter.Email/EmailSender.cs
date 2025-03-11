@@ -1,10 +1,8 @@
 ﻿using Microsoft.Extensions.Options;
 using SendGrid;
-using SendGrid.Helpers.Mail;
-using ShareMyAdventures.Application.Common.Extensions;
-using ShareMyAdventures.Application.Common.Models;
+using SendGrid.Helpers.Mail; 
 
-namespace ShareMyAdventures.Infrastructure.Adapters.Email;
+namespace Common.Adapter.Email;
 
 public class EmailSender(IOptions<SendGridOptions> options, ISendGridClient client) : IEmailSender
 {

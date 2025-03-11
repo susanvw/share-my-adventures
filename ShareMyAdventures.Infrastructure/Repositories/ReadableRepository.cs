@@ -15,7 +15,7 @@ namespace ShareMyAdventures.Infrastructure.Repositories;
 /// <param name="dbContext">The Entity Framework DbContext instance to use for data operations.</param>
 /// <exception cref="ArgumentNullException">Thrown when <paramref name="dbContext"/> is null.</exception>
 public sealed class ReadableRepository<TModel>(ApplicationDbContext dbContext) : IReadRepository<TModel>
-    where TModel : BaseEntity
+    where TModel : BaseEntity, IAggregateRoot
 {
     private readonly ApplicationDbContext _dbContext = dbContext ?? throw new ArgumentNullException(nameof(dbContext));
     private readonly List<(Expression IncludeExpression, List<Expression> ThenIncludeExpressions)> _includes = [];
@@ -71,7 +71,7 @@ public sealed class ReadableRepository<TModel>(ApplicationDbContext dbContext) :
 
     public IQueryable<TModel> FindAll()
     {
-        throw new NotImplementedException();
+        return _dbContext.Set<TModel>().AsNoTracking();
     }
 
     public IReadRepository<TModel> Include(Expression<Func<TModel, object>> includeExpression)
@@ -100,7 +100,7 @@ public sealed class ReadableRepository<TModel>(ApplicationDbContext dbContext) :
         return this;
     }
 
-    public IQueryable<TModel> FindOneByCustomFilter(Expression<Func<TModel, bool>> expression)
+    public IQueryable<TModel> FindByCustomFilter(Expression<Func<TModel, bool>> expression)
     {
         ArgumentNullException.ThrowIfNull(expression);
 

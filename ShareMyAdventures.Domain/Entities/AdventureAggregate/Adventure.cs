@@ -17,57 +17,57 @@ public sealed class Adventure : BaseAuditableEntity, IAggregateRoot
     /// <summary>
     /// Gets or sets the name of the adventure.
     /// </summary>
-    public string Name { get;  set; } = null!;
+    public string Name { get; private set; } = string.Empty;
 
     /// <summary>
     /// Gets or sets the start date of the adventure.
     /// </summary>
-    public DateTime StartDate { get; set; }
+    public DateTime StartDate { get; private set; }
 
     /// <summary>
     /// Gets or sets the end date of the adventure.
     /// </summary>
-    public DateTime EndDate { get; set; }
+    public DateTime EndDate { get; private set; }
 
     /// <summary>
     /// Gets or sets the ID of the meetup location.
     /// </summary>
-    public long? MeetupLocationId { get; set; }
+    public long? MeetupLocationId { get; private set; }
 
     /// <summary>
     /// Gets or sets the ID of the destination location.
     /// </summary>
-    public long? DestinationLocationId { get; set; }
+    public long? DestinationLocationId { get; private set; }
 
     /// <summary>
     /// Gets or sets the ID of the adventure type lookup.
     /// </summary>
-    public int TypeLookupId { get; set; }
+    public int TypeLookupId { get; private set; }
 
     /// <summary>
     /// Gets or sets the ID of the adventure status lookup.
     /// </summary>
-    public int StatusLookupId { get; set; }
+    public int StatusLookupId { get; private set; }
 
     /// <summary>
     /// Gets the meetup location lookup, if available.
     /// </summary>
-    public Location? MeetupLocationLookup { get; set; }
+    public Location? MeetupLocationLookup { get; private set; }
 
     /// <summary>
     /// Gets the destination location lookup, if available.
     /// </summary>
-    public Location? DestinationLocationLookup { get; set; }
+    public Location? DestinationLocationLookup { get; private set; }
 
     /// <summary>
     /// Gets the adventure type lookup.
     /// </summary>
-    public TypeLookup TypeLookup { get; set; } = null!;
+    public TypeLookup TypeLookup { get; private set; } = null!;
 
     /// <summary>
     /// Gets the adventure status lookup.
     /// </summary>
-    public StatusLookup StatusLookup { get; set; } = null!;
+    public StatusLookup StatusLookup { get; private set; } = null!;
 
     /// <summary>
     /// Gets a read-only collection of participants in the adventure.
@@ -78,6 +78,21 @@ public sealed class Adventure : BaseAuditableEntity, IAggregateRoot
     /// Gets a read-only collection of invitations for the adventure.
     /// </summary>
     public IReadOnlyCollection<AdventureInvitation> Invitations => _invitations.AsReadOnly();
+
+    // EF Core parameterless constructor (private for encapsulation)
+    private Adventure() { }
+
+    /// <summary>
+    /// Initializes a new instance of the <see cref="Adventure"/> class.
+    /// </summary>
+    public Adventure(string name, DateTime startDate, DateTime endDate, int typeLookupId, int statusLookupId)
+    {
+        Name = name ?? throw new ArgumentNullException(nameof(name));
+        StartDate = startDate;
+        EndDate = endDate;
+        TypeLookupId = typeLookupId;
+        StatusLookupId = statusLookupId;
+    }
 
     /// <summary>
     /// Updates the status of the adventure and raises a domain event if transitioning to 'InProgress'.

@@ -22,7 +22,7 @@ internal class ConfirmEmailCommandValidator : AbstractValidator<ConfirmEmailComm
 }
 
 
-public sealed class ConfirmEmailCommandHandler(UserManager<Participant> identityService) : IRequestHandler<ConfirmEmailCommand, Unit>
+public sealed class ConfirmEmailCommandHandler(IApplicationUserManager identityService) : IRequestHandler<ConfirmEmailCommand, Unit>
 {
 
     public async Task<Unit> Handle(ConfirmEmailCommand request, CancellationToken cancellationToken)

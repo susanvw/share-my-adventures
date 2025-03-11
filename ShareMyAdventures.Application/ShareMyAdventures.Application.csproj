@@ -24,6 +24,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\Common.Adapter.Email\Common.Adapter.Email.csproj" />
     <ProjectReference Include="..\ShareMyAdventures.Domain\ShareMyAdventures.Domain.csproj" />
   </ItemGroup>
 

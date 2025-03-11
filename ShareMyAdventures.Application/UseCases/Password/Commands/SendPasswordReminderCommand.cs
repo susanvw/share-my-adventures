@@ -1,4 +1,5 @@
 ﻿
+using Common.Adapter.Email;
 using Microsoft.AspNetCore.Identity;
 using ShareMyAdventures.Application.Common.Guards;
 using ShareMyAdventures.Domain.Entities.ParticipantAggregate;

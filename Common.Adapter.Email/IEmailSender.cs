@@ -1,6 +1,4 @@
-﻿using ShareMyAdventures.Application.Common.Models;
-
-namespace ShareMyAdventures.Application.Common.Interfaces;
+﻿namespace Common.Adapter.Email;
 
 public interface IEmailSender
 {

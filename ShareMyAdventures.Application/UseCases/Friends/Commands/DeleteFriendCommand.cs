@@ -10,8 +10,7 @@ public sealed record DeleteFriendCommand : IRequest<Unit>
 }
 
 public sealed class DeleteParticipantFriendCommandHandler(
-    IReadRepository<Participant> readRepository,
-    IWriteRepository<Participant> repository,
+    IApplicationUserManager manager,
     ICurrentUser currentUser
     ) : IRequestHandler<DeleteFriendCommand, Unit>
 {
