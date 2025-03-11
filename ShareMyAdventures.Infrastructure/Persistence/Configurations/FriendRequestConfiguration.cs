@@ -2,7 +2,7 @@
 
 namespace ShareMyAdventures.Infrastructure.Persistence.Configurations;
 
-internal class FriendConfiguration : IEntityTypeConfiguration<FriendRequest>
+internal class FriendRequestConfiguration : IEntityTypeConfiguration<FriendRequest>
 {
     public void Configure(EntityTypeBuilder<FriendRequest> builder)
     { 
@@ -18,10 +18,16 @@ internal class FriendConfiguration : IEntityTypeConfiguration<FriendRequest>
             .HasForeignKey(f => f.ParticipantFriendId)
             .OnDelete(DeleteBehavior.Restrict);
 
-
-
-        builder.HasOne(x => x.InvitationStatusLookup).WithMany().HasForeignKey(x => x.InvitationStatusLookupId).IsRequired();
-
+        builder.OwnsOne(e => e.InvitationStatusLookup, isl =>
+        {
+            isl.Property(i => i.Id)
+               .HasColumnName("InvitationStatusLookupId")
+               .IsRequired();
+            isl.Property(i => i.Name)
+               .HasColumnName("InvitationStatusLookupName")
+               .IsRequired()
+               .HasMaxLength(50);
+        });
 
         builder.HasIndex(x => new { x.ParticipantFriendId, x.ParticipantId }).IsUnique();
     }

@@ -25,9 +25,9 @@ public sealed class ParticipantAdventure : BaseAuditableEntity
     public long AdventureId { get; private set; }
 
     /// <summary>
-    /// Gets the ID of the access level lookup for the participant.
+    /// Gets the access level lookup for the participant.
     /// </summary>
-    public int AccessLevelLookupId { get; private set; }
+    public AccessLevelLookup AccessLevelLookup { get; private set; } = null!;
 
     /// <summary>
     /// Gets the participant entity.
@@ -39,22 +39,22 @@ public sealed class ParticipantAdventure : BaseAuditableEntity
     /// </summary>
     public Adventure Adventure { get; private set; } = null!;
 
-    /// <summary>
-    /// Gets the access level lookup for the participant.
-    /// </summary>
-    public AccessLevelLookup AccessLevelLookup { get; private set; } = null!;
-
     // EF Core parameterless constructor (private for encapsulation)
     private ParticipantAdventure() { }
 
     /// <summary>
     /// Initializes a new instance of the <see cref="ParticipantAdventure"/> class.
     /// </summary>
-    public ParticipantAdventure(string participantId, long adventureId, int accessLevelLookupId, double distance = 0)
+    /// <param name="participantId">The ID of the participant.</param>
+    /// <param name="adventureId">The ID of the associated adventure.</param>
+    /// <param name="accessLevelLookup">The access level for the participant.</param>
+    /// <param name="distance">The distance covered by the participant (default is 0).</param>
+    /// <exception cref="ArgumentNullException">Thrown if <paramref name="participantId"/> or <paramref name="accessLevelLookup"/> is null.</exception>
+    public ParticipantAdventure(string participantId, long adventureId, AccessLevelLookup accessLevelLookup, double distance = 0)
     {
         ParticipantId = participantId ?? throw new ArgumentNullException(nameof(participantId));
         AdventureId = adventureId;
-        AccessLevelLookupId = accessLevelLookupId;
+        AccessLevelLookup = accessLevelLookup ?? throw new ArgumentNullException(nameof(accessLevelLookup));
         Distance = distance;
     }
 }

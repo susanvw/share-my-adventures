@@ -1,5 +1,5 @@
-﻿using ShareMyAdventures.Domain.Entities.LocationAggregate;
-using ShareMyAdventures.Domain.Enums;
+﻿using ShareMyAdventures.Domain.Entities;
+using ShareMyAdventures.Domain.Entities.LocationAggregate;
 using ShareMyAdventures.Domain.Events;
 using ShareMyAdventures.Domain.SeedWork;
 
@@ -15,49 +15,29 @@ public sealed class Adventure : BaseAuditableEntity, IAggregateRoot
     private readonly List<AdventureInvitation> _invitations = [];
 
     /// <summary>
-    /// Gets or sets the name of the adventure.
+    /// Gets the name of the adventure.
     /// </summary>
     public string Name { get; private set; } = string.Empty;
 
     /// <summary>
-    /// Gets or sets the start date of the adventure.
+    /// Gets the start date of the adventure.
     /// </summary>
     public DateTime StartDate { get; private set; }
 
     /// <summary>
-    /// Gets or sets the end date of the adventure.
+    /// Gets the end date of the adventure.
     /// </summary>
     public DateTime EndDate { get; private set; }
 
     /// <summary>
-    /// Gets or sets the ID of the meetup location.
+    /// Gets the ID of the meetup location.
     /// </summary>
     public long? MeetupLocationId { get; private set; }
 
     /// <summary>
-    /// Gets or sets the ID of the destination location.
+    /// Gets the ID of the destination location.
     /// </summary>
     public long? DestinationLocationId { get; private set; }
-
-    /// <summary>
-    /// Gets or sets the ID of the adventure type lookup.
-    /// </summary>
-    public int TypeLookupId { get; private set; }
-
-    /// <summary>
-    /// Gets or sets the ID of the adventure status lookup.
-    /// </summary>
-    public int StatusLookupId { get; private set; }
-
-    /// <summary>
-    /// Gets the meetup location lookup, if available.
-    /// </summary>
-    public Location? MeetupLocationLookup { get; private set; }
-
-    /// <summary>
-    /// Gets the destination location lookup, if available.
-    /// </summary>
-    public Location? DestinationLocationLookup { get; private set; }
 
     /// <summary>
     /// Gets the adventure type lookup.
@@ -68,6 +48,16 @@ public sealed class Adventure : BaseAuditableEntity, IAggregateRoot
     /// Gets the adventure status lookup.
     /// </summary>
     public StatusLookup StatusLookup { get; private set; } = null!;
+
+    /// <summary>
+    /// Gets the meetup location lookup, if available.
+    /// </summary>
+    public Location? MeetupLocationLookup { get; private set; }
+
+    /// <summary>
+    /// Gets the destination location lookup, if available.
+    /// </summary>
+    public Location? DestinationLocationLookup { get; private set; }
 
     /// <summary>
     /// Gets a read-only collection of participants in the adventure.
@@ -85,26 +75,34 @@ public sealed class Adventure : BaseAuditableEntity, IAggregateRoot
     /// <summary>
     /// Initializes a new instance of the <see cref="Adventure"/> class.
     /// </summary>
-    public Adventure(string name, DateTime startDate, DateTime endDate, int typeLookupId, int statusLookupId)
+    /// <param name="name">The name of the adventure.</param>
+    /// <param name="startDate">The start date of the adventure.</param>
+    /// <param name="endDate">The end date of the adventure.</param>
+    /// <param name="typeLookup">The type of the adventure.</param>
+    /// <param name="statusLookup">The initial status of the adventure.</param>
+    /// <exception cref="ArgumentNullException">Thrown if <paramref name="name"/>, <paramref name="typeLookup"/>, or <paramref name="statusLookup"/> is null.</exception>
+    public Adventure(string name, DateTime startDate, DateTime endDate, TypeLookup typeLookup, StatusLookup statusLookup)
     {
         Name = name ?? throw new ArgumentNullException(nameof(name));
         StartDate = startDate;
         EndDate = endDate;
-        TypeLookupId = typeLookupId;
-        StatusLookupId = statusLookupId;
+        TypeLookup = typeLookup ?? throw new ArgumentNullException(nameof(typeLookup));
+        StatusLookup = statusLookup ?? throw new ArgumentNullException(nameof(statusLookup));
     }
 
     /// <summary>
     /// Updates the status of the adventure and raises a domain event if transitioning to 'InProgress'.
     /// </summary>
-    /// <param name="statusLookupId">The new status lookup ID.</param>
-    public void UpdateStatus(int statusLookupId)
+    /// <param name="statusLookup">The new status lookup.</param>
+    /// <exception cref="ArgumentNullException">Thrown if <paramref name="statusLookup"/> is null.</exception>
+    public void UpdateStatus(StatusLookup statusLookup)
     {
-        if (statusLookupId == StatusLookups.InProgress.Id && StatusLookupId != statusLookupId)
+        ArgumentNullException.ThrowIfNull(statusLookup, nameof(statusLookup));
+        if (statusLookup.Id == StatusLookup.InProgress.Id && StatusLookup.Id != statusLookup.Id)
         {
             AddDomainEvent(new AdventureStatusInProgressEvent(this));
         }
-        StatusLookupId = statusLookupId;
+        StatusLookup = statusLookup;
     }
 
     /// <summary>
@@ -114,7 +112,7 @@ public sealed class Adventure : BaseAuditableEntity, IAggregateRoot
     /// <exception cref="ArgumentNullException">Thrown if <paramref name="participant"/> is null.</exception>
     public void AddParticipant(ParticipantAdventure participant)
     {
-        ArgumentNullException.ThrowIfNull(participant);
+        ArgumentNullException.ThrowIfNull(participant, nameof(participant));
         if (!_participants.Any(x => x.ParticipantId == participant.ParticipantId))
         {
             _participants.Add(participant);
@@ -125,9 +123,10 @@ public sealed class Adventure : BaseAuditableEntity, IAggregateRoot
     /// Removes a participant from the adventure if present.
     /// </summary>
     /// <param name="participant">The participant to remove.</param>
+    /// <exception cref="ArgumentNullException">Thrown if <paramref name="participant"/> is null.</exception>
     public void RemoveParticipant(ParticipantAdventure participant)
     {
-        ArgumentNullException.ThrowIfNull(participant);
+        ArgumentNullException.ThrowIfNull(participant, nameof(participant));
         _participants.Remove(participant);
     }
 
@@ -138,7 +137,7 @@ public sealed class Adventure : BaseAuditableEntity, IAggregateRoot
     /// <exception cref="ArgumentNullException">Thrown if <paramref name="invitation"/> is null.</exception>
     public void AddInvitation(AdventureInvitation invitation)
     {
-        ArgumentNullException.ThrowIfNull(invitation);
+        ArgumentNullException.ThrowIfNull(invitation, nameof(invitation));
         if (!_invitations.Any(x => x.Id == invitation.Id))
         {
             _invitations.Add(invitation);
@@ -149,9 +148,10 @@ public sealed class Adventure : BaseAuditableEntity, IAggregateRoot
     /// Removes an invitation from the adventure if present.
     /// </summary>
     /// <param name="invitation">The invitation to remove.</param>
+    /// <exception cref="ArgumentNullException">Thrown if <paramref name="invitation"/> is null.</exception>
     public void RemoveInvitation(AdventureInvitation invitation)
     {
-        ArgumentNullException.ThrowIfNull(invitation);
+        ArgumentNullException.ThrowIfNull(invitation, nameof(invitation));
         _invitations.Remove(invitation);
     }
 
@@ -160,11 +160,12 @@ public sealed class Adventure : BaseAuditableEntity, IAggregateRoot
     /// </summary>
     /// <param name="email">The email address to search for.</param>
     /// <returns>The matching invitation if found; otherwise, null.</returns>
+    /// <exception cref="ArgumentNullException">Thrown if <paramref name="email"/> is null.</exception>
     public AdventureInvitation? FindInvitationByEmail(string email)
     {
-        ArgumentNullException.ThrowIfNull(email);
+        ArgumentNullException.ThrowIfNull(email, nameof(email));
         return _invitations.FirstOrDefault(x =>
             x.Email == email &&
-            x.InvitationStatusLookupId == InvitationStatusLookups.Pending.Id);
+            x.InvitationStatusLookup.Id == InvitationStatusLookup.Pending.Id);
     }
 }

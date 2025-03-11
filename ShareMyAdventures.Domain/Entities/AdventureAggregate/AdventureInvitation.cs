@@ -1,4 +1,4 @@
-﻿using ShareMyAdventures.Domain.Enums;
+﻿using ShareMyAdventures.Domain.Entities;
 using ShareMyAdventures.Domain.Events;
 using ShareMyAdventures.Domain.SeedWork;
 
@@ -21,16 +21,6 @@ public sealed class AdventureInvitation : BaseAuditableEntity
     public long AdventureId { get; private set; }
 
     /// <summary>
-    /// Gets the ID of the access level lookup for the invitation.
-    /// </summary>
-    public int AccessLevelLookupId { get; private set; }
-
-    /// <summary>
-    /// Gets the ID of the invitation status lookup.
-    /// </summary>
-    public int InvitationStatusLookupId { get; private set; }
-
-    /// <summary>
     /// Gets the access level lookup for the invitation.
     /// </summary>
     public AccessLevelLookup AccessLevelLookup { get; private set; } = null!;
@@ -51,24 +41,33 @@ public sealed class AdventureInvitation : BaseAuditableEntity
     /// <summary>
     /// Initializes a new instance of the <see cref="AdventureInvitation"/> class.
     /// </summary>
-    public AdventureInvitation(string email, long adventureId, int accessLevelLookupId, int invitationStatusLookupId)
+    /// <param name="email">The email address of the invited user.</param>
+    /// <param name="adventureId">The ID of the associated adventure.</param>
+    /// <param name="accessLevelLookup">The access level for the invitation.</param>
+    /// <param name="invitationStatusLookup">The initial status of the invitation.</param>
+    /// <exception cref="ArgumentNullException">Thrown if <paramref name="email"/>, <paramref name="accessLevelLookup"/>, or <paramref name="invitationStatusLookup"/> is null.</exception>
+    public AdventureInvitation(string email, long adventureId, AccessLevelLookup accessLevelLookup, InvitationStatusLookup invitationStatusLookup)
     {
         Email = email ?? throw new ArgumentNullException(nameof(email));
         AdventureId = adventureId;
-        AccessLevelLookupId = accessLevelLookupId;
-        InvitationStatusLookupId = invitationStatusLookupId;
+        AccessLevelLookup = accessLevelLookup ?? throw new ArgumentNullException(nameof(accessLevelLookup));
+        InvitationStatusLookup = invitationStatusLookup ?? throw new ArgumentNullException(nameof(invitationStatusLookup));
     }
 
     /// <summary>
     /// Updates the invitation status and raises a domain event if transitioning to 'Pending'.
     /// </summary>
-    /// <param name="statusLookupId">The new status lookup ID.</param>
-    public void UpdateStatus(int statusLookupId)
+    /// <param name="statusLookup">The new status lookup.</param>
+    /// <exception cref="ArgumentNullException">Thrown if <paramref name="statusLookup"/> is null.</exception>
+    public void UpdateStatus(InvitationStatusLookup statusLookup)
     {
-        if (statusLookupId == InvitationStatusLookups.Pending.Id && InvitationStatusLookupId != statusLookupId)
+        ArgumentNullException.ThrowIfNull(statusLookup, nameof(statusLookup));
+
+        if (statusLookup.Id == InvitationStatusLookup.Pending.Id &&
+            InvitationStatusLookup.Id != statusLookup.Id)
         {
             AddDomainEvent(new AdventureInvitationPendingEvent(this));
         }
-        InvitationStatusLookupId = statusLookupId;
+        InvitationStatusLookup = statusLookup;
     }
 }
