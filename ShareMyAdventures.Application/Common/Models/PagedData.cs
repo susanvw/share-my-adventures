@@ -121,4 +121,5 @@ public sealed class PagedData<T> where T: class
 
         return new PagedData<T>(pageNumber, pageSize, itemCount, takenItems);
     }
+
 }

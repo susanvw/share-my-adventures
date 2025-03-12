@@ -31,4 +31,10 @@ public static class ItemNotFoundExtensions
 
         return obj;
     }
+
+    public static async Task<T> ThrowIfNotFoundAsync<T>(this Task<T?> source, string id, CancellationToken cancellationToken = default)
+    {
+        var result = await source.ConfigureAwait(false);
+        return result ?? throw new NotFoundException($"{typeof(T).Name} with ID '{id}' not found.");
+    }
 }

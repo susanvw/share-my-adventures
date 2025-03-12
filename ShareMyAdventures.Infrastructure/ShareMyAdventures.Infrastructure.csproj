@@ -38,4 +38,7 @@
   <ItemGroup>
     <None Remove="Hubs\" />
   </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Identity\" />
+  </ItemGroup>
 </Project>

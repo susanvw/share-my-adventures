@@ -4,7 +4,6 @@ using Microsoft.Extensions.DependencyInjection;
 using ShareMyAdventures.Domain.Entities.AdventureAggregate;
 using ShareMyAdventures.Domain.Entities.ParticipantAggregate;
 using ShareMyAdventures.Domain.SeedWork;
-using ShareMyAdventures.Infrastructure.Identity;
 using ShareMyAdventures.Infrastructure.Persistence;
 using ShareMyAdventures.Infrastructure.Persistence.Interceptors;
 using ShareMyAdventures.Infrastructure.Repositories;
