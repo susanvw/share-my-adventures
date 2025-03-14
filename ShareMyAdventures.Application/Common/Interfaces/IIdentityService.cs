@@ -40,15 +40,6 @@ public interface IIdentityService
     /// <param name="userId">The ID of the participant.</param>
     /// <param name="cancellationToken">A token to cancel the operation.</param>
     /// <returns>The participant, or null if not found.</returns>
-    Task<Participant?> GetParticipantAsync(string userId, CancellationToken cancellationToken = default);
+    Task<Participant?> GetByIdAsync(string userId, CancellationToken cancellationToken = default);
 
-    /// <summary>
-    /// Retrieves a paged list of pending friend requests for a participant.
-    /// </summary>
-    /// <param name="participantId">The ID of the participant.</param>
-    /// <param name="pageNumber">The page number (1-based).</param>
-    /// <param name="pageSize">The number of items per page.</param>
-    /// <param name="cancellationToken">A token to cancel the operation.</param>
-    /// <returns>A paged list of friend requests.</returns>
-    Task<PagedData<FriendRequestView>> GetPendingFriendRequestsAsync(string participantId, int pageNumber, int pageSize, CancellationToken cancellationToken = default);
 }

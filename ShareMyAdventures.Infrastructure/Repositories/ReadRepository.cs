@@ -10,24 +10,19 @@ namespace ShareMyAdventures.Infrastructure.Repositories;
 /// </summary>
 /// <typeparam name="TModel">The type of the model that must inherit from <see cref="BaseEntity"/>.</typeparam>
 /// <remarks>
-/// Initializes a new instance of the <see cref="ReadableRepository{TModel}"/> class.
+/// Initializes a new instance of the <see cref="ReadRepository{TModel}"/> class.
 /// </remarks>
 /// <param name="dbContext">The Entity Framework DbContext instance to use for data operations.</param>
 /// <exception cref="ArgumentNullException">Thrown when <paramref name="dbContext"/> is null.</exception>
-public sealed class ReadableRepository<TModel>(ApplicationDbContext dbContext) : IReadRepository<TModel>
+public sealed class ReadRepository<TModel>(ApplicationDbContext dbContext) : IReadRepository<TModel>
     where TModel : BaseEntity, IAggregateRoot
 {
     private readonly ApplicationDbContext _dbContext = dbContext ?? throw new ArgumentNullException(nameof(dbContext));
-    private readonly List<(Expression IncludeExpression, List<Expression> ThenIncludeExpressions)> _includes = [];
-
-    /// <inheritdoc />
-    public async Task<IEnumerable<TModel>> FindAllAsync(CancellationToken cancellationToken = default)
+ 
+    public IQueryable<TModel> GetQueryable()
     {
-        return await _dbContext.Set<TModel>()
-            .AsNoTracking()
-            .ToListAsync(cancellationToken);
+        return dbContext.Set<TModel>().AsNoTracking();
     }
-
     /// <inheritdoc />
     public async Task<IEnumerable<TModel>> FindByCustomFilterAsync(Expression<Func<TModel, bool>> expression, CancellationToken cancellationToken = default)
     {
@@ -68,37 +63,7 @@ public sealed class ReadableRepository<TModel>(ApplicationDbContext dbContext) :
             .Where(e => ids.Contains(e.Id))
             .ToListAsync(cancellationToken);
     }
-
-    public IQueryable<TModel> FindAll()
-    {
-        return _dbContext.Set<TModel>().AsNoTracking();
-    }
-
-    public IReadRepository<TModel> Include(Expression<Func<TModel, object>> includeExpression)
-    {
-        _includes.Add((includeExpression, new List<Expression>()));
-        return this;
-    }
-
-    public Task UpdateAsync(object entity, CancellationToken cancellationToken)
-    {
-        throw new NotImplementedException();
-    }
-
-    public IReadRepository<TModel> ThenInclude<TPreviousProperty>(
-            Expression<Func<TPreviousProperty, object>> thenIncludeExpression)
-    {
-        if (_includes.Count == 0)
-        {
-            throw new InvalidOperationException("ThenInclude must follow an Include call.");
-        }
-
-        // Add ThenInclude to the last Include's list
-        var lastInclude = _includes[^1];
-        lastInclude.ThenIncludeExpressions.Add(thenIncludeExpression);
-        _includes[^1] = lastInclude; // Update the tuple
-        return this;
-    }
+    /// <inheritdoc />
 
     public IQueryable<TModel> FindByCustomFilter(Expression<Func<TModel, bool>> expression)
     {

@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using ShareMyAdventures.Application.Common.Guards;
+using ShareMyAdventures.Application.Common.Interfaces.Repositories;
 using ShareMyAdventures.Domain.Entities.ParticipantAggregate;
 using ShareMyAdventures.Domain.SeedWork;
 
@@ -23,9 +24,7 @@ internal class SendInviteCommandValidator : AbstractValidator<SendInviteCommand>
 
 public sealed class SendInviteCommandHandler(
     ICurrentUser currentUserService,
-    IReadRepository<FriendRequest> requestReadableRepository,
-    IWriteRepository<FriendRequest> requestRepository,
-    UserManager<Participant> userManager
+    IParticipantRepository participantRepository
     ) : IRequestHandler<SendInviteCommand, Result<long?>>
 {
     public async Task<Result<long?>> Handle(SendInviteCommand request, CancellationToken cancellationToken)
@@ -35,21 +34,17 @@ public sealed class SendInviteCommandHandler(
 
         var userId = currentUserService.UserId.ThrowIfNullOrWhiteSpace("Current User");
 
-        // get the participant
-        var friend = await userManager.FindByIdAsync(request.UserId);
+        // get the friend
+        var friend = await participantRepository.FindByIdAsync(request.UserId);
         friend = friend.ThrowIfNotFound(request.UserId);
 
-        var participant = await userManager.FindByIdAsync(userId);
+        // get current user
+        var participant = await participantRepository.FindByIdAsync(userId);
         participant = participant.ThrowIfNotFound(userId);
 
 
         // check if the relationship already exists
-        var existing = await requestReadableRepository
-            .FindOneByCustomFilterAsync(x =>
-            x.ParticipantFriendId == friend.Id && x.ParticipantId == participant.Id
-            ||
-            x.ParticipantFriendId == participant.Id && x.ParticipantId == friend.Id, cancellationToken);
-
+        var existing = await participantRepository.HasBeenInvitedAsync(participant, friend, cancellationToken);
 
         if (existing != null)
         {

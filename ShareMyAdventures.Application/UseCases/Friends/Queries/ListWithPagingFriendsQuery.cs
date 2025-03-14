@@ -1,6 +1,6 @@
 ﻿using ShareMyAdventures.Application.Common.Guards;
 using ShareMyAdventures.Domain.Entities.ParticipantAggregate;
-using ShareMyAdventures.Domain.SeedWork.Interfaces;
+using ShareMyAdventures.Domain.SeedWork;
 
 namespace ShareMyAdventures.Application.UseCases.Friends.Queries;
 
@@ -12,7 +12,7 @@ public sealed record ListWithPagingFriendsQuery : IRequest<Result<PagedData<Frie
 
 public sealed class ListWithPagingFriendsQueryHandler(
     ICurrentUser currentUserService,
-    IReadableRepository<FriendRequest> friendRepository) : IRequestHandler<ListWithPagingFriendsQuery, Result<PagedData<FriendView>?>>
+    IReadRepository<FriendRequest> friendRepository) : IRequestHandler<ListWithPagingFriendsQuery, Result<PagedData<FriendView>?>>
 {
 
     public async Task<Result<PagedData<FriendView>?>> Handle(ListWithPagingFriendsQuery request, CancellationToken cancellationToken)

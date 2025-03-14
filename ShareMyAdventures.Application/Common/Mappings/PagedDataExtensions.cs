@@ -1,70 +1,55 @@
 ﻿// Application Project: Mappings/PagedDataExtensions.cs
-using Microsoft.EntityFrameworkCore;
-using ShareMyAdventures.Application.Common.Models;
-using System.Linq;
+using Microsoft.EntityFrameworkCore; // Provides EF Core extension methods like CountAsync, ToListAsync
+using ShareMyAdventures.Application.Common.Models; // Contains the PagedData<T> model
 
-namespace ShareMyAdventures.Application.Common.Mappings;
+namespace ShareMyAdventures.Application.Common.Mappings; // Namespace for mapping-related extensions
 
 /// <summary>
-/// Provides extension methods for creating paginated data from collections.
+/// Provides extension methods for creating paginated data from IQueryable sources.
 /// </summary>
 public static class PagedDataExtensions
 {
     /// <summary>
-    /// Asynchronously paginates an <see cref="IQueryable{T}"/> collection into a <see cref="PagedData{T}"/>.
+    /// Asynchronously converts an IQueryable source into a PagedData object with pagination applied.
     /// </summary>
-    /// <typeparam name="T">The type of the destination data, must be a reference type.</typeparam>
-    /// <param name="source">The queryable collection to paginate.</param>
-    /// <param name="pageNumber">The page number to retrieve (1-based).</param>
+    /// <typeparam name="T">The type of the data being paginated, constrained to reference types.</typeparam>
+    /// <param name="source">The IQueryable source to paginate, typically an entity query from a repository.</param>
+    /// <param name="pageNumber">The 1-based page number to retrieve (e.g., 1 for the first page).</param>
     /// <param name="pageSize">The number of items per page.</param>
-    /// <param name="map">An optional function to map each item to a new type (e.g., DTO).</param>
-    /// <returns>A task representing the asynchronous operation, containing a <see cref="PagedData{T}"/> with the paginated data.</returns>
-    /// <exception cref="ArgumentNullException">Thrown if <paramref name="source"/> is null.</exception>
-    /// <exception cref="ArgumentOutOfRangeException">Thrown if <paramref name="pageNumber"/> or <paramref name="pageSize"/> is less than 1.</exception>
-    /// <remarks>
-    /// If the collection is empty or the page number exceeds available pages, an empty <see cref="PagedData{T}"/> is returned.
-    /// </remarks>
+    /// <param name="cancellationToken">A token to cancel the asynchronous operation if needed.</param>
+    /// <returns>A Task containing a PagedData<T> instance with the paginated results.</returns>
+    /// <exception cref="ArgumentNullException">Thrown if the source parameter is null.</exception>
+    /// <exception cref="ArgumentOutOfRangeException">Thrown if pageNumber or pageSize is less than 1.</exception>
     public static async Task<PagedData<T>> ToPagedDataAsync<T>(
-        this IQueryable<T> source,
+        this IQueryable<T> source, // Extension method applied to IQueryable<T>
         int pageNumber,
-        int pageSize)
-        where T : class
+        int pageSize,
+        CancellationToken cancellationToken = default) where T : class
     {
-        if (source == null) 
-            throw new ArgumentNullException(nameof(source), "Source collection cannot be null");
-        if (pageNumber < 1) 
-            throw new ArgumentOutOfRangeException(nameof(pageNumber), "Page number must be 1 or greater");
-        if (pageSize < 1) 
-            throw new ArgumentOutOfRangeException(nameof(pageSize), "Page size must be 1 or greater");
+        // Validate that the source query is not null to prevent null reference exceptions
+        if (source == null) throw new ArgumentNullException(nameof(source), "The source query cannot be null.");
 
-        var pagedData = await PagedData<T>.CreateAsync(source.AsNoTracking(), pageNumber, pageSize);
+        // Ensure pageNumber is valid (1 or greater) since negative or zero pages are illogical
+        if (pageNumber < 1) throw new ArgumentOutOfRangeException(nameof(pageNumber), "Page number must be 1 or greater.");
 
-            return new PagedData<T>(
-                pagedData.PageNo,
-                pagedData.PageSize,
-                pagedData.ItemCount,
-                source);
-    }
+        // Ensure pageSize is valid (1 or greater) to avoid invalid pagination requests
+        if (pageSize < 1) throw new ArgumentOutOfRangeException(nameof(pageSize), "Page size must be 1 or greater.");
 
-    public static PagedData<T> ToPagedData<T>(
-       this IEnumerable<T> source,
-       int pageNumber,
-       int pageSize)
-       where T : class
-    {
-        if (source == null)
-            throw new ArgumentNullException(nameof(source), "Source collection cannot be null");
-        if (pageNumber < 1)
-            throw new ArgumentOutOfRangeException(nameof(pageNumber), "Page number must be 1 or greater");
-        if (pageSize < 1)
-            throw new ArgumentOutOfRangeException(nameof(pageSize), "Page size must be 1 or greater");
+        // Get the total count of items in the source query before applying pagination
+        // This executes a COUNT(*) SQL query to determine the total number of records
+        var count = await source.CountAsync(cancellationToken);
 
-        var pagedData = PagedData<T>.Create(source, pageNumber, pageSize);
+        // Apply pagination to the source query:
+        // - Skip: Calculates the number of items to skip based on the page number (0-based offset)
+        // - Take: Limits the result set to the specified page size, translated to SQL (e.g., TOP or FETCH)
+        // - ToListAsync: Executes the query and materializes the results into a List<T>
+        var data = await source
+            .Skip((pageNumber - 1) * pageSize) // E.g., page 2 with size 10 skips 10 items
+            .Take(pageSize) // Takes the next 'pageSize' items efficiently at the database level
+            .ToListAsync(cancellationToken); // Converts the IQueryable to a materialized List<T>
 
-        return new PagedData<T>(
-            pagedData.PageNo,
-            pagedData.PageSize,
-            pagedData.ItemCount,
-            source);
+        // Construct and return a PagedData<T> instance with the paginated results
+        // Includes page number, page size, total item count, and the current page's data
+        return new PagedData<T>(pageNumber, pageSize, count, data);
     }
 }

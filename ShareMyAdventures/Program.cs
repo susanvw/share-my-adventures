@@ -7,7 +7,6 @@ using ShareMyAdventures;
 using ShareMyAdventures.Application;
 using ShareMyAdventures.Application.Common.Middleware;
 using ShareMyAdventures.Infrastructure;
-using ShareMyAdventures.Infrastructure.Adapters;
 using ShareMyAdventures.Infrastructure.Persistence;
 using ShareMyAdventures.Infrastructure.SignalR;
 using System.Diagnostics;

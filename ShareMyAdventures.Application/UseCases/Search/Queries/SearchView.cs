@@ -4,19 +4,21 @@ namespace ShareMyAdventures.Application.UseCases.Search.Queries;
 
 public sealed record SearchView
 {
-    public string Id { get; internal set; } = string.Empty;
-    public string DisplayName { get; internal set; } = string.Empty;
-    public string Email { get; internal set; } = string.Empty;
-    public byte[]? Photo { get; internal set; }
+    public required string Id { get;  set; } 
+    public required string DisplayName { get;  set; }
+    public required string Email { get;  set; } 
+    public byte[]? Photo { get; set; }
 
-    internal static SearchView MapFrom(FriendRequest entity, string userId)
+    internal static readonly Func<Participant, SearchView> MapFrom = (entity) =>
     {
-        // check if the current user is the friend or the participant
-        var user = entity.Participant.Id == userId ? entity.ParticipantFriend : entity.Participant;
+        ArgumentNullException.ThrowIfNull(entity);
 
         return new SearchView
         {
-            DisplayName = user.DisplayName,
+            Id = entity.Id,
+            DisplayName = entity.DisplayName,
+            Email = entity.Email!,
+            //Photo = entity.Photo
         };
-    }
+    };
 }

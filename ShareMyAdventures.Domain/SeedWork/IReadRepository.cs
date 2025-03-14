@@ -11,23 +11,7 @@ namespace ShareMyAdventures.Domain.SeedWork;
 public interface IReadRepository<TModel> 
     where TModel : BaseEntity, IAggregateRoot
 {
-    /// <summary>
-    /// Specifies a navigation property to include in the query results.
-    /// Useful for eagerly loading related data in an ORM context.
-    /// </summary>
-    /// <param name="includeExpression">An expression specifying the navigation property to include.</param>
-    /// <returns>The current repository instance for method chaining.</returns>
-    IReadRepository<TModel> Include(Expression<Func<TModel, object>> includeExpression);
-
-    /// <summary>
-    /// Specifies a related navigation property to include after a previous <see cref="Include"/> call.
-    /// Enables deeper eager loading of nested relationships.
-    /// </summary>
-    /// <typeparam name="TPreviousProperty">The type of the previously included navigation property.</typeparam>
-    /// <param name="thenIncludeExpression">An expression specifying the related navigation property to include.</param>
-    /// <returns>The current repository instance for method chaining.</returns>
-    IReadRepository<TModel> ThenInclude<TPreviousProperty>(
-        Expression<Func<TPreviousProperty, object>> thenIncludeExpression);
+    IQueryable<TModel> GetQueryable();
 
     /// <summary>
     /// Retrieves a queryable collection of records matching the specified filter.

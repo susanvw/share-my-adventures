@@ -1,9 +1,8 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using ShareMyAdventures.Domain.Entities.AdventureAggregate;
+using ShareMyAdventures.Application.Common.Interfaces.Repositories;
 using ShareMyAdventures.Domain.Entities.ParticipantAggregate;
-using ShareMyAdventures.Domain.SeedWork;
 using ShareMyAdventures.Infrastructure.Persistence;
 using ShareMyAdventures.Infrastructure.Persistence.Interceptors;
 using ShareMyAdventures.Infrastructure.Repositories;
@@ -53,7 +52,6 @@ public static class ConfigureServices
 
         services.AddIdentity<Participant, IdentityRole>()
     .AddEntityFrameworkStores<ApplicationDbContext>()
-    .AddUserManager<ApplicationUserManager>() // Add ApplicationUserManager
     .AddDefaultTokenProviders(); 
 
         var section = configuration.GetSection(nameof(JwtOptions));
@@ -63,10 +61,8 @@ public static class ConfigureServices
         services.AddTransient<IIdentityService, IdentityService>();
         services.AddTransient<ITokenService, TokenService>();
 
-        services.AddScoped<IReadRepository<Adventure>, ReadableRepository<Adventure>>();
-
-
-        services.AddScoped<IWriteRepository<Adventure>, WriteRepository<Adventure>>();
+        services.AddScoped<IAdventureRepository, AdventureRepository>();
+        services.AddScoped<IParticipantRepository, ParticipantRepository>();
 
         services.AddScoped<ApplicationDbContextInitializer>();
 

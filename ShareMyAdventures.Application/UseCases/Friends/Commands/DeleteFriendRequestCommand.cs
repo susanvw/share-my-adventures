@@ -1,5 +1,6 @@
 ﻿using FluentValidation.Results;
 using ShareMyAdventures.Application.Common.Guards;
+using ShareMyAdventures.Application.Common.Interfaces.Repositories;
 using ShareMyAdventures.Domain.Entities.ParticipantAggregate;
 using ShareMyAdventures.Domain.SeedWork;
 
@@ -11,7 +12,7 @@ public sealed record DeleteFriendRequestCommand : IRequest<Unit>
 }
 
 public sealed class DeleteFriendRequestCommandHandler(
-    IApplicationUserManager manager,
+    IParticipantRepository manager,
     ICurrentUser currentUser
     ) : IRequestHandler<DeleteFriendRequestCommand, Unit>
 {

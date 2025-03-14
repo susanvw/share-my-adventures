@@ -1,6 +1,7 @@
 ﻿using FluentValidation.Results;
 using Microsoft.AspNetCore.Identity;
 using ShareMyAdventures.Application.Common.Guards;
+using ShareMyAdventures.Application.Common.Interfaces.Repositories;
 using ShareMyAdventures.Domain.Entities.ParticipantAggregate;
 using ValidationException = ShareMyAdventures.Application.Common.Exceptions.ValidationException;
 
@@ -22,7 +23,7 @@ internal class ConfirmEmailCommandValidator : AbstractValidator<ConfirmEmailComm
 }
 
 
-public sealed class ConfirmEmailCommandHandler(IApplicationUserManager identityService) : IRequestHandler<ConfirmEmailCommand, Unit>
+public sealed class ConfirmEmailCommandHandler(IParticipantRepository identityService) : IRequestHandler<ConfirmEmailCommand, Unit>
 {
 
     public async Task<Unit> Handle(ConfirmEmailCommand request, CancellationToken cancellationToken)
