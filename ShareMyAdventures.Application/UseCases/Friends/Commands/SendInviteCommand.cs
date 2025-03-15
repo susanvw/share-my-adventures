@@ -1,8 +1,6 @@
-﻿using Microsoft.AspNetCore.Identity;
-using ShareMyAdventures.Application.Common.Guards;
+﻿using ShareMyAdventures.Application.Common.Guards;
 using ShareMyAdventures.Application.Common.Interfaces.Repositories;
 using ShareMyAdventures.Domain.Entities.ParticipantAggregate;
-using ShareMyAdventures.Domain.SeedWork;
 
 namespace ShareMyAdventures.Application.UseCases.Friends.Commands;
 
@@ -35,30 +33,27 @@ public sealed class SendInviteCommandHandler(
         var userId = currentUserService.UserId.ThrowIfNullOrWhiteSpace("Current User");
 
         // get the friend
-        var friend = await participantRepository.FindByIdAsync(request.UserId);
+        var friend = await participantRepository.GetByIdAsync(request.UserId);
         friend = friend.ThrowIfNotFound(request.UserId);
 
         // get current user
-        var participant = await participantRepository.FindByIdAsync(userId);
+        var participant = await participantRepository.GetByIdAsync(userId);
         participant = participant.ThrowIfNotFound(userId);
 
 
         // check if the relationship already exists
         var existing = await participantRepository.HasBeenInvitedAsync(participant, friend, cancellationToken);
 
-        if (existing != null)
+        if (existing)
         {
             return Result<long?>.Failure(["Cannot invite the same person"]);
         }
 
-        var entity = new FriendRequest
-        {
-            InvitationStatusLookupId = Domain.Enums.InvitationStatusLookups.Pending.Id,
-            ParticipantFriend = friend,
-            Participant = participant
-        };
-        await requestRepository.AddAsync(entity, cancellationToken);
-        await requestRepository.SaveChangesAsync(cancellationToken);
+        var entity = new FriendRequest(participant.Id, friend.Id, InvitationStatusLookup.Pending);
+
+        participant.AddFriendRequest(entity);
+
+        await participantRepository.UpdateAsync(entity, cancellationToken);
 
         return Result<long?>.Success(entity.Id);
 

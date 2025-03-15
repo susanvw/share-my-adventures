@@ -1,7 +1,6 @@
 ﻿using ShareMyAdventures.Application.Common.Guards;
-using ShareMyAdventures.Domain.Entities.ParticipantAggregate;
-using ShareMyAdventures.Domain.Enums;
-using ShareMyAdventures.Domain.SeedWork;
+using ShareMyAdventures.Application.Common.Interfaces.Repositories;
+using ShareMyAdventures.Domain.Entities.AdventureAggregate;
 
 namespace ShareMyAdventures.Application.UseCases.Friends.Commands;
 
@@ -24,7 +23,7 @@ internal class UpdateFriendRequestCommandValidator : AbstractValidator<UpdateFri
 
     private static bool CheckInvitationStatusIdExist(int id)
     {
-        var statuses = BaseEnum.GetAll<AccessLevelLookups>();
+        var statuses = AccessLevelLookup.All;
 
         if (statuses.Any(x => x.Id == id)) return true;
 
@@ -32,20 +31,25 @@ internal class UpdateFriendRequestCommandValidator : AbstractValidator<UpdateFri
     }
 }
 
-public class UpdateFriendRequestCommandHandler(
-    IReadRepository<FriendRequest> readableRepository,
-    IWriteRepository<FriendRequest> repository) : IRequestHandler<UpdateFriendRequestCommand, Unit>
+public class UpdateFriendRequestCommandHandler(IParticipantRepository participantRepository, ICurrentUser currentUser) : IRequestHandler<UpdateFriendRequestCommand, Unit>
 {
     public async Task<Unit> Handle(UpdateFriendRequestCommand request, CancellationToken cancellationToken)
     {
-        var entity = await readableRepository.FindOneByIdAsync(request.Id, cancellationToken);
+        var currentUserId = currentUser.UserId.ThrowIfNullOrWhiteSpace("Current User");
+
+        var entity = await participantRepository.GetByIdAsync(currentUserId, cancellationToken);
         entity = entity.ThrowIfNotFound(request.Id);
 
-        entity.InvitationStatusLookupId = request.InvitationStatusLookupId;
+        var friendRequest = entity.FindFriendRequest(request.Id);
+        friendRequest = friendRequest.ThrowIfNotFound(request.Id);
 
-        await repository.UpdateAsync(entity, cancellationToken);
-        await repository.SaveChangesAsync(cancellationToken)
-;
+        var status = InvitationStatusLookup.All.FirstOrDefault(x => x.Id == request.InvitationStatusLookupId);
+        status = status.ThrowIfNotFound(request.InvitationStatusLookupId);
+
+        friendRequest.UpdateStatus(status);
+
+        await participantRepository.UpdateAsync(entity, cancellationToken);
+
         return Unit.Value;
     }
 }

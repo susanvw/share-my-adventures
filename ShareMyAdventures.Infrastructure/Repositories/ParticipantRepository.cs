@@ -6,7 +6,12 @@ namespace ShareMyAdventures.Infrastructure.Repositories;
 
 class ParticipantRepository(ApplicationDbContext context) : IParticipantRepository
 {
-    public async Task<bool> HasBeenInvitedAsync(Participant participant, Participant friend, CancellationToken cancellationToken)
+    public Task<Participant?> GetByIdAsync(string userId, CancellationToken cancellationToken = default)
+    {
+        return context.Participants.FirstOrDefaultAsync(x => x.Id == userId, cancellationToken);
+    }
+
+    public async Task<bool> HasBeenInvitedAsync(Participant participant, Participant friend, CancellationToken cancellationToken  = default)
     {
         return await context
             .Users
@@ -38,5 +43,11 @@ class ParticipantRepository(ApplicationDbContext context) : IParticipantReposito
         return context.Participants
        .Where(x => x.DisplayName.Contains(filter) || x.Email!.Contains(filter))
        .OrderBy(x => x.DisplayName);
+    }
+
+    public async Task UpdateAsync(Participant entity, CancellationToken cancellationToken = default)
+    {
+        context.Participants.Update(entity);
+        await context.SaveChangesAsync(cancellationToken);
     }
 }
