@@ -22,7 +22,7 @@ public sealed class ListWithPagingAdventuresByStatusIdQueryHandler(
         var userId = currentUserService.UserId.ThrowIfNullOrEmpty("Current User");
 
         var paged = await adventureRepository
-            .ListByStatusId(request.StatusLookupId, userId)
+            .FindByStatus(request.StatusLookupId, userId)
             .Select(x => AdventureView.MapFrom(x))
             .ToPagedDataAsync(request.PageNumber, request.PageSize, cancellationToken); 
 

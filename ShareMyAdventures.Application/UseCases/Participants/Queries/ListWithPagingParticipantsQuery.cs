@@ -36,7 +36,7 @@ public class ListParticipantsQueryHandler(
             .Select(x => x.Participant)
             .OrderBy(x => x.DisplayName)
             .Select(x => ParticipantView.MapFrom(x))
-            .ToPagedDataAsync(request.PageNumber, request.PageSize);
+            .ToPagedDataAsync(request.PageNumber, request.PageSize, cancellationToken: cancellationToken);
 
         return Result<PagedData<ParticipantView>?>.Success(query);
     }

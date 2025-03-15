@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using ShareMyAdventures.Application.Common.Guards;
 using ShareMyAdventures.Application.Common.Interfaces.Repositories;
 using ShareMyAdventures.Domain.Entities.ParticipantAggregate;
 using ShareMyAdventures.Infrastructure.Persistence;
@@ -18,8 +19,11 @@ public static class ConfigureServices
 
         // Access the database connection string and replace the placeholder with the secret
         var dbPassword = configuration["DbPassword"];
+        var connection = configuration.GetConnectionString("AdventureConnection").ThrowIfNullOrWhiteSpace("Connection String");
+
+
         // connection string
-        var dbConnectionString = configuration.GetConnectionString("AdventureConnection").Replace("{DbPassword}", dbPassword);
+        var dbConnectionString = connection.Replace("{DbPassword}", dbPassword);
 
 
         services.AddDbContext<ApplicationDbContext>(options =>

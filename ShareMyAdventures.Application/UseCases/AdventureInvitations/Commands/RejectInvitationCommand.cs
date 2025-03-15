@@ -27,7 +27,9 @@ public sealed class RejectInvitationCommandHandler(
         var validator = new RejectInvitationCommandValidator();
         await validator.ValidateAndThrowAsync(request, cancellationToken);
 
-        var adventure = await adventureRepository.GetByIdAsync(request.AdventureId, cancellationToken);
+        var adventure = await adventureRepository
+            .IncludeInvitations()
+            .GetByIdAsync(request.AdventureId, cancellationToken: cancellationToken);
         adventure = adventure.ThrowIfNotFound(request.AdventureId);
 
         var invitation = adventure.GetInvitation(request.Id);

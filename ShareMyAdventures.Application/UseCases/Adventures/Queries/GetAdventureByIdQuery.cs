@@ -21,7 +21,7 @@ public sealed class GetAdventureQueryHandler(
 
 
         var entity = await adventureRepository
-            .FindForId(request.Id, userId)
+            .FindForParticipant(request.Id, userId)
             .Select(x => AdventureView.MapFrom(x))
             .FirstOrDefaultAsync(cancellationToken);
 

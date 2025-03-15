@@ -6,13 +6,13 @@ namespace ShareMyAdventures.Application.Common.Interfaces.Repositories;
 public interface IAdventureRepository
 {
     Task<long?> AddAsync(Adventure entity, CancellationToken cancellationToken = default);
-    IQueryable<Adventure> FindForId(long id, string userId);
-    IQueryable<Adventure?> FindForParticipant(long id, string participantId);
+    IQueryable<Adventure> FindForParticipant(long id, string participantId);
     Task<Adventure?> GetByIdAsync(long id, CancellationToken cancellationToken = default);
-    Task<bool> HasActiveAdventuresAsync(int id, string userId, CancellationToken cancellationToken = default);
-    IQueryable<Adventure> ListByStatusId(int statusLookupId, string userId);
-    IQueryable<Position> ListPositions(long adventureId, DateTime fromDate);
+    Task<bool> HasActiveAdventuresAsync(long id, string userId, CancellationToken cancellationToken = default);
+    IAdventureRepository IncludeInvitations();
     Task RemoveAsync(Adventure entity, CancellationToken cancellationToken = default);
     IQueryable<Adventure> SearchParticipants(long adventureId, string? filter);
     Task UpdateAsync(Adventure entity, CancellationToken cancellationToken = default);
+    IQueryable<Adventure> FindByStatus(int statusLookupId, string userId); // New method to find by status
+    IQueryable<Position> ListPositions(long adventureId, DateTime fromDate); // List positions for an adventure
 }
