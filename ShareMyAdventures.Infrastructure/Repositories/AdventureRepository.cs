@@ -1,4 +1,5 @@
-﻿using ShareMyAdventures.Application.Common.Interfaces.Repositories;
+﻿using Microsoft.EntityFrameworkCore.Scaffolding.Metadata;
+using ShareMyAdventures.Application.Common.Interfaces.Repositories;
 using ShareMyAdventures.Domain.Entities.AdventureAggregate;
 using ShareMyAdventures.Infrastructure.Persistence;
 
@@ -31,6 +32,18 @@ public class AdventureRepository(ApplicationDbContext context) : IAdventureRepos
     public async Task<Adventure?> GetByIdAsync(long id, CancellationToken cancellationToken = default)
     {
         return await context.Adventures.FindAsync([id], cancellationToken: cancellationToken);
+    }
+
+    public Task<bool> HasActiveAdventuresAsync(int id, string userId, CancellationToken cancellationToken = default)
+    {
+        return context
+            .Adventures
+            .AnyAsync(x =>
+                x.Id == id &&
+                x.StatusLookup == StatusLookup.InProgress &&
+                x.Participants.Any(x => x.ParticipantId == userId)
+             ,
+            cancellationToken);
     }
 
     public async Task RemoveAsync(Adventure entity, CancellationToken cancellationToken = default)

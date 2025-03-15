@@ -89,14 +89,12 @@ public sealed class Participant : IdentityUser, IAggregateRoot
     /// Updates the participant’s profile details.
     /// </summary>
     /// <param name="displayName">The new display name.</param>
-    /// <param name="photo">The new photo URL or path, if provided.</param>
     /// <param name="followMe">Whether others can follow this participant’s position.</param>
     /// <param name="trailColor">The new trail color, if specified.</param>
     /// <exception cref="ArgumentNullException">Thrown if <paramref name="displayName"/> is null.</exception>
-    public void UpdateProfile(string displayName, string? photo = null, bool followMe = false, string? trailColor = null)
+    public void UpdateProfile(string displayName, bool followMe = false, string? trailColor = null)
     {
         DisplayName = displayName ?? throw new ArgumentNullException(nameof(displayName));
-        Photo = photo;
         FollowMe = followMe;
         TrailColor = trailColor;
     }
@@ -140,5 +138,16 @@ public sealed class Participant : IdentityUser, IAggregateRoot
     {
         ArgumentNullException.ThrowIfNull(entity);
         _positions.Add(entity);
+    }
+
+    public void SetProfilePhoto(string photo)
+    {
+        ArgumentException.ThrowIfNullOrWhiteSpace(photo);
+        Photo = photo.Trim();
+    }
+
+    public void ToggleFollowMe(bool value)
+    {
+        FollowMe = value;
     }
 }

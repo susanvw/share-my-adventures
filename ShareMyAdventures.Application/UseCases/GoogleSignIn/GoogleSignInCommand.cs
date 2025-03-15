@@ -1,5 +1,4 @@
 ﻿using Microsoft.AspNetCore.Identity;
-using Microsoft.Extensions.Options;
 using ShareMyAdventures.Application.UseCases.Authentication.Commands;
 using ShareMyAdventures.Domain.Entities.ParticipantAggregate;
 
@@ -7,11 +6,11 @@ namespace ShareMyAdventures.Application.UseCases.GoogleSignIn;
 
 public sealed record GoogleSignInCommand : IRequest<Result<AuthView?>>
 {
-    public string Email { get; init; } = string.Empty;
+    public string Email { get; init; } = null!;
     public string? Name { get; init; }
     public string? FamilyName { get; init; }
     public string? GivenName { get; init; }
-    public string Id { get; init; } = string.Empty;
+    public string Id { get; init; } = null!;
     public string? ProfileUrl { get; init; }
 } 
 
@@ -58,8 +57,12 @@ public sealed class GoogleSignInCommandHandler(
         }
         else
         {
-            existing.DisplayName = displayName;
-            existing.Photo = request.ProfileUrl;
+            existing.UpdateProfile(displayName);
+
+            if (request.ProfileUrl != null)
+            {
+                existing.SetProfilePhoto(request.ProfileUrl);
+            }
         }
 
         if (existing == null)

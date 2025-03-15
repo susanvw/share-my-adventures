@@ -5,24 +5,24 @@ namespace ShareMyAdventures.Application.UseCases.Adventures.Queries;
 
 public sealed class ParticipantAccessView
 {
-    public string Id { get; internal set; } = null!;
-    public string UserName { get; set; } = null!;
-    public string DisplayName { get; internal set; } = null!;
-    public string? Photo { get; internal set; }
-    public long AccessLevelLookupId { get; internal set; }
-    public string AccessLevelLookupName { get; internal set; } = null!;
-  
+    public required string Id { get;  set; } 
+    public required string UserName { get; set; }
+    public required string DisplayName { get; set; }
+    public string? Photo { get;  set; }
+    public required long AccessLevelLookupId { get;  set; }
+    public required string AccessLevelLookupName { get;  set; }
 
-    internal static ParticipantAccessView MapFrom( Participant user, ParticipantAdventure adventure)
-    { 
+
+    internal static readonly Func<Participant, ParticipantAdventure, ParticipantAccessView> MapFrom = (user, adventure) =>
+    {
         return new ParticipantAccessView
         {
             DisplayName = user.DisplayName,
             Id = user.Id,
             Photo = user.Photo,
             UserName = user.UserName!,
-            AccessLevelLookupId = adventure.AccessLevelLookupId,
+            AccessLevelLookupId = adventure.AccessLevelLookup.Id,
             AccessLevelLookupName = adventure.AccessLevelLookup?.Name ?? string.Empty
         };
-    }
+    };
 }

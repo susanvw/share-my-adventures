@@ -38,39 +38,25 @@ public sealed class AcceptInvitationCommandHandler(
     {
         var entity = await
             adventureReadableRepository
-            .Include(x => x.Invitations)
             .FindOneByIdAsync(request.AdventureId, cancellationToken);
-
         entity = entity.ThrowIfNotFound(request.AdventureId);
 
-        var invitation = entity.FindByEmail(request.Email);
+        var invitation = entity.FindInvitationByEmail(request.Email);
         invitation = invitation.ThrowIfNotFound(request.Email);
 
-        invitation.InvitationStatusLookupId = Domain.Enums.InvitationStatusLookups.Accepted.Id;
+        invitation.UpdateStatus(InvitationStatusLookup.Accepted);
 
         // check if user exist. If not create user
         var user = await userManager.FindByEmailAsync(request.Email);
 
         if (user == null)
         {
-            user = new Participant
-            {
-                Email = request.Email,
-                DisplayName = request.Email,
-                UserName = request.Email,
-            };
-
+            user = new Participant(request.Email, request.Email);
             await userManager.CreateAsync(user, "Password@1");
         }
 
-        var adventureParticipant = new ParticipantAdventure
-        {
-            Adventure = entity,
-            AccessLevelLookupId = invitation.AccessLevelLookupId,
-            Participant = user
-        };
-
-        entity.Participants.Add(adventureParticipant);
+        var adventureParticipant = new ParticipantAdventure(user.Id, invitation.AccessLevelLookup);
+        entity.AddParticipant(adventureParticipant!);
 
         await adventureRepository.UpdateAsync(entity, cancellationToken);
         await adventureRepository.SaveChangesAsync(cancellationToken);

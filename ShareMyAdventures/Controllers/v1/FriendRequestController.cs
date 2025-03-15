@@ -34,7 +34,7 @@ public class FriendRequestController : ApiControllerBase
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     public async Task<ActionResult> Accept([FromRoute] long id)
     {
-        var command = new UpdateFriendRequestCommand { Id = id, InvitationStatusLookupId = Domain.Enums.InvitationStatusLookups.Accepted.Id };
+        var command = new UpdateFriendRequestCommand { Id = id, InvitationStatusLookupId = InvitationStatusLookup.Accepted.Id };
         await base.ExecuteAsync<UpdateFriendRequestCommand, Unit>(command);
 
         return NoContent();
@@ -46,7 +46,7 @@ public class FriendRequestController : ApiControllerBase
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     public async Task<ActionResult> Reject([FromRoute] long id)
     {
-        var command = new UpdateFriendRequestCommand { Id = id, InvitationStatusLookupId = Domain.Enums.InvitationStatusLookups.Rejected.Id };
+        var command = new UpdateFriendRequestCommand { Id = id, InvitationStatusLookupId = InvitationStatusLookup.Rejected.Id };
         await base.ExecuteAsync<UpdateFriendRequestCommand, Unit>(command);
 
         return NoContent();

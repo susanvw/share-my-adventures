@@ -8,9 +8,9 @@ namespace ShareMyAdventures.Application.UseCases.Accounts.Command;
 
 public sealed record RegisterAccountCommand : IRequest<Result<string?>>
 {
-    public string Username { get; init; } = string.Empty;
-    public string Password { get; init; } = string.Empty;
-    public string CallbackUrl { get; init; } = string.Empty;
+    public string Username { get; init; } = null!;
+    public string Password { get; init; } = null!;
+    public string CallbackUrl { get; init; } = null!;
 }
 
 internal sealed class RegisterAccountCommandValidator : AbstractValidator<RegisterAccountCommand>
@@ -33,12 +33,7 @@ public sealed class RegisterAccountCommandHandler(
         var validator = new RegisterAccountCommandValidator();
         await validator.ValidateAndThrowAsync(request, cancellationToken);
 
-        var user = new Participant
-        {
-            UserName = request.Username,
-            Email = request.Username,
-            DisplayName = request.Username,
-        };
+        var user = new Participant(request.Username, request.Username);
 
         var createResult = await identityService.CreateAsync(user, request.Password);
 
@@ -47,7 +42,7 @@ public sealed class RegisterAccountCommandHandler(
             var token = await identityService.GenerateEmailConfirmationTokenAsync(user);
             var content = EmailExtensions.GetConfirmAccountEmail(user, token, request.CallbackUrl);
 
-            var sender = await emailSender.SendHtmlAsync(user.Email, "Confirm Email.", content, cancellationToken);
+            var sender = await emailSender.SendHtmlAsync(user.Email!, "Confirm Email.", content, cancellationToken);
 
             if (!sender.IsSuccessStatusCode)
             {

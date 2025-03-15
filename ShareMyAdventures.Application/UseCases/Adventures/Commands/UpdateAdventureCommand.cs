@@ -1,7 +1,6 @@
 ﻿using ShareMyAdventures.Application.Common.Guards;
-using ShareMyAdventures.Application.Common.Interfaces;
+using ShareMyAdventures.Application.Common.Interfaces.Repositories;
 using ShareMyAdventures.Domain.Entities.AdventureAggregate;
-using ShareMyAdventures.Domain.SeedWork;
 
 namespace ShareMyAdventures.Application.UseCases.Adventures.Commands;
 
@@ -47,8 +46,7 @@ internal sealed class UpdateAdventureCommandValidator : AbstractValidator<Update
 }
 
 public sealed class UpdateAdventureCommandHandler(
-    IReadRepository<Adventure> adventureReadableRepository,
-    IWriteRepository<Adventure> adventureRepository,
+    IAdventureRepository adventureRepository,
     ICurrentUser currentUserService) 
     : IRequestHandler<UpdateAdventureCommand, Unit>
 {
@@ -74,8 +72,7 @@ public sealed class UpdateAdventureCommandHandler(
         entity.MeetupLocationId = request.MeetupLocationId;
         entity.TypeLookupId = request.TypeLookupId;
 
-        await adventureRepository.UpdateAsync(entity, cancellationToken);
-        await adventureRepository.SaveChangesAsync(cancellationToken);
+        await adventureRepository.UpdateAsync(entity, cancellationToken); 
 
         return Unit.Value;
     }

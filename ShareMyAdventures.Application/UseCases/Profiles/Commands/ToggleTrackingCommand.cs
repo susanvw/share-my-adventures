@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using ShareMyAdventures.Application.Common.Guards;
 using ShareMyAdventures.Application.Common.Interfaces;
+using ShareMyAdventures.Application.Common.Interfaces.Repositories;
 using ShareMyAdventures.Domain.Entities.ParticipantAggregate;
 
 namespace ShareMyAdventures.Application.UseCases.Profiles.Commands;
@@ -36,18 +37,19 @@ internal sealed class ToggleTrackingCommandValidator : AbstractValidator<ToggleT
 }
 
 
-public sealed class ToggleTrackingCommandHandler(UserManager<Participant> userManager, ICurrentUser currentUserService) : IRequestHandler<ToggleTrackingCommand, Unit>
+public sealed class ToggleTrackingCommandHandler(IParticipantRepository participantRepository, ICurrentUser currentUserService) : IRequestHandler<ToggleTrackingCommand, Unit>
 {
     public async Task<Unit> Handle(ToggleTrackingCommand request, CancellationToken cancellationToken)
     {
         var validator = new ToggleTrackingCommandValidator(currentUserService);
         await validator.ValidateAndThrowAsync(request, cancellationToken);
 
-        var participant = await userManager.FindByIdAsync(request.UserId);
+        var participant = await participantRepository.GetByIdAsync(request.UserId);
         participant = participant.ThrowIfNotFound(request.UserId);
 
-        participant.FollowMe = !participant.FollowMe;
-        await userManager.UpdateAsync(participant);
+        participant.ToggleFollowMe(!participant.FollowMe);
+
+        await participantRepository.UpdateAsync(participant, cancellationToken);
 
         return Unit.Value;
     }

@@ -7,6 +7,7 @@ namespace ShareMyAdventures.Application.Common.Interfaces.Repositories
         Task<long?> AddAsync(Adventure entity, CancellationToken cancellationToken = default);
         IQueryable<Adventure?> FindForParticipant(long id, string participantId);
         Task<Adventure?> GetByIdAsync(long id, CancellationToken cancellationToken = default);
+        Task<bool> HasActiveAdventuresAsync(int id, string userId, CancellationToken cancellationToken = default);
         Task RemoveAsync(Adventure entity, CancellationToken cancellationToken = default);
         Task UpdateAsync(Adventure entity, CancellationToken cancellationToken = default);
     }

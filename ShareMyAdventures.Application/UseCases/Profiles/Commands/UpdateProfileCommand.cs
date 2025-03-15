@@ -1,16 +1,14 @@
-﻿using Microsoft.AspNetCore.Identity;
-using ShareMyAdventures.Application.Common.Guards;
-using ShareMyAdventures.Application.Common.Interfaces;
-using ShareMyAdventures.Domain.Entities.ParticipantAggregate;
+﻿using ShareMyAdventures.Application.Common.Guards;
+using ShareMyAdventures.Application.Common.Interfaces.Repositories;
 
 namespace ShareMyAdventures.Application.UseCases.Profiles.Commands;
 
 public sealed record UpdateProfileCommand : IRequest<Unit>
 {
-    public string UserId { get; init; } = string.Empty;
-    public string DisplayName { get; init; } = string.Empty;
+    public string UserId { get; init; } = null!;
+    public string DisplayName { get; init; } = null!;
     public string? TrailColor { get; init; }
-    public bool FollowMe { get; init; } = false;
+    public bool FollowMe { get; init; } 
 }
 
 internal sealed class UpdateProfileCommandValidator : AbstractValidator<UpdateProfileCommand>
@@ -28,7 +26,7 @@ internal sealed class UpdateProfileCommandValidator : AbstractValidator<UpdatePr
         RuleFor(v => v.UserId).MinimumLength(5).MaximumLength(450);
     }
 
-    private bool ValidateCurrentUser(string userId, string? currentUserId)
+    private static bool ValidateCurrentUser(string userId, string? currentUserId)
     {
         if (currentUserId == null) return false;
 
@@ -41,7 +39,7 @@ internal sealed class UpdateProfileCommandValidator : AbstractValidator<UpdatePr
     }
 }
 
-public sealed class UpdateProfileCommandHandler(UserManager<Participant> userManager, ICurrentUser currentUserService) : IRequestHandler<UpdateProfileCommand, Unit>
+public sealed class UpdateProfileCommandHandler(IParticipantRepository participantRepository, ICurrentUser currentUserService) : IRequestHandler<UpdateProfileCommand, Unit>
 {
 
     public async Task<Unit> Handle(UpdateProfileCommand request, CancellationToken cancellationToken)
@@ -49,14 +47,12 @@ public sealed class UpdateProfileCommandHandler(UserManager<Participant> userMan
         var validator = new UpdateProfileCommandValidator(currentUserService);
         await validator.ValidateAndThrowAsync(request, cancellationToken);
 
-        var participant = await userManager.FindByIdAsync(request.UserId);
+        var participant = await participantRepository.GetByIdAsync(request.UserId, cancellationToken);
         participant = participant.ThrowIfNotFound(request.UserId);
 
-        participant.FollowMe = request.FollowMe;
-        participant.DisplayName = request.DisplayName;
-        participant.TrailColor = request.TrailColor;
+        participant.UpdateProfile(request.DisplayName, request.FollowMe, request.TrailColor);
 
-        await userManager.UpdateAsync(participant);
+        await participantRepository.UpdateAsync(participant, cancellationToken);
 
         return Unit.Value;
     }

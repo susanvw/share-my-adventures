@@ -1,4 +1,4 @@
-﻿using ShareMyAdventures.Domain.Entities.AdventureAggregate;
+﻿using ShareMyAdventures.Domain.Entities.InvitationAggregate;
 
 namespace ShareMyAdventures.Infrastructure.Persistence.Configurations;
 

@@ -1,5 +1,6 @@
 ﻿using MediatR;
 using ShareMyAdventures.Domain.Entities.AdventureAggregate;
+using ShareMyAdventures.Domain.Entities.InvitationAggregate;
 using ShareMyAdventures.Domain.Entities.LocationAggregate;
 using ShareMyAdventures.Domain.Entities.ParticipantAggregate;
 using ShareMyAdventures.Domain.SeedWork;

@@ -1,14 +1,14 @@
-﻿using ShareMyAdventures.Domain.Entities;
+﻿using ShareMyAdventures.Domain.Entities.AdventureAggregate;
 using ShareMyAdventures.Domain.Events;
 using ShareMyAdventures.Domain.SeedWork;
 
-namespace ShareMyAdventures.Domain.Entities.AdventureAggregate;
+namespace ShareMyAdventures.Domain.Entities.InvitationAggregate;
 
 /// <summary>
 /// Represents an invitation to participate in an adventure.
 /// Managed exclusively through the <see cref="Adventure"/> aggregate root.
 /// </summary>
-public sealed class AdventureInvitation : BaseAuditableEntity
+public sealed class AdventureInvitation : BaseAuditableEntity, IAggregateRoot
 {
     /// <summary>
     /// Gets the email address of the invited user.
@@ -61,7 +61,7 @@ public sealed class AdventureInvitation : BaseAuditableEntity
     /// <exception cref="ArgumentNullException">Thrown if <paramref name="statusLookup"/> is null.</exception>
     public void UpdateStatus(InvitationStatusLookup statusLookup)
     {
-        ArgumentNullException.ThrowIfNull(statusLookup, nameof(statusLookup));
+        ArgumentNullException.ThrowIfNull(statusLookup);
 
         if (statusLookup.Id == InvitationStatusLookup.Pending.Id &&
             InvitationStatusLookup.Id != statusLookup.Id)
@@ -69,5 +69,24 @@ public sealed class AdventureInvitation : BaseAuditableEntity
             AddDomainEvent(new AdventureInvitationPendingEvent(this));
         }
         InvitationStatusLookup = statusLookup;
+    }
+
+    /// <summary>
+    /// Updates this invitation's properties from another invitation instance.
+    /// </summary>
+    /// <param name="source">The source invitation with updated data.</param>
+    public void UpdateFrom(AdventureInvitation source)
+    {
+        ArgumentNullException.ThrowIfNull(source);
+
+        Email = source.Email; // Update email if allowed by business rules
+        InvitationStatusLookup = source.InvitationStatusLookup; // Update status
+        AccessLevelLookup = source.AccessLevelLookup;
+    }
+
+    public void UpdateAccessLevel(AccessLevelLookup accessLevel)
+    {
+        ArgumentNullException.ThrowIfNull(accessLevel);
+        AccessLevelLookup = accessLevel;
     }
 }

@@ -1,4 +1,4 @@
-﻿using ShareMyAdventures.Domain.Entities;
+﻿using ShareMyAdventures.Domain.Entities.InvitationAggregate;
 using ShareMyAdventures.Domain.Entities.LocationAggregate;
 using ShareMyAdventures.Domain.Events;
 using ShareMyAdventures.Domain.SeedWork;
@@ -79,15 +79,14 @@ public sealed class Adventure : BaseAuditableEntity, IAggregateRoot
     /// <param name="startDate">The start date of the adventure.</param>
     /// <param name="endDate">The end date of the adventure.</param>
     /// <param name="typeLookup">The type of the adventure.</param>
-    /// <param name="statusLookup">The initial status of the adventure.</param>
-    /// <exception cref="ArgumentNullException">Thrown if <paramref name="name"/>, <paramref name="typeLookup"/>, or <paramref name="statusLookup"/> is null.</exception>
-    public Adventure(string name, DateTime startDate, DateTime endDate, TypeLookup typeLookup, StatusLookup statusLookup)
+    /// <exception cref="ArgumentNullException">Thrown if <paramref name="name"/>, <paramref name="typeLookup"/></exception>
+    public Adventure(string name, DateTime startDate, DateTime endDate, TypeLookup typeLookup)
     {
         Name = name ?? throw new ArgumentNullException(nameof(name));
         StartDate = startDate;
         EndDate = endDate;
         TypeLookup = typeLookup ?? throw new ArgumentNullException(nameof(typeLookup));
-        StatusLookup = statusLookup ?? throw new ArgumentNullException(nameof(statusLookup));
+        StatusLookup = StatusLookup.Created;
     }
 
     /// <summary>
@@ -97,7 +96,7 @@ public sealed class Adventure : BaseAuditableEntity, IAggregateRoot
     /// <exception cref="ArgumentNullException">Thrown if <paramref name="statusLookup"/> is null.</exception>
     public void UpdateStatus(StatusLookup statusLookup)
     {
-        ArgumentNullException.ThrowIfNull(statusLookup, nameof(statusLookup));
+        ArgumentNullException.ThrowIfNull(statusLookup);
         if (statusLookup.Id == StatusLookup.InProgress.Id && StatusLookup.Id != statusLookup.Id)
         {
             AddDomainEvent(new AdventureStatusInProgressEvent(this));
@@ -112,7 +111,7 @@ public sealed class Adventure : BaseAuditableEntity, IAggregateRoot
     /// <exception cref="ArgumentNullException">Thrown if <paramref name="participant"/> is null.</exception>
     public void AddParticipant(ParticipantAdventure participant)
     {
-        ArgumentNullException.ThrowIfNull(participant, nameof(participant));
+        ArgumentNullException.ThrowIfNull(participant);
         if (!_participants.Any(x => x.ParticipantId == participant.ParticipantId))
         {
             _participants.Add(participant);
@@ -126,7 +125,7 @@ public sealed class Adventure : BaseAuditableEntity, IAggregateRoot
     /// <exception cref="ArgumentNullException">Thrown if <paramref name="participant"/> is null.</exception>
     public void RemoveParticipant(ParticipantAdventure participant)
     {
-        ArgumentNullException.ThrowIfNull(participant, nameof(participant));
+        ArgumentNullException.ThrowIfNull(participant);
         _participants.Remove(participant);
     }
 
@@ -137,7 +136,7 @@ public sealed class Adventure : BaseAuditableEntity, IAggregateRoot
     /// <exception cref="ArgumentNullException">Thrown if <paramref name="invitation"/> is null.</exception>
     public void AddInvitation(AdventureInvitation invitation)
     {
-        ArgumentNullException.ThrowIfNull(invitation, nameof(invitation));
+        ArgumentNullException.ThrowIfNull(invitation);
         if (!_invitations.Any(x => x.Id == invitation.Id))
         {
             _invitations.Add(invitation);
@@ -151,7 +150,7 @@ public sealed class Adventure : BaseAuditableEntity, IAggregateRoot
     /// <exception cref="ArgumentNullException">Thrown if <paramref name="invitation"/> is null.</exception>
     public void RemoveInvitation(AdventureInvitation invitation)
     {
-        ArgumentNullException.ThrowIfNull(invitation, nameof(invitation));
+        ArgumentNullException.ThrowIfNull(invitation);
         _invitations.Remove(invitation);
     }
 
@@ -163,9 +162,35 @@ public sealed class Adventure : BaseAuditableEntity, IAggregateRoot
     /// <exception cref="ArgumentNullException">Thrown if <paramref name="email"/> is null.</exception>
     public AdventureInvitation? FindInvitationByEmail(string email)
     {
-        ArgumentNullException.ThrowIfNull(email, nameof(email));
+        ArgumentNullException.ThrowIfNull(email);
         return _invitations.FirstOrDefault(x =>
             x.Email == email &&
             x.InvitationStatusLookup.Id == InvitationStatusLookup.Pending.Id);
+    }
+
+    public AdventureInvitation? GetInvitation(long id)
+    {
+        return _invitations.FirstOrDefault(x => x.Id == id);
+    }
+
+    /// <summary>
+    /// Updates an existing invitation in the adventure by modifying its properties.
+    /// </summary>
+    /// <param name="invitation">The updated invitation data.</param>
+    /// <exception cref="ArgumentNullException">Thrown if <paramref name="invitation"/> is null.</exception>
+    /// <exception cref="InvalidOperationException">Thrown if the invitation is not found in the list.</exception>
+    public void UpdateInvitation(AdventureInvitation invitation)
+    {
+        ArgumentNullException.ThrowIfNull(invitation);
+
+        // Find the existing invitation by its Id
+        var existingInvitation = _invitations.FirstOrDefault(x => x.Id == invitation.Id);
+        if (existingInvitation == null)
+        {
+            throw new InvalidOperationException($"Invitation with ID {invitation.Id} not found in adventure {Id}.");
+        }
+
+        // Update properties of the existing invitation
+        existingInvitation.UpdateFrom(invitation);
     }
 }

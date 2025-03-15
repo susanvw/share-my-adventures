@@ -1,4 +1,4 @@
-﻿using ShareMyAdventures.Domain.Entities.AdventureAggregate;
+﻿using ShareMyAdventures.Domain.Entities.InvitationAggregate;
 using ShareMyAdventures.Domain.SeedWork;
 
 namespace ShareMyAdventures.Domain.Events;

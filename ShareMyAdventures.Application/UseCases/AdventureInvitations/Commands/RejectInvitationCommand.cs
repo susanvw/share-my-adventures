@@ -1,12 +1,11 @@
 ﻿using ShareMyAdventures.Application.Common.Guards;
-using ShareMyAdventures.Domain.Entities.AdventureAggregate;
-using ShareMyAdventures.Domain.Enums;
-using ShareMyAdventures.Domain.SeedWork;
+using ShareMyAdventures.Application.Common.Interfaces.Repositories;
 
 namespace ShareMyAdventures.Application.UseCases.AdventureInvitations.Commands;
 
 public sealed record RejectInvitationCommand : IRequest<Unit>
 {
+    public long AdventureId { get; init; }
     public long Id { get; init; }
 }
 internal sealed class RejectInvitationCommandValidator : AbstractValidator<RejectInvitationCommand>
@@ -14,12 +13,13 @@ internal sealed class RejectInvitationCommandValidator : AbstractValidator<Rejec
     internal RejectInvitationCommandValidator()
     {
         RuleFor(v => v.Id).GreaterThan(0);
+        RuleFor(v => v.AdventureId).GreaterThan(0);
     }
 }
 
 public sealed class RejectInvitationCommandHandler(
-    IReadRepository<Adventure> adventureReadableRepository,
-    IWriteRepository<Adventure> adventureRepository
+    IAdventureRepository adventureRepository
+
         ) : IRequestHandler<RejectInvitationCommand, Unit>
 {
     public async Task<Unit> Handle(RejectInvitationCommand request, CancellationToken cancellationToken)
@@ -27,12 +27,17 @@ public sealed class RejectInvitationCommandHandler(
         var validator = new RejectInvitationCommandValidator();
         await validator.ValidateAndThrowAsync(request, cancellationToken);
 
-        var adventure = await adventureReadableRepository.FindOneByIdAsync(request.Id, cancellationToken);
-        adventure = adventure.ThrowIfNotFound(request.Id);
+        var adventure = await adventureRepository.GetByIdAsync(request.AdventureId, cancellationToken);
+        adventure = adventure.ThrowIfNotFound(request.AdventureId);
 
-        adventure.StatusLookupId = InvitationStatusLookups.Rejected.Id;
+        var invitation = adventure.GetInvitation(request.Id);
+        invitation = invitation.ThrowIfNotFound(request.Id);
+
+        invitation.UpdateStatus(InvitationStatusLookup.Rejected);
+
+        adventure.UpdateInvitation(invitation);
+
         await adventureRepository.UpdateAsync(adventure, cancellationToken);
-        await adventureRepository.SaveChangesAsync(cancellationToken);
 
         return Unit.Value;
     }

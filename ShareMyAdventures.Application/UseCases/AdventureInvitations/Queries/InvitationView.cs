@@ -1,4 +1,4 @@
-﻿using ShareMyAdventures.Domain.Entities.AdventureAggregate;
+﻿using ShareMyAdventures.Domain.Entities.InvitationAggregate;
 using System.Reflection.Metadata.Ecma335;
 
 namespace ShareMyAdventures.Application.UseCases.AdventureInvitations.Queries;

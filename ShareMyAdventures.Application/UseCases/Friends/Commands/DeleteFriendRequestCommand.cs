@@ -1,8 +1,5 @@
-﻿using FluentValidation.Results;
-using ShareMyAdventures.Application.Common.Guards;
+﻿using ShareMyAdventures.Application.Common.Guards;
 using ShareMyAdventures.Application.Common.Interfaces.Repositories;
-using ShareMyAdventures.Domain.Entities.ParticipantAggregate;
-using ShareMyAdventures.Domain.SeedWork;
 
 namespace ShareMyAdventures.Application.UseCases.Friends.Commands;
 
@@ -12,7 +9,7 @@ public sealed record DeleteFriendRequestCommand : IRequest<Unit>
 }
 
 public sealed class DeleteFriendRequestCommandHandler(
-    IParticipantRepository manager,
+    IParticipantRepository participantRepository,
     ICurrentUser currentUser
     ) : IRequestHandler<DeleteFriendRequestCommand, Unit>
 {
@@ -21,25 +18,16 @@ public sealed class DeleteFriendRequestCommandHandler(
         var userId = currentUser.UserId;
         userId = userId.ThrowIfNullOrWhiteSpace("Current User");
 
-        var entity = await readRepository
-                .Include(x => x.Friends)
-                .FindOneByCustomFilterAsync(x => x.Id == userId, cancellationToken);
+        var entity = await participantRepository.GetByIdAsync(userId, cancellationToken);
         entity = entity.ThrowIfNotFound(userId);
 
         var friendRequest = entity.FindFriendRequest(request.Id);
 
         if (friendRequest != null)
         {
-            if (friendRequest.InvitationStatusLookupId != Domain.Enums.InvitationStatusLookups.Pending.Id)
-            {
-                var validationFailure = new ValidationFailure("Invitation Status", "Cannot delete an invitation that is not in pending state.");
-                throw new Common.Exceptions.ValidationException([validationFailure]);
-            }
-
             entity.RemoveFriendRequest(friendRequest);
 
-            await repository.UpdateAsync(entity, cancellationToken);
-            await repository.SaveChangesAsync(cancellationToken);
+            await participantRepository.UpdateAsync(entity, cancellationToken);
         }
         return Unit.Value;
     }

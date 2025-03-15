@@ -1,17 +1,15 @@
-﻿using Microsoft.AspNetCore.Identity;
-using ShareMyAdventures.Application.Common.Guards;
+﻿using ShareMyAdventures.Application.Common.Guards;
+using ShareMyAdventures.Application.Common.Interfaces.Repositories;
 using ShareMyAdventures.Domain.Entities.AdventureAggregate;
-using ShareMyAdventures.Domain.Entities.ParticipantAggregate;
-using ShareMyAdventures.Domain.Enums;
-using ShareMyAdventures.Domain.SeedWork;
+using ShareMyAdventures.Domain.Entities.InvitationAggregate;
 
 namespace ShareMyAdventures.Application.UseCases.Participants.Commands;
 
 public sealed record InviteParticipantCommand : IRequest<Result<InviteParticipantResponse>>
 {
-    public long AdventureId { get; init; } = 0;
-    public string UserId { get; init; } = string.Empty;
-    public int AccessLevelLookupId { get; init; } = 0;
+    public long AdventureId { get; init; } 
+    public string UserId { get; init; } = null!;
+    public int AccessLevelLookupId { get; init; } 
 }
 
 public sealed class InviteParticipantResponse
@@ -33,7 +31,7 @@ public class InviteParticipantCommandValidator : AbstractValidator<InvitePartici
 
     private static bool CheckAccessLevelIdExist(int id)
     {
-        var entities = Enumeration.GetAll<AccessLevelLookups>();
+        var entities = AccessLevelLookup.All;
 
         if (entities.Any(x => x.Id == id))
         {
@@ -44,50 +42,35 @@ public class InviteParticipantCommandValidator : AbstractValidator<InvitePartici
     }
 }
 
-public sealed class InviteParticipantCommandHandler(
-    IReadRepository<Adventure> adventureReadableRepository,
-    IWriteRepository<Adventure> adventureRepository,
-    UserManager<Participant> identityService
-    ) : IRequestHandler<InviteParticipantCommand, Result<InviteParticipantResponse>>
+public sealed class InviteParticipantCommandHandler(IAdventureRepository adventureRepository, IParticipantRepository participantRepository) : IRequestHandler<InviteParticipantCommand, Result<InviteParticipantResponse>>
 {
     public async Task<Result<InviteParticipantResponse>> Handle(InviteParticipantCommand request,
         CancellationToken cancellationToken)
     {
-        var user = await identityService.FindByIdAsync(request.UserId);
+        var user = await participantRepository.GetByIdAsync(request.UserId, cancellationToken);
         user = user.ThrowIfNotFound(request.UserId);
 
-        var entity = await adventureReadableRepository
-            .Include(x => x.Invitations)
-            .FindOneByIdAsync(request.AdventureId, cancellationToken);
-
+        var entity = await adventureRepository.GetByIdAsync(request.AdventureId, cancellationToken);
         entity = entity.ThrowIfNotFound(request.AdventureId);
 
-        var invitation = entity.FindByEmail(user.Email!);
+        var accessLevel = AccessLevelLookup.All.FirstOrDefault(x => x.Id == request.AccessLevelLookupId);
+        accessLevel = accessLevel.ThrowIfNotFound(request.AccessLevelLookupId);
+
+        var invitation = entity.FindInvitationByEmail(user.Email!);
 
         if (invitation == null)
         {
-            invitation = new AdventureInvitation
-            {
-                AdventureId = request.AdventureId,
-                Email = user.Email!,
-                AccessLevelLookupId = request.AccessLevelLookupId,
-                InvitationStatusLookupId = Domain.Enums.InvitationStatusLookups.Pending.Id
-            };
+            invitation = new AdventureInvitation(user.Email!, request.AdventureId, accessLevel, InvitationStatusLookup.Pending);
+            entity.AddInvitation(invitation);
+        }
+        else if (invitation.InvitationStatusLookup == InvitationStatusLookup.Rejected)
+        {
+            invitation.UpdateStatus(InvitationStatusLookup.Pending);
+        }
 
-            entity.Invitations.Add(invitation);
-        }
-        else if (invitation.InvitationStatusLookupId == Domain.Enums.InvitationStatusLookups.Rejected.Id)
-        {
-            invitation.InvitationStatusLookupId = Domain.Enums.InvitationStatusLookups.Pending.Id;
-            invitation.AccessLevelLookupId = request.AccessLevelLookupId;
-        }
-        else if (invitation.InvitationStatusLookupId == Domain.Enums.InvitationStatusLookups.Accepted.Id)
-        {
-            invitation.AccessLevelLookupId = request.AccessLevelLookupId;
-        }
+        invitation.UpdateAccessLevel(accessLevel);
 
         await adventureRepository.UpdateAsync(entity, cancellationToken);
-        await adventureRepository.SaveChangesAsync(cancellationToken);
 
         return Result<InviteParticipantResponse>.Success(new InviteParticipantResponse
         {

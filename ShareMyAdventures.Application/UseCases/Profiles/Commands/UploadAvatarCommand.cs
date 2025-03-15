@@ -1,7 +1,5 @@
-﻿using Microsoft.AspNetCore.Identity;
-using ShareMyAdventures.Application.Common.Guards;
-using ShareMyAdventures.Application.Common.Interfaces;
-using ShareMyAdventures.Domain.Entities.ParticipantAggregate;
+﻿using ShareMyAdventures.Application.Common.Guards;
+using ShareMyAdventures.Application.Common.Interfaces.Repositories;
 
 namespace ShareMyAdventures.Application.UseCases.Profiles.Commands;
 
@@ -26,7 +24,7 @@ internal class UploadAvatarCommandValidator : AbstractValidator<UploadAvatarComm
         RuleFor(v => v.UserId).MinimumLength(5).MaximumLength(450);
     }
 
-    private bool ValidateCurrentUser(string userId, string? currentUserId)
+    private static bool ValidateCurrentUser(string userId, string? currentUserId)
     {
         if (currentUserId == null) return false;
 
@@ -40,7 +38,7 @@ internal class UploadAvatarCommandValidator : AbstractValidator<UploadAvatarComm
 }
 
 public sealed class UploadAvatarCommandHandler(
-    UserManager<Participant> userManager,
+    IParticipantRepository participantRepository,
     ICurrentUser currentUserService
     ) : IRequestHandler<UploadAvatarCommand, Unit>
 {
@@ -51,12 +49,12 @@ public sealed class UploadAvatarCommandHandler(
         var validator = new UploadAvatarCommandValidator(currentUserService);
         await validator.ValidateAndThrowAsync(request, cancellationToken);
 
-        var participant = await userManager.FindByIdAsync(request.UserId);
+        var participant = await participantRepository.GetByIdAsync(request.UserId);
         participant = participant.ThrowIfNotFound(request.UserId);
 
-        participant.Photo = request.Photo;
+        participant.SetProfilePhoto(request.Photo);
 
-        await userManager.UpdateAsync(participant);
+        await participantRepository.UpdateAsync(participant, cancellationToken);
 
         return Unit.Value;
     }

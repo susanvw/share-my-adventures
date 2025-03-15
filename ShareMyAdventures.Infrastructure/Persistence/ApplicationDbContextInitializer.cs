@@ -34,7 +34,7 @@ public class ApplicationDbContextInitializer(ApplicationDbContext context, RoleM
             });
         }
 
-        foreach (var invitation in from Domain.Enums.InvitationStatusLookups invitation in Domain.Enums.InvitationStatusLookups.List
+        foreach (var invitation in from InvitationStatusLookup invitation in InvitationStatusLookup.List
                                where !_context.InvitationStatusLookups.Any(x => x.Name == invitation.Name)
                                select invitation)
         {

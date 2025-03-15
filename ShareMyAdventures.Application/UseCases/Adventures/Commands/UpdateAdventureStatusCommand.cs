@@ -1,7 +1,7 @@
 ﻿using ShareMyAdventures.Application.Common.Exceptions;
 using ShareMyAdventures.Application.Common.Guards;
+using ShareMyAdventures.Application.Common.Interfaces.Repositories;
 using ShareMyAdventures.Domain.Entities.AdventureAggregate;
-using ShareMyAdventures.Domain.SeedWork;
 
 namespace ShareMyAdventures.Application.UseCases.Adventures.Commands;
 
@@ -13,10 +13,10 @@ public sealed record UpdateAdventureStatusCommand : IRequest<Unit>
 
 internal sealed class UpdateAdventureStatusCommandValidator : AbstractValidator<UpdateAdventureStatusCommand>
 {
-    private readonly IReadRepository<Adventure> _adventureRepository;
+    private readonly IAdventureRepository _adventureRepository;
     private readonly ICurrentUser _currentUserService;
 
-    internal UpdateAdventureStatusCommandValidator(IReadRepository<Adventure> adventureRepository, ICurrentUser currentUserService)
+    internal UpdateAdventureStatusCommandValidator(IAdventureRepository adventureRepository, ICurrentUser currentUserService)
     {
 
         _adventureRepository = adventureRepository;
@@ -34,34 +34,24 @@ internal sealed class UpdateAdventureStatusCommandValidator : AbstractValidator<
         if (_currentUserService.UserId == null)
             return false;
 
-        var adventure = await _adventureRepository
-            .Include(x => x.Participants)
-            .FindByCustomFilterAsync(x =>
-                x.Id == id &&
-                x.StatusLookupId == Domain.Enums.StatusLookups.InProgress.Id &&
-                x.Participants.Any(x => x.ParticipantId == _currentUserService.UserId
-             ),
-            cancellationToken);
-
-        return adventure.Any();
+        return await _adventureRepository.HasActiveAdventuresAsync(id, _currentUserService.UserId, cancellationToken); 
     }
 }
 
 
 public sealed class UpdateAdventureStatusCommandHandler(
-    IReadRepository<Adventure> adventureReadableRepository,
-    IWriteRepository<Adventure> adventureRepository,
+    IAdventureRepository adventureRepository,
     ICurrentUser currentUserService)
     : IRequestHandler<UpdateAdventureStatusCommand, Unit>
 {
     public async Task<Unit> Handle(UpdateAdventureStatusCommand request, CancellationToken cancellationToken)
     {
-        var validator = new UpdateAdventureStatusCommandValidator(adventureReadableRepository, currentUserService);
+        var validator = new UpdateAdventureStatusCommandValidator(adventureRepository, currentUserService);
         await validator.ValidateAndThrowAsync(request, cancellationToken);
 
         var userId = currentUserService.UserId.ThrowIfNullOrEmpty("Current User");
 
-        var entity = await adventureReadableRepository.FindOneByIdAsync(request.Id, cancellationToken);
+        var entity = await adventureRepository.GetByIdAsync(request.Id, cancellationToken);
         entity = entity.ThrowIfNotFound(request.Id);
 
         if (entity.CreatedBy != userId)
@@ -69,10 +59,12 @@ public sealed class UpdateAdventureStatusCommandHandler(
             throw new ForbiddenAccessException("User is not allowed to update the adventure.");
         }
 
-        entity.StatusLookupId = request.StatusLookupId;
+        var status = StatusLookup.All.FirstOrDefault(x => x.Id == request.StatusLookupId);
+        status = status.ThrowIfNotFound(request.StatusLookupId);
 
-        await adventureRepository.UpdateAsync(entity, cancellationToken);
-        await adventureRepository.SaveChangesAsync(cancellationToken);
+        entity.UpdateStatus(status);
+
+        await adventureRepository.UpdateAsync(entity, cancellationToken); 
 
         return Unit.Value;
     }

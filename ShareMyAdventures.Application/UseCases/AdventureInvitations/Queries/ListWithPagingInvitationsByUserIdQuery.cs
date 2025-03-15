@@ -1,7 +1,8 @@
-﻿using Microsoft.AspNetCore.Identity;
+﻿using Microsoft.EntityFrameworkCore;
 using ShareMyAdventures.Application.Common.Guards;
+using ShareMyAdventures.Application.Common.Interfaces.Repositories;
 using ShareMyAdventures.Domain.Entities.AdventureAggregate;
-using ShareMyAdventures.Domain.Entities.ParticipantAggregate;
+using ShareMyAdventures.Domain.Entities.InvitationAggregate;
 using ShareMyAdventures.Domain.SeedWork;
 
 namespace ShareMyAdventures.Application.UseCases.AdventureInvitations.Queries;
@@ -13,9 +14,9 @@ public sealed record ListWithPagingInvitationsByUserIdQuery : IRequest<Result<Pa
 }
 
 public sealed class GetInvitationsQueryHandler(
-    IReadRepository<Adventure> adventureReadableRepository,
+    IReadRepository<AdventureInvitation> invitationRepository,
     ICurrentUser currentUserService,
-    UserManager<Participant> userManager
+    IParticipantRepository participantRepository
         ) : IRequestHandler<ListWithPagingInvitationsByUserIdQuery, Result<PagedData<InvitationView>?>>
 {
 
@@ -23,24 +24,25 @@ public sealed class GetInvitationsQueryHandler(
     {
         var userId = currentUserService.UserId.ThrowIfNullOrEmpty("Current User");
 
-        var user = await userManager.FindByIdAsync(userId);
+        var user = await participantRepository.GetByIdAsync(userId, cancellationToken);
         user = user.ThrowIfNotFound(userId);
-
-        var query = adventureReadableRepository
-        .Include(x => x.StatusLookup)
-        .Include(x => x.TypeLookup)
-        .Include(x => x.Participants)
-            .ThenInclude<ParticipantAdventure>(x => x.AccessLevelLookup)
-        .FindOneByCustomFilter(x =>
-            x.Participants.Any(p => p.Participant.Email == user.Email!) &&
-            x.StatusLookupId == Domain.Enums.InvitationStatusLookups.Pending.Id
+         
+        var query = invitationRepository
+            .GetQueryable()
+        .Include(x => x.InvitationStatusLookup)
+        .Include(x => x.Adventure)
+            .ThenInclude(x => x.TypeLookup)
+        .Include(x => x.Adventure)
+            .ThenInclude(x => x.Participants)
+                .ThenInclude(x => x.AccessLevelLookup)
+        .Where(x =>
+            x.Email == user.Email! &&
+            x.InvitationStatusLookup == InvitationStatusLookup.Pending
         )
-        .OrderBy(x => x.StartDate)
-        .SelectMany(x => x.Invitations)
+        .OrderBy(x => x.Adventure.StartDate)
         .Select(x => InvitationView.MapFrom(x, user.Email!));
 
-
-        var mapped = await query.ToPagedDataAsync(request.PageNumber, request.PageSize);
+        var mapped = await query.ToPagedDataAsync(request.PageNumber, request.PageSize, cancellationToken: cancellationToken);
 
         return Result<PagedData<InvitationView>?>.Success(mapped);
     }

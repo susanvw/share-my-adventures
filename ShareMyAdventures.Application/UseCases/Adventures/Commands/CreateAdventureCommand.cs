@@ -57,28 +57,17 @@ public sealed class CreateAdventureCommandHandler(
 
         var userId = currentUserService.UserId.ThrowIfNullOrEmpty("User Id");
 
-        var participant = await userManager.FindByIdAsync(userId);
+        var participant = await participantRepository.GetByIdAsync(userId, cancellationToken);
         participant = participant.ThrowIfNotFound(userId);
 
-        var adventure = new Adventure
-        {
-            DestinationLocationId = request.DestinationLocationId,
-            MeetupLocationId = request.MeetupLocationId,
-            // make the dates UCT date time
-            StartDate = request.StartDate.ToUniversalTime(),
-            EndDate = request.EndDate.ToUniversalTime(),
-            StatusLookupId = StatusLookups.Created.Id,
-           TypeLookupId = request.TypeLookupId
-        };
+        var typeLookup = TypeLookup.All.FirstOrDefault(x => x.Id == request.TypeLookupId);
+        typeLookup = typeLookup.ThrowIfNotFound(request.TypeLookupId);
 
-        adventure.AddParticipant(new ParticipantAdventure
-        {
-            Participant = participant,
-            AccessLevelLookupId = Domain.Enums.AccessLevelLookups.Administrator.Id
-        });
+        var adventure = new Adventure(request.Name, request.StartDate.ToUniversalTime(), request.EndDate.ToUniversalTime(), typeLookup);
+
+        adventure.AddParticipant(new ParticipantAdventure(participant.Id, AccessLevelLookup.Administrator));
 
         await adventureRepository.AddAsync(adventure, cancellationToken);
-        await adventureRepository.SaveChangesAsync(cancellationToken);
 
         return Result<long?>.Success(adventure.Id);
     }

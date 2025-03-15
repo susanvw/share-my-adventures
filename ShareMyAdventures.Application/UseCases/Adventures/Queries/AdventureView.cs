@@ -4,22 +4,22 @@ namespace ShareMyAdventures.Application.UseCases.Adventures.Queries;
 
 public sealed class AdventureView
 {
-    public long Id { get; internal set; }
-    public string Name { get; internal set; } = string.Empty;
-    public DateTime StartDate { get; internal set; }
-    public DateTime EndDate { get; internal set; }
-    public string? MeetUp { get; internal set; }
-    public double? MeetUpLatitude { get; internal set; }
-    public double? MeetUpLongitude { get; internal set; }
-    public string? FinalDestination { get; internal set; }
-    public double? FinalDestinationLatitude { get; internal set; }
-    public double? FinalDestinationLongitude { get; internal set; }
-    public long StatusLookupId { get; internal set; }
-    public string StatusLookupName { get; internal set; } = string.Empty;
-    public int TypeLookupId { get; internal set; }
-    public string TypeLookupName { get; internal set; } = string.Empty;
+    public long Id { get; set; }
+    public required string Name { get; set; } 
+    public DateTime StartDate { get; set; }
+    public DateTime EndDate { get; set; }
+    public string? MeetUp { get; set; }
+    public double? MeetUpLatitude { get; set; }
+    public double? MeetUpLongitude { get; set; }
+    public string? FinalDestination { get; set; }
+    public double? FinalDestinationLatitude { get; set; }
+    public double? FinalDestinationLongitude { get; set; }
+    public long StatusLookupId { get; set; }
+    public required string StatusLookupName { get; set; } 
+    public int TypeLookupId { get; set; }
+    public required string TypeLookupName { get; set; } 
 
-    public List<ParticipantAccessView> Participants { get; internal set; } = [];
+    public List<ParticipantAccessView> Participants { get; set; } = [];
 
     internal static Func<Adventure, AdventureView> MapFrom => (Adventure entity) =>
     {
@@ -47,11 +47,11 @@ public sealed class AdventureView
             FinalDestinationLongitude = destination?.Longitude,
 
             // status
-            StatusLookupId = adventure.StatusLookupId,
+            StatusLookupId = adventure.StatusLookup.Id,
             StatusLookupName = adventure.StatusLookup.Name,
 
             // type
-            TypeLookupId = adventure.TypeLookupId,
+            TypeLookupId = adventure.TypeLookup.Id,
             TypeLookupName = adventure.TypeLookup.Name,
 
             // access level
