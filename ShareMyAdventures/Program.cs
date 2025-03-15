@@ -1,17 +1,17 @@
+using Common.Adapter.Email;
 using Microsoft.EntityFrameworkCore;
 using Serilog;
 using Serilog.Events;
 using Serilog.Formatting.Compact;
 using Serilog.Sinks.MSSqlServer;
 using ShareMyAdventures;
-using ShareMyAdventures.Application;
 using ShareMyAdventures.Application.Common.Middleware;
 using ShareMyAdventures.Infrastructure;
 using ShareMyAdventures.Infrastructure.Persistence;
 using ShareMyAdventures.Infrastructure.SignalR;
 using System.Diagnostics;
 using System.Security.Claims;
-using Common.Adapter.Email;
+using ShareMyAdventures.Application;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -49,7 +49,6 @@ builder.Host.UseSerilog();
 
 // Add services to the container.
 builder.Services
-    .AddApplicationServices()
     .AddEmail(builder.Configuration)
     .AddInfrastructureServices(builder.Configuration)
     .AddWebUIServices(builder.Configuration);

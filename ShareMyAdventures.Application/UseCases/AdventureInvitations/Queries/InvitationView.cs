@@ -1,5 +1,4 @@
 ﻿using ShareMyAdventures.Domain.Entities.InvitationAggregate;
-using System.Reflection.Metadata.Ecma335;
 
 namespace ShareMyAdventures.Application.UseCases.AdventureInvitations.Queries;
 
@@ -23,14 +22,14 @@ public sealed record InvitationView
     public string Email { get; internal set; } = string.Empty;
     public int AccessLevelLookupId { get; internal set; } = 0;
 
-    internal static Func<AdventureInvitation, string, InvitationView> MapFrom => (AdventureInvitation entity, string email) =>
+    internal static readonly Func<AdventureInvitation, string, InvitationView> MapFrom = (entity, email) =>
     {
         return new InvitationView
         {
 
             StatusLookupName = entity.Adventure.StatusLookup.Name,
             TypeLookupName = entity.Adventure.TypeLookup.Name,
-            AccessLevelLookupId = entity.AccessLevelLookupId,
+            AccessLevelLookupId = entity.AccessLevelLookup.Id,
             AccessLevelLookupName = entity.AccessLevelLookup.Name,
             Email = email
         };

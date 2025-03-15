@@ -1,6 +1,8 @@
 ﻿using Microsoft.EntityFrameworkCore.Scaffolding.Metadata;
+using ShareMyAdventures.Application.Common.Guards;
 using ShareMyAdventures.Application.Common.Interfaces.Repositories;
 using ShareMyAdventures.Domain.Entities.AdventureAggregate;
+using ShareMyAdventures.Domain.Entities.ParticipantAggregate;
 using ShareMyAdventures.Infrastructure.Persistence;
 
 namespace ShareMyAdventures.Infrastructure.Repositories;
@@ -13,6 +15,11 @@ public class AdventureRepository(ApplicationDbContext context) : IAdventureRepos
         await context.SaveChangesAsync(cancellationToken);
 
         return entity.Id;
+    }
+
+    public IQueryable<Adventure> FindForId(long id, string userId)
+    {
+        throw new NotImplementedException();
     }
 
     public IQueryable<Adventure?> FindForParticipant(long id, string participantId)
@@ -46,10 +53,45 @@ public class AdventureRepository(ApplicationDbContext context) : IAdventureRepos
             cancellationToken);
     }
 
+    public IQueryable<Adventure> ListByStatusId(int statusLookupId, string userId)
+    {
+        throw new NotImplementedException();
+    }
+
+    public IQueryable<Position> ListPositions(long adventureId, DateTime fromDate)
+    {
+        var adventure = context.Adventures.Find([adventureId]);
+        adventure = adventure.ThrowIfNotFound(adventureId);
+
+        return context
+            .Positions
+            .Where(x => DateTime.Parse(x.TimeStamp) >= fromDate
+             && DateTime.Parse(x.TimeStamp) <= adventure.EndDate
+             && x.Id == adventureId);
+    }
+
     public async Task RemoveAsync(Adventure entity, CancellationToken cancellationToken = default)
     {
         context.Remove(entity);
         await context.SaveChangesAsync(cancellationToken);
+    }
+
+    public IQueryable<Adventure> SearchParticipants(long adventureId, string? filter)
+    {
+        return context
+        .Adventures
+        .Include(x => x.Participants)
+        .Where(x =>
+            x.Id == adventureId &&
+            (
+             filter == null ||
+             x.Participants.Any
+                (p =>
+                    p.Participant.DisplayName.Contains(filter.Trim()) ||
+                    p.Participant.UserName!.Contains(filter.Trim())
+                )
+            )
+        );
     }
 
     public async Task UpdateAsync(Adventure entity, CancellationToken cancellationToken = default)

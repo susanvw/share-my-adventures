@@ -1,6 +1,5 @@
 ﻿using ShareMyAdventures.Application.Common.Guards;
-using ShareMyAdventures.Domain.Entities.AdventureAggregate;
-using ShareMyAdventures.Domain.SeedWork;
+using ShareMyAdventures.Application.Common.Interfaces.Repositories;
 
 namespace ShareMyAdventures.Application.UseCases.Adventures.Queries;
 
@@ -8,12 +7,12 @@ public sealed record ListWithPagingAdventuresByStatusIdQuery : IRequest<Result<P
 {
     public int PageNumber { get; init; } = 1;
     public int PageSize { get; init; } = 10;
-    public int StatusLookupId { get; init; } = 0;
+    public int StatusLookupId { get; init; }
 }
  
 
 public sealed class ListWithPagingAdventuresByStatusIdQueryHandler(
-    IReadRepository<Adventure> adventureReadableRepository,
+    IAdventureRepository adventureRepository,
     ICurrentUser currentUserService
         ) : IRequestHandler<ListWithPagingAdventuresByStatusIdQuery, Result<PagedData<AdventureView>?>>
 {
@@ -22,20 +21,10 @@ public sealed class ListWithPagingAdventuresByStatusIdQueryHandler(
     {
         var userId = currentUserService.UserId.ThrowIfNullOrEmpty("Current User");
 
-        var query = adventureReadableRepository
-            .Include(x => x.Participants)
-            .ThenInclude<ParticipantAdventure>(x => x.AccessLevelLookup)
-            .Include(x => x.TypeLookup)
-            .Include(x => x.StatusLookup)
-            .Include(x => x.MeetupLocationLookup)
-            .Include(x => x.DestinationLocationLookup)
-            .FindOneByCustomFilter(x =>
-                x.Participants.Any(p => p.ParticipantId == userId) &&
-                x.StatusLookupId == request.StatusLookupId)
-            .Select(x => AdventureView.MapFrom(x));
-
-        var paged = await query.ToPagedDataAsync(request.PageNumber, request.PageSize);
-
+        var paged = await adventureRepository
+            .ListByStatusId(request.StatusLookupId, userId)
+            .Select(x => AdventureView.MapFrom(x))
+            .ToPagedDataAsync(request.PageNumber, request.PageSize, cancellationToken); 
 
         return Result<PagedData<AdventureView>?>.Success(paged);
 

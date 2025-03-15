@@ -1,9 +1,5 @@
-﻿using Microsoft.AspNetCore.Identity;
-using Microsoft.EntityFrameworkCore;
-using ShareMyAdventures.Application.Common.Guards;
-using ShareMyAdventures.Domain.Entities;
-using ShareMyAdventures.Domain.Entities.ParticipantAggregate;
-using ShareMyAdventures.Domain.SeedWork;
+﻿using ShareMyAdventures.Application.Common.Guards;
+using ShareMyAdventures.Application.Common.Interfaces.Repositories;
 
 namespace ShareMyAdventures.Application.UseCases.Friends.Queries;
 
@@ -26,24 +22,17 @@ public sealed record ListWithPagingFriendRequestsQuery : IRequest<Result<PagedDa
 /// <summary>
 /// Handles the <see cref="ListWithPagingFriendRequestsQuery"/> to fetch pending friend requests with paging.
 /// </summary>
-public class ListWithPagingFriendRequestsQueryHandler : IRequestHandler<ListWithPagingFriendRequestsQuery, Result<PagedData<FriendRequestView>?>>
+public class ListWithPagingFriendRequestsQueryHandler(ICurrentUser currentUserService, IParticipantRepository participantRepository) : IRequestHandler<ListWithPagingFriendRequestsQuery, Result<PagedData<FriendRequestView>?>>
 {
-    private readonly ICurrentUser _currentUserService;
-    private readonly IIdentityService _identityService;
-
-    public ListWithPagingFriendRequestsQueryHandler(ICurrentUser currentUserService, IIdentityService identityService)
-    {
-        _currentUserService = currentUserService ?? throw new ArgumentNullException(nameof(currentUserService));
-        _identityService = identityService ?? throw new ArgumentNullException(nameof(identityService));
-    }
-
     public async Task<Result<PagedData<FriendRequestView>?>> Handle(ListWithPagingFriendRequestsQuery request, CancellationToken cancellationToken)
     {
-        var userId = _currentUserService.UserId.ThrowIfNullOrWhiteSpace("Current user ID is missing");
+        var userId = currentUserService.UserId.ThrowIfNullOrWhiteSpace("Current user ID is missing");
 
-        var friendRequests = await _identityService.GetPendingFriendRequestsAsync(userId, request.PageNumber, request.PageSize, cancellationToken);
-        var mapped = friendRequests.MapItems(x => FriendRequestView.MapFrom(x, userId));
+        var friendRequests = await participantRepository
+            .ListFriendRequests(userId)
+            .Select(x => FriendRequestView.MapFrom(x, userId))
+            .ToPagedDataAsync(request.PageNumber, request.PageSize, cancellationToken);
 
-        return Result<PagedData<FriendRequestView>?>.Success(mapped);
+        return Result<PagedData<FriendRequestView>?>.Success(friendRequests);
     }
 }

@@ -193,4 +193,14 @@ public sealed class Adventure : BaseAuditableEntity, IAggregateRoot
         // Update properties of the existing invitation
         existingInvitation.UpdateFrom(invitation);
     }
+
+    public void Update(DateTime startDate, DateTime endDate, string name, TypeLookup typeLookup, long? destinationLocationId = null, long? meetupLocationId = null)
+    {
+        StartDate = startDate;
+        EndDate = endDate;
+        Name = name ?? throw new ArgumentNullException(nameof(name));
+        TypeLookup = typeLookup ?? throw new ArgumentNullException(nameof(typeLookup));
+        DestinationLocationId = destinationLocationId;
+        MeetupLocationId = meetupLocationId;
+    }
 }

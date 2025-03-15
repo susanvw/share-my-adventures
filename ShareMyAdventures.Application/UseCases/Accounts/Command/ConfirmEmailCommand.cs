@@ -9,8 +9,8 @@ namespace ShareMyAdventures.Application.UseCases.Accounts.Command;
 
 public sealed record ConfirmEmailCommand : IRequest<Unit>
 {
-    public string Email { get; init; } = string.Empty;
-    public string Token { get; init; } = string.Empty;
+    public string Email { get; init; } = null!;
+    public string Token { get; init; } = null!;
 }
 
 internal class ConfirmEmailCommandValidator : AbstractValidator<ConfirmEmailCommand>
@@ -23,7 +23,7 @@ internal class ConfirmEmailCommandValidator : AbstractValidator<ConfirmEmailComm
 }
 
 
-public sealed class ConfirmEmailCommandHandler(IParticipantRepository identityService) : IRequestHandler<ConfirmEmailCommand, Unit>
+public sealed class ConfirmEmailCommandHandler(IParticipantRepository participantRepository, IIdentityService identityService, UserManager<Participant> userManager) : IRequestHandler<ConfirmEmailCommand, Unit>
 {
 
     public async Task<Unit> Handle(ConfirmEmailCommand request, CancellationToken cancellationToken)
@@ -31,12 +31,12 @@ public sealed class ConfirmEmailCommandHandler(IParticipantRepository identitySe
         var validator = new ConfirmEmailCommandValidator();
         await validator.ValidateAndThrowAsync(request, cancellationToken);
 
-        var user = await identityService.FindByEmailAsync(request.Email);
+        var user = await userManager.FindByEmailAsync(request.Email);
         user = user.ThrowIfNotFound(request.Email);
 
         var decodedToken = request.Token.Decode();
 
-        var result = await identityService.ConfirmEmailAsync(user!, decodedToken);
+        var result = await userManager.ConfirmEmailAsync(user!, decodedToken);
 
         if (!result.Succeeded)
         {

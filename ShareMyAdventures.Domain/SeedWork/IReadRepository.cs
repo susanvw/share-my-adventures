@@ -51,5 +51,5 @@ public interface IReadRepository<TModel>
     /// <param name="ids">A collection of identifiers for the records to retrieve.</param>
     /// <param name="cancellationToken">A token to cancel the operation.</param>
     /// <returns>A task yielding a collection of records matching the provided identifiers.</returns>
-    Task<IEnumerable<TModel>> FindManyByIdsAsync(IEnumerable<long> ids, CancellationToken cancellationToken = default);
+    Task<IEnumerable<TModel>> FindManyByIdsAsync(IEnumerable<long> ids, CancellationToken cancellationToken = default); 
 }

@@ -1,4 +1,5 @@
-﻿using ShareMyAdventures.Application.Common.Guards;
+﻿using Microsoft.EntityFrameworkCore.Storage;
+using ShareMyAdventures.Application.Common.Guards;
 using ShareMyAdventures.Application.Common.Interfaces.Repositories;
 using ShareMyAdventures.Domain.Entities.AdventureAggregate;
 
@@ -58,19 +59,17 @@ public sealed class UpdateAdventureCommandHandler(
 
         var userId = currentUserService.UserId.ThrowIfNullOrEmpty("Current User");
 
-        var entity = await adventureReadableRepository.FindOneByIdAsync(request.Id, cancellationToken);
+        var entity = await adventureRepository.GetByIdAsync(request.Id, cancellationToken);
 
         if (entity?.CreatedBy != userId)
         {
             throw new UnauthorizedAccessException("User does not have access to the adventure.");
         }
 
-        entity.StartDate = request.StartDate;
-        entity.EndDate = request.EndDate;
-        entity.Name = request.Name;
-        entity.DestinationLocationId = request.DestinationLocationId;
-        entity.MeetupLocationId = request.MeetupLocationId;
-        entity.TypeLookupId = request.TypeLookupId;
+        var type = TypeLookup.All.FirstOrDefault(x => x.Id == request.TypeLookupId);
+        type = type.ThrowIfNotFound(request.TypeLookupId);
+
+        entity.Update(request.StartDate, request.EndDate, request.Name, type, request.DestinationLocationId, request.MeetupLocationId);
 
         await adventureRepository.UpdateAsync(entity, cancellationToken); 
 

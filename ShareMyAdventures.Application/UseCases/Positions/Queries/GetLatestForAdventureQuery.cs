@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using ShareMyAdventures.Application.Common.Interfaces.Repositories;
 using ShareMyAdventures.Domain.Entities.AdventureAggregate;
 using ShareMyAdventures.Domain.Entities.ParticipantAggregate;
 using ShareMyAdventures.Domain.SeedWork;
@@ -20,7 +21,7 @@ internal sealed class GetLatestForAdventureQueryValidator : AbstractValidator<Ge
 }
 
 public class ListForAdventureQueryHandler(
-    IReadRepository<Adventure> readableRepository
+    IAdventureRepository adventureRepository
         ) : IRequestHandler<GetLatestForAdventureQuery, Result<IReadOnlyList<PositionView>?>>
 {
 
@@ -29,18 +30,8 @@ public class ListForAdventureQueryHandler(
         var validator = new GetLatestForAdventureQueryValidator();
         await validator.ValidateAndThrowAsync(request, cancellationToken);
 
-        var positions = await readableRepository
-            .Include(x => x.Participants)
-                .ThenInclude<ParticipantAdventure>(x => x.Participant)
-                    .ThenInclude<Participant>(x => x.Positions)
-            .FindByCustomFilter(x =>
-                 x.Participants.Participant.Positions.TimeStamp != null &&
-                 DateTime.Parse(x.Participants.Participant.Positions.TimeStamp) >= x.StartDate &&
-                 DateTime.Parse(x.Participants.Participant.Positions.TimeStamp) <= x.EndDate)
-            .SelectMany(x => x.Participants)
-            .Select(x => x.Participant)
-            .SelectMany(x => x.Positions)
-            .OrderBy(x => x.TimeStamp)
+        var positions = await adventureRepository
+            .ListPositions(request.AdventureId, request.FromDate)
             .Select(x => PositionView.MapFrom(x))
             .ToListAsync(cancellationToken); 
 
