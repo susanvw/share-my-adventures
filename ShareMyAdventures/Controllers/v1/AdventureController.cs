@@ -1,6 +1,7 @@
 ﻿using ShareMyAdventures.Application.Common.Models;
 using ShareMyAdventures.Application.UseCases.Adventures.Commands;
 using ShareMyAdventures.Application.UseCases.Adventures.Queries;
+using ShareMyAdventures.Domain.Entities.AdventureAggregate;
 
 namespace ShareMyAdventures.Controllers.v1;
 
@@ -22,7 +23,7 @@ public class AdventureController : ApiControllerBase
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     public async Task<ActionResult> Start([FromRoute] long id, CancellationToken cancellationToken = default)
     {
-        var command = new UpdateAdventureStatusCommand { Id = id, StatusLookupId = Domain.Enums.StatusLookups.InProgress.Id };
+        var command = new UpdateAdventureStatusCommand { Id = id, StatusLookupId = StatusLookup.InProgress.Id };
         await ExecuteAsync<UpdateAdventureStatusCommand, Unit>(command);
         return NoContent();
     }
@@ -33,7 +34,7 @@ public class AdventureController : ApiControllerBase
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     public async Task<ActionResult> Complete([FromRoute] long id, CancellationToken cancellationToken = default)
     {
-        var command = new UpdateAdventureStatusCommand { Id = id, StatusLookupId = Domain.Enums.StatusLookups.Completed.Id };
+        var command = new UpdateAdventureStatusCommand { Id = id, StatusLookupId = StatusLookup.Completed.Id };
         await ExecuteAsync<UpdateAdventureStatusCommand, Unit>(command);
         return NoContent();
     }

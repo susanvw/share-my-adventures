@@ -1,6 +1,7 @@
 ﻿using ShareMyAdventures.Application.Common.Models;
 using ShareMyAdventures.Application.UseCases.Friends.Commands;
 using ShareMyAdventures.Application.UseCases.Friends.Queries;
+using ShareMyAdventures.Domain.Entities;
 
 
 namespace ShareMyAdventures.Controllers.v1;

@@ -33,11 +33,11 @@ public sealed class SendInviteCommandHandler(
         var userId = currentUserService.UserId.ThrowIfNullOrWhiteSpace("Current User");
 
         // get the friend
-        var friend = await participantRepository.GetByIdAsync(request.UserId);
+        var friend = await participantRepository.GetByIdAsync(request.UserId, cancellationToken);
         friend = friend.ThrowIfNotFound(request.UserId);
 
         // get current user
-        var participant = await participantRepository.GetByIdAsync(userId);
+        var participant = await participantRepository.GetByIdAsync(userId, cancellationToken);
         participant = participant.ThrowIfNotFound(userId);
 
 
@@ -53,7 +53,7 @@ public sealed class SendInviteCommandHandler(
 
         participant.AddFriendRequest(entity);
 
-        await participantRepository.UpdateAsync(entity, cancellationToken);
+        await participantRepository.UpdateAsync(participant, cancellationToken);
 
         return Result<long?>.Success(entity.Id);
 

@@ -73,8 +73,8 @@ public static class ConfigureServices
 		})
           .AddGoogle(googleOptions =>
           {
-			  googleOptions.ClientId = configuration["Google:ClientId"];
-              googleOptions.ClientSecret = configuration["Google:ClientSecret"];
+			  googleOptions.ClientId = configuration["Google:ClientId"] ?? string.Empty;
+              googleOptions.ClientSecret = configuration["Google:ClientSecret"] ?? string.Empty;
           });
 
 

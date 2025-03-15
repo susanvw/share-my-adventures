@@ -115,7 +115,6 @@ using (var scope = app.Services.CreateScope())
 
         // Seed initial data
         var initializer = scope.ServiceProvider.GetRequiredService<ApplicationDbContextInitializer>();
-        initializer.SeedEnums(); // Seed lookup tables
         await initializer.SeedDefaultUserAsync(); // Seed default user
     }
     catch (Exception ex)
