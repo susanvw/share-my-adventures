@@ -15,11 +15,6 @@ public sealed class Position : BaseAuditableEntity
     public string? TimeStamp { get; private set; }
 
     /// <summary>
-    /// Gets the event associated with this position update, if any.
-    /// </summary>
-    public string? Event { get; private set; }
-
-    /// <summary>
     /// Gets a value indicating whether the participant is moving.
     /// </summary>
     public bool IsMoving { get; private set; }
@@ -30,11 +25,6 @@ public sealed class Position : BaseAuditableEntity
     public string? Uuid { get; private set; }
 
     /// <summary>
-    /// Gets the age of the position data in milliseconds, if provided.
-    /// </summary>
-    public long? Age { get; private set; }
-
-    /// <summary>
     /// Gets the latitude coordinate of the position, if provided.
     /// </summary>
     public double? Latitude { get; private set; }
@@ -43,11 +33,6 @@ public sealed class Position : BaseAuditableEntity
     /// Gets the longitude coordinate of the position, if provided.
     /// </summary>
     public double? Longitude { get; private set; }
-
-    /// <summary>
-    /// Gets the accuracy of the position in meters, if provided.
-    /// </summary>
-    public double? Accuracy { get; private set; }
 
     /// <summary>
     /// Gets the speed of the participant in meters per second, if provided.
@@ -65,29 +50,14 @@ public sealed class Position : BaseAuditableEntity
     public double? Altitude { get; private set; }
 
     /// <summary>
-    /// Gets the ellipsoidal altitude in meters, if provided.
-    /// </summary>
-    public double? EllipsoidalAltitude { get; private set; }
-
-    /// <summary>
     /// Gets the type of activity associated with this position, if provided (e.g., walking, running).
     /// </summary>
     public string? ActivityType { get; private set; }
 
     /// <summary>
-    /// Gets the confidence level of the activity type, if provided.
-    /// </summary>
-    public string? Confidence { get; private set; }
-
-    /// <summary>
     /// Gets the battery level of the device reporting this position, if provided (0.0 to 1.0).
     /// </summary>
     public double? BatteryLevel { get; private set; }
-
-    /// <summary>
-    /// Gets a value indicating whether the device is charging.
-    /// </summary>
-    public bool IsCharging { get; private set; }
 
     /// <summary>
     /// Gets the odometer reading in meters, if provided.
@@ -119,19 +89,13 @@ public sealed class Position : BaseAuditableEntity
     /// <param name="latitude">The latitude coordinate.</param>
     /// <param name="longitude">The longitude coordinate.</param>
     /// <param name="timeStamp">The timestamp of the position update.</param>
-    /// <param name="event">The event associated with this position, if any.</param>
     /// <param name="isMoving">Whether the participant is moving.</param>
     /// <param name="uuid">The unique identifier for this position, if provided.</param>
-    /// <param name="age">The age of the position data in milliseconds, if provided.</param>
-    /// <param name="accuracy">The accuracy of the position in meters, if provided.</param>
     /// <param name="speed">The speed in meters per second, if provided.</param>
     /// <param name="heading">The heading direction in degrees, if provided.</param>
     /// <param name="altitude">The altitude above sea level in meters, if provided.</param>
-    /// <param name="ellipsoidalAltitude">The ellipsoidal altitude in meters, if provided.</param>
     /// <param name="activityType">The type of activity, if provided.</param>
-    /// <param name="confidence">The confidence level of the activity type, if provided.</param>
     /// <param name="batteryLevel">The battery level (0.0 to 1.0), if provided.</param>
-    /// <param name="isCharging">Whether the device is charging.</param>
     /// <param name="odometer">The odometer reading in meters, if provided.</param>
     /// <param name="location">A string representation of the location, if provided.</param>
     /// <exception cref="ArgumentNullException">Thrown if <paramref name="participantId"/> is null.</exception>
@@ -140,19 +104,13 @@ public sealed class Position : BaseAuditableEntity
         double? latitude,
         double? longitude,
         string? timeStamp = null,
-        string? @event = null,
         bool isMoving = false,
         string? uuid = null,
-        long? age = null,
-        double? accuracy = null,
         double? speed = null,
         double? heading = null,
         double? altitude = null,
-        double? ellipsoidalAltitude = null,
         string? activityType = null,
-        string? confidence = null,
         double? batteryLevel = null,
-        bool isCharging = false,
         double? odometer = null,
         string? location = null)
     {
@@ -160,19 +118,13 @@ public sealed class Position : BaseAuditableEntity
         Latitude = latitude;
         Longitude = longitude;
         TimeStamp = timeStamp;
-        Event = @event;
         IsMoving = isMoving;
         Uuid = uuid;
-        Age = age;
-        Accuracy = accuracy;
         Speed = speed;
         Heading = heading;
         Altitude = altitude;
-        EllipsoidalAltitude = ellipsoidalAltitude;
         ActivityType = activityType;
-        Confidence = confidence;
         BatteryLevel = batteryLevel;
-        IsCharging = isCharging;
         Odometer = odometer;
         Location = location;
 

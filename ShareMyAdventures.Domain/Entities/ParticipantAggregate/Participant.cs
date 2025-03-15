@@ -129,10 +129,16 @@ public sealed class Participant : IdentityUser, IAggregateRoot
     /// <exception cref="ArgumentNullException">Thrown if <paramref name="friendRequest"/> is null.</exception>
     public void AddFriendRequest(FriendRequest friendRequest)
     {
-        ArgumentNullException.ThrowIfNull(friendRequest, nameof(friendRequest));
+        ArgumentNullException.ThrowIfNull(friendRequest);
         if (!_friends.Any(f => f.Id == friendRequest.Id))
         {
             _friends.Add(friendRequest);
         }
+    }
+
+    public void AddPosition(Position entity)
+    {
+        ArgumentNullException.ThrowIfNull(entity);
+        _positions.Add(entity);
     }
 }

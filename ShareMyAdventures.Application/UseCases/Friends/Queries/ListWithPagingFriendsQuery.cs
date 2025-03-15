@@ -1,6 +1,5 @@
 ﻿using ShareMyAdventures.Application.Common.Guards;
-using ShareMyAdventures.Domain.Entities.ParticipantAggregate;
-using ShareMyAdventures.Domain.SeedWork;
+using ShareMyAdventures.Application.Common.Interfaces.Repositories;
 
 namespace ShareMyAdventures.Application.UseCases.Friends.Queries;
 
@@ -10,22 +9,17 @@ public sealed record ListWithPagingFriendsQuery : IRequest<Result<PagedData<Frie
     public int PageSize { get; init; } = 10;
 } 
 
-public sealed class ListWithPagingFriendsQueryHandler(
-    ICurrentUser currentUserService,
-    IReadRepository<FriendRequest> friendRepository) : IRequestHandler<ListWithPagingFriendsQuery, Result<PagedData<FriendView>?>>
+public sealed class ListWithPagingFriendsQueryHandler(ICurrentUser currentUserService, IParticipantRepository participantRepository) : IRequestHandler<ListWithPagingFriendsQuery, Result<PagedData<FriendView>?>>
 {
 
     public async Task<Result<PagedData<FriendView>?>> Handle(ListWithPagingFriendsQuery request, CancellationToken cancellationToken)
     {
-        var userId = currentUserService.UserId.ThrowIfNullOrEmpty("User Id");
+        var userId = currentUserService.UserId.ThrowIfNullOrEmpty("Current User");
 
-        var mapped = await friendRepository
-            .Include(x => x.ParticipantFriend)
-            .Include(x => x.Participant)
-            .FindOneByCustomFilter(x => x.ParticipantFriend.Id == userId || x.Participant.Id == userId)
-            .OrderBy(x => x.Participant.DisplayName)
+        var mapped = await participantRepository
+            .ListFriendRequests(userId, InvitationStatusLookup.Pending)
             .Select(x => FriendView.MapFrom(x, x.ParticipantId))
-            .ToPagedDataAsync(request.PageNumber, request.PageSize);
+            .ToPagedDataAsync(request.PageNumber, request.PageSize, cancellationToken: cancellationToken);
 
         return Result<PagedData<FriendView>?>.Success(mapped);
 

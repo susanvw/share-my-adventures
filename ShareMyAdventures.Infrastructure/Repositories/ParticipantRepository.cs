@@ -21,7 +21,7 @@ class ParticipantRepository(ApplicationDbContext context) : IParticipantReposito
             x.Friends.Any(f => f.ParticipantFriendId == participant.Id && f.ParticipantId == friend.Id), cancellationToken: cancellationToken);
     }
 
-    public IQueryable<FriendRequest> ListPendingFriendRequests(string participantId)
+    public IQueryable<FriendRequest> ListFriendRequests(string participantId, InvitationStatusLookup? invitationStatusLookup = null)
     {
         ArgumentException.ThrowIfNullOrWhiteSpace(participantId);
 
@@ -32,6 +32,7 @@ class ParticipantRepository(ApplicationDbContext context) : IParticipantReposito
             .Include(x => x.Friends)
                 .ThenInclude(x => x.Participant)
             .Where(x =>
+            (invitationStatusLookup == null || x.Friends.Any(s => s.InvitationStatusLookup == invitationStatusLookup)) &&
                 (x.Id == participantId || x.Friends.Any(f => f.ParticipantId == participantId)) &&
                 x.Friends.Any(f => f.InvitationStatusLookup.Id == InvitationStatusLookup.Pending.Id))
             .SelectMany(x => x.Friends)

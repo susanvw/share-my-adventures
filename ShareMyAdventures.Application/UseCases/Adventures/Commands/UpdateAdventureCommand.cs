@@ -35,7 +35,7 @@ internal sealed class UpdateAdventureCommandValidator : AbstractValidator<Update
 
     private static bool CheckTypeIdExist(int id)
     {
-        var types = Domain.Enums.TypeLookups.GetAll<Domain.Enums.TypeLookups>();
+        var types = TypeLookup.All;
 
         if (types.Any(x => x.Id == id))
         {

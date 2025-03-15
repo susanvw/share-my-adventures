@@ -36,7 +36,6 @@ public class CreatePositionCommandHandler(
     UserManager<Participant> participantRepository
     ) : IRequestHandler<CreatePositionCommand, Result<long?>>
 {
-    private readonly UserManager<Participant> _participantRepository = participantRepository;
 
     public async Task<Result<long?>> Handle(CreatePositionCommand request, CancellationToken cancellationToken)
     {
@@ -44,29 +43,26 @@ public class CreatePositionCommandHandler(
         await validator.ValidateAndThrowAsync(request, cancellationToken);
 
 
-        var participant = await _participantRepository.FindByIdAsync(request.UserId);
+        var participant = await participantRepository.FindByIdAsync(request.UserId);
         participant = participant.ThrowIfNotFound(request.UserId);
 
 
-        var entity = new Position
-        {
-            Latitude = request.Latitude,
-            Longitude = request.Longitude,
-            Speed = request.Speed,
-            Altitude = request.Altitude,
-            Odometer = request.Odometer,
-            Location = string.Empty,
-            ActivityType = request.ActivityType,
-            BatteryLevel = request.BatteryLevel,
-            Heading = request.Heading,
-            IsMoving = request.IsMoving,
-            TimeStamp = request.TimeStamp,
-            Uuid = request.Uuid,
-            ParticipantId = participant.Id
-        };
+        var entity = new Position(
+            participant.Id,
+            request.Latitude,
+            request.Longitude,
+            request.TimeStamp,
+            request.IsMoving,
+            request.Uuid,
+            request.Speed,
+            request.Heading,
+            request.Altitude,
+            request.ActivityType,
+            request.BatteryLevel,
+            request.Odometer);
 
-        participant.Positions.Add(entity);
-        await _participantRepository.UpdateAsync(participant);
+        participant.AddPosition(entity);
+        await participantRepository.UpdateAsync(participant);
 
         return Result<long?>.Success(entity.Id);
     }

@@ -11,6 +11,7 @@ using ShareMyAdventures.Infrastructure.Persistence;
 using ShareMyAdventures.Infrastructure.SignalR;
 using System.Diagnostics;
 using System.Security.Claims;
+using Common.Adapter.Email;
 
 var builder = WebApplication.CreateBuilder(args);
 

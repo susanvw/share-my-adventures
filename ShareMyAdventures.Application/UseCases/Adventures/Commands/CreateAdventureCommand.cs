@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using ShareMyAdventures.Application.Common.Guards;
+using ShareMyAdventures.Application.Common.Interfaces.Repositories;
 using ShareMyAdventures.Domain.Entities.AdventureAggregate;
 using ShareMyAdventures.Domain.Entities.ParticipantAggregate;
 using ShareMyAdventures.Domain.SeedWork;
@@ -35,7 +36,7 @@ internal sealed class CreateAdventureCommandValidator : AbstractValidator<Create
 
     private static bool CheckTypeIdExist(int id)
     {
-        var entities = Domain.Enums.TypeLookups.List;
+        var entities = TypeLookup.All;
 
         return entities.Any(x => x.Id == id);
     }
@@ -43,10 +44,9 @@ internal sealed class CreateAdventureCommandValidator : AbstractValidator<Create
 
 
 public sealed class CreateAdventureCommandHandler(
-    IReadRepository<Adventure> adventureReadableRepository,
-    IWriteRepository<Adventure> adventureRepository,
+    IAdventureRepository adventureRepository,
     ICurrentUser currentUserService,
-    UserManager<Participant> userManager
+    IParticipantRepository participantRepository
         ) : IRequestHandler<CreateAdventureCommand, Result<long?>>
 {
 
@@ -67,7 +67,7 @@ public sealed class CreateAdventureCommandHandler(
             // make the dates UCT date time
             StartDate = request.StartDate.ToUniversalTime(),
             EndDate = request.EndDate.ToUniversalTime(),
-            StatusLookupId = Domain.Enums.StatusLookups.Created.Id,
+            StatusLookupId = StatusLookups.Created.Id,
            TypeLookupId = request.TypeLookupId
         };
 
