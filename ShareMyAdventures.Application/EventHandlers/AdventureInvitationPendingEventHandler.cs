@@ -1,5 +1,4 @@
-﻿using ShareMyAdventures.Application.Common.Interfaces;
-using ShareMyAdventures.Domain.Events;
+﻿using ShareMyAdventures.Domain.Events;
 
 namespace ShareMyAdventures.Application.EventHandlers;
 

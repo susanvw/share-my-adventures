@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using ShareMyAdventures.Application.Common.Guards;
+using ShareMyAdventures.Application.Common.Interfaces.Repositories;
 using ShareMyAdventures.Domain.Entities.AdventureAggregate;
 using ShareMyAdventures.Domain.Entities.ParticipantAggregate;
 using ShareMyAdventures.Domain.SeedWork;
@@ -29,16 +30,16 @@ internal sealed class AcceptInvitationCommandValidator : AbstractValidator<Accep
 
 public sealed class AcceptInvitationCommandHandler(
     UserManager<Participant> userManager,
-    IReadRepository<Adventure> adventureReadableRepository,
-    IWriteRepository<Adventure> adventureRepository
+    IAdventureRepository adventureRepository
         )
     : IRequestHandler<AcceptInvitationCommand, Unit>
 {
     public async Task<Unit> Handle(AcceptInvitationCommand request, CancellationToken cancellationToken)
     {
         var entity = await
-            adventureReadableRepository
-            .FindOneByIdAsync(request.AdventureId, cancellationToken);
+            adventureRepository
+            .IncludeInvitations()
+            .GetByIdAsync(request.AdventureId, cancellationToken);
         entity = entity.ThrowIfNotFound(request.AdventureId);
 
         var invitation = entity.FindInvitationByEmail(request.Email);
@@ -59,7 +60,6 @@ public sealed class AcceptInvitationCommandHandler(
         entity.AddParticipant(adventureParticipant!);
 
         await adventureRepository.UpdateAsync(entity, cancellationToken);
-        await adventureRepository.SaveChangesAsync(cancellationToken);
 
         return Unit.Value;
     }

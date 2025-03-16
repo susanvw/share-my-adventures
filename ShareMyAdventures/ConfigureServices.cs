@@ -5,6 +5,7 @@ using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using ShareMyAdventures.Application.Common.Guards;
 using ShareMyAdventures.Application.Common.Interfaces;
+using ShareMyAdventures.Application.EventHandlers;
 using ShareMyAdventures.Infrastructure.Persistence;
 using ShareMyAdventures.Infrastructure.Services;
 using System.Text;
@@ -17,10 +18,10 @@ public static class ConfigureServices
     {
         services.AddDatabaseDeveloperPageExceptionFilter(); 
         services.AddHttpContextAccessor();
-        services.AddScoped<ICurrentUser, CurrentUserService>();
-        services.AddScoped<IDateTime, DateTimeService>(); 
+        services.AddScoped<ICurrentUser, CurrentUser>();
+        services.AddScoped<IDateTime, DateTimeService>();
 
-
+        services.AddMediatR(cfg => cfg.RegisterServicesFromAssembly(typeof(AdventureInvitationPendingEventHandler).Assembly));
         services.AddEndpointsApiExplorer();
         services.AddSwaggerGen(c =>
 		{
@@ -59,7 +60,7 @@ public static class ConfigureServices
 		})
 		.AddJwtBearer(tokenOptions =>
 		{
-            var key = configuration["JwtOptions:SecretKey"];
+			var key = configuration["JwtOptions:SecretKey"];
 			key = key.ThrowIfNullOrWhiteSpace("Jwt Key");
 
 			tokenOptions.TokenValidationParameters = new TokenValidationParameters
@@ -70,12 +71,12 @@ public static class ConfigureServices
 				ValidateIssuerSigningKey = true,
 				IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(key))
 			};
-		})
-          .AddGoogle(googleOptions =>
-          {
-			  googleOptions.ClientId = configuration["Google:ClientId"] ?? string.Empty;
-              googleOptions.ClientSecret = configuration["Google:ClientSecret"] ?? string.Empty;
-          });
+		});
+     //     .AddGoogle(googleOptions =>
+     //     {
+			  //googleOptions.ClientId = configuration["Google:ClientId"] ?? string.Empty;
+     //         googleOptions.ClientSecret = configuration["Google:ClientSecret"] ?? string.Empty;
+     //     });
 
 
         services.AddAuthorization();

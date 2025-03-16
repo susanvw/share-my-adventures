@@ -4,11 +4,11 @@ using System.Security.Claims;
 
 namespace ShareMyAdventures;
 
-public class CurrentUserService : ICurrentUser
+public class CurrentUser : ICurrentUser
 {
     private readonly IHttpContextAccessor _httpContextAccessor;
 
-    public CurrentUserService(IHttpContextAccessor httpContextAccessor)
+    public CurrentUser(IHttpContextAccessor httpContextAccessor)
     {
         _httpContextAccessor = httpContextAccessor;
     }

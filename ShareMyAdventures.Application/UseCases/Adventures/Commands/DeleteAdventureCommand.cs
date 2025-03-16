@@ -1,4 +1,5 @@
 ﻿using ShareMyAdventures.Application.Common.Guards;
+using ShareMyAdventures.Application.Common.Interfaces.Repositories;
 using ShareMyAdventures.Domain.Entities.AdventureAggregate;
 using ShareMyAdventures.Domain.SeedWork;
 
@@ -10,8 +11,7 @@ public sealed record DeleteAdventureCommand : IRequest<Unit>
 }
 
 public sealed class DeleteAdventureCommandHandler(
-    IReadRepository<Adventure> adventureReadableRepository,
-    IWriteRepository<Adventure> adventureRepository,
+    IAdventureRepository adventureRepository,
     ICurrentUser currentUserService
     ) : IRequestHandler<DeleteAdventureCommand, Unit>
 {
@@ -19,15 +19,14 @@ public sealed class DeleteAdventureCommandHandler(
     {
         var userId = currentUserService.UserId.ThrowIfNullOrEmpty("Current User");
 
-        var entity = await adventureReadableRepository.FindOneByIdAsync(request.Id, cancellationToken);
+        var entity = await adventureRepository.GetByIdAsync(request.Id, cancellationToken);
 
         if (entity?.CreatedBy != userId)
         {
             throw new UnauthorizedAccessException("User is not the administrator");
         }
 
-        await adventureRepository.DeleteAsync(entity, cancellationToken);
-        await adventureRepository.SaveChangesAsync(cancellationToken);
+        await adventureRepository.RemoveAsync(entity, cancellationToken);
 
         return Unit.Value;
     }

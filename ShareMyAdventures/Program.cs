@@ -7,7 +7,6 @@ using Serilog.Sinks.MSSqlServer; // MSSqlServer sink for Serilog
 using ShareMyAdventures;
 using ShareMyAdventures.Application.Common.Middleware; // Custom middleware
 using ShareMyAdventures.Infrastructure; // Infrastructure services
-using ShareMyAdventures.Infrastructure.Persistence; // DbContext and initializer
 using ShareMyAdventures.Infrastructure.SignalR; // SignalR hub
 using System.Diagnostics; // Debug output
 using System.Security.Claims; // Claims for user info
@@ -102,28 +101,6 @@ else
     app.UseHsts(); // Enforce HTTPS in production (30-day default)
 }
 
-// Seed database and apply migrations during startup
-using (var scope = app.Services.CreateScope())
-{
-    var dataContext = scope.ServiceProvider.GetRequiredService<ApplicationDbContext>();
-    try
-    {
-        // Apply any pending migrations
-        await dataContext.Database.MigrateAsync();
-        // Ensure database is created (redundant with MigrateAsync but kept for clarity)
-        await dataContext.Database.EnsureCreatedAsync();
-
-        // Seed initial data
-        var initializer = scope.ServiceProvider.GetRequiredService<ApplicationDbContextInitializer>();
-        await initializer.SeedDefaultUserAsync(); // Seed default user
-    }
-    catch (Exception ex)
-    {
-        Log.Error(ex, "Failed to initialize database during startup.", ex.Message);
-        throw; // Re-throw to halt startup if critical
-    }
-}
-
 // Core middleware pipeline
 app.UseHealthChecks("/health"); // Health check endpoint
 app.UseHttpsRedirection(); // Redirect HTTP to HTTPS
@@ -134,8 +111,8 @@ app.UseAuthentication(); // Enable auth (e.g., JWT, cookies)
 app.UseAuthorization(); // Enable authorization checks
 
 // Custom middleware
-app.UseMiddleware<PerformanceMiddleware>(); // Measure request performance
-app.UseMiddleware<RequestLoggingMiddleware>(); // Log request details (consolidated from duplicate)
+//app.UseMiddleware<PerformanceMiddleware>(); // Measure request performance
+//app.UseMiddleware<RequestLoggingMiddleware>(); // Log request details (consolidated from duplicate)
 
 // Swagger for API documentation
 app.UseSwagger();
@@ -189,5 +166,13 @@ app.MapControllerRoute(
 
 app.MapHub<NotificationHub>("/notificationHub"); // SignalR hub endpoint
 
-// Run the application
-await app.RunAsync();
+try
+{
+    // Run the application
+    await app.RunAsync();
+}
+catch (Exception ex)
+{
+    Serilog.Log.Error(ex, "An error occurred.", ex.Message);
+    throw ex;
+}

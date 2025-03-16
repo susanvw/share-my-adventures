@@ -14,7 +14,7 @@ public sealed record ListWithPagingInvitationsByUserIdQuery : IRequest<Result<Pa
 }
 
 public sealed class GetInvitationsQueryHandler(
-    IReadRepository<AdventureInvitation> invitationRepository,
+    IAdventureRepository adventureRepository,
     ICurrentUser currentUserService,
     IParticipantRepository participantRepository
         ) : IRequestHandler<ListWithPagingInvitationsByUserIdQuery, Result<PagedData<InvitationView>?>>
@@ -26,20 +26,10 @@ public sealed class GetInvitationsQueryHandler(
 
         var user = await participantRepository.GetByIdAsync(userId, cancellationToken);
         user = user.ThrowIfNotFound(userId);
-         
-        var query = invitationRepository
-            .GetQueryable()
-        .Include(x => x.InvitationStatusLookup)
-        .Include(x => x.Adventure)
-            .ThenInclude(x => x.TypeLookup)
-        .Include(x => x.Adventure)
-            .ThenInclude(x => x.Participants)
-                .ThenInclude(x => x.AccessLevelLookup)
-        .Where(x =>
-            x.Email == user.Email! &&
-            x.InvitationStatusLookup == InvitationStatusLookup.Pending
-        )
-        .OrderBy(x => x.Adventure.StartDate)
+
+        var query = adventureRepository
+            .FindByStatus(InvitationStatusLookup.Pending.Id, userId)
+            .SelectMany(x => x.Invitations)
         .Select(x => InvitationView.MapFrom(x, user.Email!));
 
         var mapped = await query.ToPagedDataAsync(request.PageNumber, request.PageSize, cancellationToken: cancellationToken);

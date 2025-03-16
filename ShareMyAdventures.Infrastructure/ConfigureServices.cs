@@ -68,8 +68,6 @@ public static class ConfigureServices
         services.AddScoped<IAdventureRepository, AdventureRepository>();
         services.AddScoped<IParticipantRepository, ParticipantRepository>();
 
-        services.AddScoped<ApplicationDbContextInitializer>();
-
         return services;
     }
 }

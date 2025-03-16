@@ -40,7 +40,7 @@ public sealed class FriendList : BaseAuditableEntity
     /// <exception cref="ArgumentNullException">Thrown if <paramref name="friend"/> is null.</exception>
     public void AddFriend(Participant friend)
     {
-        ArgumentNullException.ThrowIfNull(friend, nameof(friend));
+        ArgumentNullException.ThrowIfNull(friend);
         if (!_friends.Any(f => f.Id == friend.Id))
         {
             _friends.Add(friend);
@@ -54,7 +54,7 @@ public sealed class FriendList : BaseAuditableEntity
     /// <exception cref="ArgumentNullException">Thrown if <paramref name="friend"/> is null.</exception>
     public void RemoveFriend(Participant friend)
     {
-        ArgumentNullException.ThrowIfNull(friend, nameof(friend));
+        ArgumentNullException.ThrowIfNull(friend);
         _friends.Remove(friend);
     }
 }
