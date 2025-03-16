@@ -5,7 +5,6 @@ using Serilog.Events; // Log event levels
 using Serilog.Formatting.Compact; // Compact JSON formatter for console
 using Serilog.Sinks.MSSqlServer; // MSSqlServer sink for Serilog
 using ShareMyAdventures;
-using ShareMyAdventures.Application.Common.Middleware; // Custom middleware
 using ShareMyAdventures.Infrastructure; // Infrastructure services
 using ShareMyAdventures.Infrastructure.SignalR; // SignalR hub
 using System.Diagnostics; // Debug output
