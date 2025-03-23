@@ -67,13 +67,13 @@ builder.Host.UseSerilog();
 builder.Services
     .AddEmail(builder.Configuration) // Email services
     .AddInfrastructureServices(builder.Configuration) // Infrastructure services (e.g., DbContext, repos)
-    .AddWebUIServices(builder.Configuration); // Web UI services (e.g., controllers, Swagger)
+    .AddWebServices(builder.Configuration); // Web UI services (e.g., controllers, Swagger)
 
 // Configure CORS policy
-const string MyAllowSpecificOrigins = "_websiteOrigin";
+const string myAllowSpecificOrigins = "_websiteOrigin";
 builder.Services.AddCors(options =>
 {
-    options.AddPolicy(MyAllowSpecificOrigins, policy =>
+    options.AddPolicy(myAllowSpecificOrigins, policy =>
     {
         policy.WithOrigins("http://localhost:8100") // Allowed origin (e.g., frontend dev server)
               .AllowAnyMethod() // Allow all HTTP methods (GET, POST, etc.)
@@ -121,7 +121,7 @@ app.UseSwaggerUI(c =>
 });
 
 // Enable CORS
-app.UseCors(MyAllowSpecificOrigins);
+app.UseCors(myAllowSpecificOrigins);
 
 // Response caching for performance
 app.UseResponseCaching();

@@ -14,7 +14,7 @@ namespace ShareMyAdventures;
 
 public static class ConfigureServices
 {
-    public static IServiceCollection AddWebUIServices(this IServiceCollection services, IConfiguration configuration)
+    public static IServiceCollection AddWebServices(this IServiceCollection services, IConfiguration configuration)
     {
         services.AddDatabaseDeveloperPageExceptionFilter(); 
         services.AddHttpContextAccessor();
@@ -47,7 +47,7 @@ public static class ConfigureServices
 			 // can also be used to control the format of the API version in route templates
 			 options.SubstituteApiVersionInUrl = true;
 
-			 //indicating whether a default version is assumed when a client does
+			 //indicating whether a default version is assumed when a client
 			 // does not provide an API version.
 			 options.AssumeDefaultVersionWhenUnspecified = true;
 		 });
@@ -60,7 +60,7 @@ public static class ConfigureServices
 		})
 		.AddJwtBearer(tokenOptions =>
 		{
-			var key = configuration["JwtOptions:SecretKey"];
+			var key = configuration["JwtSettings:SecretKey"];
 			key = key.ThrowIfNullOrWhiteSpace("Jwt Key");
 
 			tokenOptions.TokenValidationParameters = new TokenValidationParameters

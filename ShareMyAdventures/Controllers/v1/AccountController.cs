@@ -3,6 +3,7 @@ using ShareMyAdventures.Application.UseCases.Accounts.Command;
 
 namespace ShareMyAdventures.Controllers.v1;
 
+[Tags("Account")]
 public class AccountController : ApiControllerBase
 {
 
@@ -12,7 +13,7 @@ public class AccountController : ApiControllerBase
     public async Task<ActionResult<Result<string?>>> Post([FromBody] RegisterAccountCommand command, CancellationToken cancellationToken = default)
     {
         var response = await ExecuteAsync<RegisterAccountCommand, Result<string?>>(command, cancellationToken);
-        return CreatedAtAction("~", response);
+        return CreatedAtAction("Post", response);
     }
 
 

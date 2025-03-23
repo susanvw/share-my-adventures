@@ -351,7 +351,7 @@ namespace ShareMyAdventures.Infrastructure.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("LocationLookups");
+                    b.ToTable("Locations");
                 });
 
             modelBuilder.Entity("ShareMyAdventures.Domain.Entities.ParticipantAggregate.FriendList", b =>
@@ -705,7 +705,7 @@ namespace ShareMyAdventures.Infrastructure.Migrations
 
                             b1.HasKey("AdventureId");
 
-                            b1.ToTable("StatusLookups");
+                            b1.ToTable("Adventures");
 
                             b1.WithOwner()
                                 .HasForeignKey("AdventureId");
@@ -728,7 +728,7 @@ namespace ShareMyAdventures.Infrastructure.Migrations
 
                             b1.HasKey("AdventureId");
 
-                            b1.ToTable("TypeLookups");
+                            b1.ToTable("Adventures");
 
                             b1.WithOwner()
                                 .HasForeignKey("AdventureId");

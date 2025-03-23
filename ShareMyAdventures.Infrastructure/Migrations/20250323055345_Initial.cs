@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace ShareMyAdventures.Infrastructure.Migrations
 {
     /// <inheritdoc />
-    public partial class InitialSetup : Migration
+    public partial class Initial : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -74,7 +74,7 @@ namespace ShareMyAdventures.Infrastructure.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "LocationLookups",
+                name: "Locations",
                 columns: table => new
                 {
                     Id = table.Column<long>(type: "bigint", nullable: false)
@@ -95,7 +95,7 @@ namespace ShareMyAdventures.Infrastructure.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_LocationLookups", x => x.Id);
+                    table.PrimaryKey("PK_Locations", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -331,6 +331,10 @@ namespace ShareMyAdventures.Infrastructure.Migrations
                     EndDate = table.Column<DateTime>(type: "datetime2", nullable: false),
                     MeetupLocationId = table.Column<long>(type: "bigint", nullable: true),
                     DestinationLocationId = table.Column<long>(type: "bigint", nullable: true),
+                    TypeLookupId = table.Column<int>(type: "int", nullable: false),
+                    TypeLookupName = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
+                    StatusLookupId = table.Column<int>(type: "int", nullable: false),
+                    StatusLookupName = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
                     Created = table.Column<DateTime>(type: "datetime2", nullable: false),
                     CreatedBy = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     LastModified = table.Column<DateTime>(type: "datetime2", nullable: true),
@@ -340,14 +344,14 @@ namespace ShareMyAdventures.Infrastructure.Migrations
                 {
                     table.PrimaryKey("PK_Adventures", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Adventures_LocationLookups_DestinationLocationId",
+                        name: "FK_Adventures_Locations_DestinationLocationId",
                         column: x => x.DestinationLocationId,
-                        principalTable: "LocationLookups",
+                        principalTable: "Locations",
                         principalColumn: "Id");
                     table.ForeignKey(
-                        name: "FK_Adventures_LocationLookups_MeetupLocationId",
+                        name: "FK_Adventures_Locations_MeetupLocationId",
                         column: x => x.MeetupLocationId,
-                        principalTable: "LocationLookups",
+                        principalTable: "Locations",
                         principalColumn: "Id");
                 });
 
@@ -408,44 +412,6 @@ namespace ShareMyAdventures.Infrastructure.Migrations
                         name: "FK_ParticipantAdventures_AspNetUsers_ParticipantId",
                         column: x => x.ParticipantId,
                         principalTable: "AspNetUsers",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "StatusLookups",
-                columns: table => new
-                {
-                    AdventureId = table.Column<long>(type: "bigint", nullable: false),
-                    StatusLookupId = table.Column<int>(type: "int", nullable: false),
-                    StatusLookupName = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_StatusLookups", x => x.AdventureId);
-                    table.ForeignKey(
-                        name: "FK_StatusLookups_Adventures_AdventureId",
-                        column: x => x.AdventureId,
-                        principalTable: "Adventures",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "TypeLookups",
-                columns: table => new
-                {
-                    AdventureId = table.Column<long>(type: "bigint", nullable: false),
-                    TypeLookupId = table.Column<int>(type: "int", nullable: false),
-                    TypeLookupName = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_TypeLookups", x => x.AdventureId);
-                    table.ForeignKey(
-                        name: "FK_TypeLookups_Adventures_AdventureId",
-                        column: x => x.AdventureId,
-                        principalTable: "Adventures",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
@@ -578,25 +544,19 @@ namespace ShareMyAdventures.Infrastructure.Migrations
                 name: "Positions");
 
             migrationBuilder.DropTable(
-                name: "StatusLookups");
-
-            migrationBuilder.DropTable(
-                name: "TypeLookups");
-
-            migrationBuilder.DropTable(
                 name: "AspNetRoles");
 
             migrationBuilder.DropTable(
                 name: "FriendLists");
 
             migrationBuilder.DropTable(
-                name: "AspNetUsers");
-
-            migrationBuilder.DropTable(
                 name: "Adventures");
 
             migrationBuilder.DropTable(
-                name: "LocationLookups");
+                name: "AspNetUsers");
+
+            migrationBuilder.DropTable(
+                name: "Locations");
         }
     }
 }

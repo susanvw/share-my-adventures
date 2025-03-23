@@ -82,6 +82,7 @@ public sealed class Participant : IdentityUser, IAggregateRoot
     public Participant(string userName, string displayName)
     {
         UserName = userName ?? throw new ArgumentNullException(nameof(userName));
+        Email = userName;
         DisplayName = displayName ?? throw new ArgumentNullException(nameof(displayName));
     }
 

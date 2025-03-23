@@ -23,5 +23,5 @@ public sealed record SendGridOptions
     /// <summary>
     /// Gets or sets the SendGrid API key.
     /// </summary>
-    public string ApiKey { get; set; } = string.Empty;
+    public string Key { get; set; } = string.Empty;
 }

@@ -30,7 +30,7 @@ public static class ConfigureServices
 
         services.AddSendGrid(options =>
         {
-            options.ApiKey = sendGridSection["ApiKey"] ?? throw new ArgumentException("SendGrid ApiKey is not configured.");
+            options.ApiKey = sendGridSection["key"] ?? throw new ArgumentException("SendGrid ApiKey is not configured.");
         });
 
         services.Configure<SendGridOptions>(sendGridSection);

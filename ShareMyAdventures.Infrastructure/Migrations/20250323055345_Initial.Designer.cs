@@ -12,8 +12,8 @@ using ShareMyAdventures.Infrastructure.Persistence;
 namespace ShareMyAdventures.Infrastructure.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20250315181351_InitialSetup")]
-    partial class InitialSetup
+    [Migration("20250323055345_Initial")]
+    partial class Initial
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -354,7 +354,7 @@ namespace ShareMyAdventures.Infrastructure.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("LocationLookups");
+                    b.ToTable("Locations");
                 });
 
             modelBuilder.Entity("ShareMyAdventures.Domain.Entities.ParticipantAggregate.FriendList", b =>
@@ -708,7 +708,7 @@ namespace ShareMyAdventures.Infrastructure.Migrations
 
                             b1.HasKey("AdventureId");
 
-                            b1.ToTable("StatusLookups");
+                            b1.ToTable("Adventures");
 
                             b1.WithOwner()
                                 .HasForeignKey("AdventureId");
@@ -731,7 +731,7 @@ namespace ShareMyAdventures.Infrastructure.Migrations
 
                             b1.HasKey("AdventureId");
 
-                            b1.ToTable("TypeLookups");
+                            b1.ToTable("Adventures");
 
                             b1.WithOwner()
                                 .HasForeignKey("AdventureId");
